@@ -1,4 +1,4 @@
-baseURL: http://192.168.1.112:8080
+baseURL: http://fhugo.s3-website-us-east-1.amazonaws.com/
 title: Fei's blog
 
 # Comment when installing using Hugo Modules
@@ -8,7 +8,7 @@ theme: eureka
 
 paginate: 30
 copyright: >
-  &copy; 2021 <a href="https://www.feini.com/">Fei Ni</a>
+  &copy; 2021 <a href="http://fhugo.s3-website-us-east-1.amazonaws.com/">Fei Ni</a>
 enableEmoji: true
 enableGitInfo: false
 summaryLength: 75
