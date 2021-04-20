@@ -34,7 +34,7 @@ jobs:
           name: deploy to AWS
           command: |
             if [ "${CIRCLE_BRANCH}" = "main" ]; then
-              aws s3 -access_key=$ACCESS_KEY_ID --secret_key=$SECRET_ACCESS_KEY  sync $HUGO_BUILD_DIR \
+              aws s3 --access_key=$ACCESS_KEY_ID --secret_key=$SECRET_ACCESS_KEY  sync $HUGO_BUILD_DIR \
               s3://fhugo  /public --delete
             else
               echo "Not master branch, dry run only"
