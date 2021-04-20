@@ -37,7 +37,7 @@ jobs:
               export AWS_ACCESS_KEY_ID=$ACCESS_KEY_ID
               export AWS_SECRET_ACCESS_KEY=$SECRET_ACCESS_KEY
               export AWS_DEFAULT_REGION=us-west-1
-              aws s3  sync $HUGO_BUILD_DIR   s3://fhugo . --delete
+              aws s3  sync $HUGO_BUILD_DIR s3://fhugo --delete
             else
               echo "Not master branch, dry run only"
             fi
