@@ -40,3 +40,11 @@ And here is another:
   B -->|tcp_456| C[Server1]
   B -->|tcp_456| D[Server2]
 </div>
+
+| Syntax      | Description      | Test Text   |
+|-------------|------------------|-------------|
+| Header      | Title            | Here's this |
+| Paragraph   | Text             | And more    |
+| just a test | write a good one | nice        |
+| good one    | I like it        |             |
+

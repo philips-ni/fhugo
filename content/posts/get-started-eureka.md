@@ -2,6 +2,8 @@
 title: "Eureka Get Started"
 date: 2021-04-20T08:51:33-07:00
 draft: false
+tags:
+  - hugo
 ---
 ### Prepare Hugo env
   * [Install Hugo](https://gohugo.io/getting-started/installing/)

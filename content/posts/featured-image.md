@@ -33,3 +33,7 @@ Etiam auctor, elit vel pretium consequat, orci magna aliquet dolor, quis varius 
 Aliquam posuere diam non ligula tristique congue. Donec dignissim eu justo sed dictum. Praesent at massa erat. Praesent mollis viverra velit. Aliquam maximus pharetra massa a efficitur. Sed tempus egestas purus sit amet tempor. Donec porttitor varius nisi, eu venenatis risus gravida id. Pellentesque blandit nunc non urna consectetur commodo. Sed at feugiat felis, sit amet malesuada nunc. Curabitur in tempor nisl. Pellentesque accumsan est orci, in commodo felis accumsan facilisis. Nulla maximus suscipit posuere. Nulla et consequat mauris, fermentum ultricies tellus.
 
 Maecenas consectetur ac libero vitae congue. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec tortor eu lectus placerat varius. Mauris a nisi consectetur, ornare dolor ut, rutrum ligula. Sed enim nisl, fermentum a dictum vel, vestibulum ut odio. Suspendisse laoreet quis urna eu vestibulum. Maecenas commodo augue ex, eu egestas nulla aliquet ut. Cras aliquam dui ipsum, nec sodales erat convallis sit amet. Donec porttitor posuere hendrerit. Sed imperdiet at purus eget tempus. In ac est urna.
+
+![hero-test](/images/hero-test.jpg)
+
+just a test
