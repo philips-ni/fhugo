@@ -1,0 +1,114 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     New Helix project checklist
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-04-26
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+* Prerequisite
+- Design doc reviewed and approved(see [[https://myhelix.atlassian.net/wiki/spaces/ENG/pages/50268351/Architecture%2BReview][this]])
+- For web application, consider to create 2 git repo(={app}=, backend repo and ={app}-ui= , frontend repo)
+- For the backend repo, we can consider to create from this template:
+  - https://github.com/myhelix/template-serverless-golang
+- For the frontend repo, we can refer to this:
+  - https://github.com/myhelix/hippo-ui
+*  Switch Repo Over to RSDLC
+#+begin_src bash
+  $ touch VERSION
+  $ touch CHANGELOG
+  $ gco -b develp
+  Switched to a new branch 'develp'
+  [fei.ni@fei-ni-C02D72XMMD6N-SM  stt (develp %)]$ gb
+  * develp
+    main
+  [fei.ni@fei-ni-C02D72XMMD6N-SM  stt (develp %)]$ gco developee
+  error: pathspec 'develop' did not match any file(s) known to git
+  [fei.ni@fei-ni-C02D72XMMD6N-SM  stt (develp %)]$ gb -d develp
+  error: Cannot delete branch 'develp' checked out at '/Users/fei.ni/gowork/src/github.com/myhelix/stt'
+  [fei.ni@fei-ni-C02D72XMMD6N-SM  stt (develp %)]$ gco main
+  Switched to branch 'main'
+  Your branch is up to date with 'origin/main'.
+  $ gb -d develp
+  Deleted branch develp (was 29248a6).
+  $ gco -b develop
+  Switched to a new branch 'develop'
+  $ gco develop
+  Already on 'develop'
+  $ rsdlc
+  
+  Initializing git-flow
+  
+  Using default branch names.
+  
+  Which branch should be used for bringing forth production releases?
+     - develop
+     - main
+  Branch name for production releases: [main]
+  
+  Which branch should be used for integration of the "next release"?
+     - develop
+  Branch name for "next release" development: [develop]
+  
+  How to name your supporting branch prefixes?
+  Feature branches? [feature/]
+  Bugfix branches? [bugfix/]
+  Release branches? [release/]
+  Hotfix branches? [hotfix/]
+  Support branches? [support/]
+  Version tag prefix? []
+  Hooks and filters directory? [/Users/fei.ni/devtools/git/hooks]
+  
+  Setting default git-flow flags in git config
+  
+  Linking git-flow hooks
+  
+  Setup complete
+  
+#+end_src
+Refer 
+- https://myhelix.atlassian.net/wiki/spaces/ENG/pages/674660439/Regulated+SDLC+2.0+git-flow+Playbook+rsdlc#Switching-to-RSDLC
+- https://myhelix.atlassian.net/wiki/spaces/ENG/pages/2100625542/How+to+Switch+a+Repo+Over+to+RSDLC
+
+* Setup circleCI
+  - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1089504388/CircleCI+Setup
+* Update CDK code from the existing code of template
