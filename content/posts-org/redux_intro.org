@@ -1,0 +1,66 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Redux intro
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+* Vocabulary
+  - Redux - a library that allows JavaScript apps to manage application state
+  - action - an object containing a type and a payload, used to tell the reducer how to update the store
+  - action creator - a function that takes in a payload and creates an action object
+  - reducer - a function that takes in the initial state and an action, and which returns that specific part of the global store
+  - combineReducers - a function from Redux that allows us to put together all our reducers into a single object (often called the rootReducer)
+  - store/global state - an object; think of it as a mega state that is accessed and updated with its own functions (similar to how React state is updated with setState)
+  - createStore - a function from Redux that uses the rootReducer to create the store
+  - dispatch - a function from Redux that sends an action object to its reducer (which updates the store)
+  - Provider - a component from react-redux that wraps our App component and allows each child component to be connected to the store
+  - mapStateToProps - a function we create that takes in the global state object and returns an object to be added to a component as part of its props object; it allows the component to access the data in the store
+  - mapDispatchToProps - a function we create that takes in dispatch and returns an object to be added to a component as part of its props object; it allows the component to update the data in the store
+  - connect - a function from react-redux that allows us to connect a component to the store by adding items from the store to our component props, as well as adding dispatch to our component props
+  - container - what we call a component that has been connected to the store
+
+* Links
+ - https://github.com/rt2zz/redux-persist
+ - http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_one_basic_usages.html
+ - https://frontend.turing.edu/lessons/module-3/redux-i.html?ads_cmpid=6451354298&ads_adid=76255849919&ads_matchtype=b&ads_network=g&ads_creative=378056926252&utm_term=&ads_targetid=dsa-19959388920&utm_campaign=&utm_source=adwords&utm_medium=ppc&ttv=2&gclid=Cj0KCQjwnueFBhChARIsAPu3YkR-bktINtaEkXQdkdj8S4KaJZgO9ydPzDXS5fOeH0v0dpeha76K-h0aAvILEALw_wcB

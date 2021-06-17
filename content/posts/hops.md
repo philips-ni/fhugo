@@ -35,6 +35,10 @@ Secret rotated successfully.
 ```
 
 
+```bash
+$ hops secret  get -e platform-development -s sample-tracker -p internal-service/myhealth-workflow/api-key/apiKey
+IS-WTOPYB55XJQJ89OVAN3DEH1G3PPXPCHCG
+```
 ## <span class="section-num">2</span> Use hops to access DB {#use-hops-to-access-db}
 
 ```bash

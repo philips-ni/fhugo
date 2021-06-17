@@ -1,0 +1,103 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Sample-Tracker API Testing
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* Clear Samples
+
+#+begin_src bash
+tableName=SampleTrackerSamples
+export KEY_SCHEMA=$(aws dynamodb describe-table  --table-name ${tableName} | jq -r '.Table.KeySchema[].AttributeName')
+echo $KEY_SCHEMA
+
+aws dynamodb scan \
+    --table-name ${tableName} \
+    --attributes-to-get ${KEY_SCHEMA} | \
+    jq -r ".Items[] | tojson" | \
+    tr '\n' '\0' | \
+    xargs -0 -I keyItem \
+          aws dynamodb delete-item \
+          --table-name ${tableName} \
+          --key=keyItem
+
+#+end_src
+* Import Samples
+
+#+begin_src bash
+$ curl -H 'X-Auth-Token-Internal: IS-XXXXX' -H 'X-Auth-Caller-Internal: myhealth-workflow' -H 'Content-Type: application/json' --request POST -d@postData https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/samples
+
+# cat postData 
+{
+  "samples":[
+    {
+      "kitID": "KIT-001",
+      "testCode": "TC-001",
+      "VRC": "VRC-001"
+    },
+    {
+      "kitID": "KIT-002",
+      "testCode": "TC-002",
+      "VRC": "VRC-002"
+    }
+  ]
+}
+#+end_src
+
+* List Samples
+#+begin_src bash
+$ curl https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_type=sample&state=pending
+
+$ curl https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_type=sample&samleID=XXX&coID=XXX
+#+end_src
+
+* List Orders
+
+#+begin_src bash
+$ curl -v https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_type=order
+#+end_src
+
+
+

@@ -47,13 +47,27 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 # Start from here
 
 * Description
- -  General rule: take the first letter of a word, move it to the end, and add "ay". Example: "hello" becomes "ellohay".
- -  A phrase with multiple words should translate each word: "hello world" becomes "ellohay orldway"
- -  A word which begins with a vowel keeps its first letter, and just adds "way" to the end of the word: "eat apples" becomes "eatway applesway"
- -  A word which is capitalized should remain capitalized after translation: "Hello world" becomes "Ellohay orldway"
- -  A phrase with punctuation should maintain the position of the punctuation: "Hello, world!" becomes "Ellohay, orldway!"
- -  A word beginning with multiple consonants should move all of them together to the end: "drunk strangers" becomes "unkdray angersstray"
- -  The letters "qu" should stay together when moved to the end of a word: "quickly and quietly" becomes "icklyquay andway ietlyquay"
+#+begin_src bash
+
+# To implement a function to convert given text to output text with following rules:
+
+ # 1. General rule: take the first letter of a word, move it to the end, and add "ay". Example: "hello" becomes "ellohay".
+ # 
+ # 2. A phrase with multiple words should translate each word: "hello world" becomes "ellohay orldway"
+ # 
+ # 3. A word which begins with a vowel keeps its first letter, and just adds "way" to the end of the word: "eat apples" becomes "eatway applesway"
+ # 
+ # 4. A word which is capitalized should remain capitalized after translation: "Hello world" becomes "Ellohay orldway"
+ # 
+ # 5. A phrase with punctuation should maintain the position of the punctuation: "Hello, world!" becomes "Ellohay, orldway!"
+ # 
+ # 6. A word beginning with multiple consonants should move all of them together to the end: "drunk strangers" becomes "unkdray angersstray"
+ # 
+ # 7. The letters "qu" should stay together when moved to the end of a word: "quickly and quietly" becomes "icklyquay andway ietlyquay"
+ # 
+
+#+end_src
+
 * Solutions
 
 ** Python solutions
@@ -76,7 +90,7 @@ def getVowelIndex(s):
     return -1
 
 def convertWordCore(s):
-    # rule 2
+    # rule 3
     if s[0] in "aeiouAEIOU":
         ret = s + "way"
     else:
