@@ -1,8 +1,8 @@
 +++
 title = "Sample-Tracker API Testing"
 author = ["Fei Ni"]
-date = 2021-05-12T16:04:32-07:00
-lastmod = 2021-05-12T16:04:32-07:00
+date = 2021-07-16T18:07:07-07:00
+lastmod = 2021-07-16T18:07:07-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -21,9 +21,9 @@ aws dynamodb scan \
     jq -r ".Items[] | tojson" | \
     tr '\n' '\0' | \
     xargs -0 -I keyItem \
-          aws dynamodb delete-item \
-          --table-name ${tableName} \
-          --key=keyItem
+	  aws dynamodb delete-item \
+	  --table-name ${tableName} \
+	  --key=keyItem
 
 ```
 
@@ -64,4 +64,60 @@ $ curl https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_type=
 
 ```bash
 $ curl -v https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_type=order
+```
+
+
+## <span class="section-num">5</span> Deal with users {#deal-with-users}
+
+```python
+import boto3
+from boto3.dynamodb.conditions import Key
+
+dynamodb = boto3.resource('dynamodb')
+
+table = dynamodb.Table('SampleTrackerUsers')
+
+
+def list_users():
+    resp = table.scan()
+    print("=========List Users==================")
+    for item in resp['Items']:
+	print(item["UserID"])
+
+
+def add_user(user_email):
+    item = {
+	"UserID": user_email,
+	"Role": "Staff"
+    }
+    table.put_item(Item=item)
+    print("\n!!! {} is added".format(user_email))
+
+def add_users(users):
+    for user in users:
+	add_user(user)
+
+
+def del_user(user_email):
+    key = {
+	"UserID": user_email
+    }
+    table.delete_item(Key=key)
+    print("\n!!! {} is deleted".format(user_email))
+
+
+def del_users(users):
+    for user in users:
+	del_user(user)
+
+
+users = [
+    "fei.ni@helix.com"
+]
+
+list_users()
+del_users(users)
+list_users()
+add_users(users)
+list_users()
 ```

@@ -45,6 +45,11 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 
 # Start from here
+* Init git config 
+#+begin_src bash
+git config --global user.name "Fei Ni"
+git config --global user.email "philips.ni.fei@gmail.com"
+#+end_src
 * Create ssh key and add it into github
  - https://levelup.gitconnected.com/how-to-add-ssh-to-github-account-on-linux-1c05c71dacc9
 

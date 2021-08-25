@@ -1,8 +1,8 @@
 +++
 title = "pig_latin"
 author = ["Fei Ni"]
-date = 2021-06-03T11:56:50-07:00
-lastmod = 2021-06-03T11:56:50-07:00
+date = 2021-06-28T09:49:45-07:00
+lastmod = 2021-06-28T09:49:45-07:00
 tags = ["helix", "interview"]
 categories = ["helix"]
 draft = false
@@ -40,7 +40,7 @@ draft = false
 ```python
 def convertWord(s):
     if s == "":
-        return s
+	return s
     # rule 5
     if s[-1] in ['!', ",", "."]:
        return convertWordCore(s[:-1]) + s[-1]
@@ -49,26 +49,26 @@ def convertWord(s):
 
 def getVowelIndex(s):
     for i,val in enumerate(s):
-        # rule 7, if "u" is part of "qu" don't treat it as vowel
-        if val in "aeiouAEIOU" and (i > 0 and s[i-1:i+1] != "qu"):
-            return i
+	# rule 7, if "u" is part of "qu" don't treat it as vowel
+	if val in "aeiouAEIOU" and (i > 0 and s[i-1:i+1] != "qu"):
+	    return i
     return -1
 
 def convertWordCore(s):
     # rule 3
     if s[0] in "aeiouAEIOU":
-        ret = s + "way"
+	ret = s + "way"
     else:
-        vowelIndex = getVowelIndex(s)
-        if vowelIndex == -1:
-            ret = s + "ay"
-        else:
-            # rule 4 and 1
-            if s[0].isupper():
-                # rule 6
-                ret = s[vowelIndex:].capitalize() + s[:vowelIndex].lower() + "ay"
-            else:
-                ret = s[vowelIndex:] + s[:vowelIndex] + "ay"
+	vowelIndex = getVowelIndex(s)
+	if vowelIndex == -1:
+	    ret = s + "ay"
+	else:
+	    # rule 4 and 1
+	    if s[0].isupper():
+		# rule 6
+		ret = s[vowelIndex:].capitalize() + s[:vowelIndex].lower() + "ay"
+	    else:
+		ret = s[vowelIndex:] + s[:vowelIndex] + "ay"
     return ret
 
 
@@ -77,19 +77,19 @@ def convertSentence(s):
     word = ""
     convertedWords = []
     for c in s:
-        if c in [",", "!"]:
-            words.append(word + c)
-            word = ""
-        elif c == " ":
-            words.append(word)
-            word = ""
-        else:
-            word += c
-    if word != "":
-        words.append(word)
+	if c in [",", "!"]:
+	    words.append(word + c)
+	    word = ""
+	elif c == " ":
+	    words.append(word)
+	    word = ""
+	else:
+	    word += c
+	if word != "":
+	    words.append(word)
     # rule 2
     for word in words:
-        convertedWords.append(convertWord(word))
+	convertedWords.append(convertWord(word))
     return " ".join(convertedWords)
 
 inputs = ["Hello world", "Hello,world!", "eat apples", "bybye", "quickly and quietly", "ququi"]
@@ -115,38 +115,38 @@ import java.util.regex.*;
 // 5. A phrase with punctuation should maintain the position of the punctuation: "Hello, world!" becomes "Ellohay, orldway!"
 public class Solution {
     public static void main(String args[] ) throws Exception {
-        /* Enter your code here. Read input from STDIN. Print output to STDOUT */
-        String s = "hello this is an example";
-        String s2 = "hello world";
-        String s3 = "eat apples";
-        String s4 = "Hello world";
-        String[] words = new String[]{s, s2, s3, s4,
-            "", "   ", "HELLO WORLD", //"hello   worlds  ",// "Hello, world!",
-        };
-        for (String word : words) {
-            String newWord = convertString(word);
-            System.out.printf("OUTPUT: %s -> %s\n", word, newWord);
-        }
+	/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+	String s = "hello this is an example";
+	String s2 = "hello world";
+	String s3 = "eat apples";
+	String s4 = "Hello world";
+	String[] words = new String[]{s, s2, s3, s4,
+	    "", "   ", "HELLO WORLD", //"hello   worlds  ",// "Hello, world!",
+	};
+	for (String word : words) {
+	    String newWord = convertString(word);
+	    System.out.printf("OUTPUT: %s -> %s\n", word, newWord);
+	}
     }
     public static final HashSet<Character> VOWELS = new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'));
     public static String convertWord(String word) {
-        if (word.length() == 0) return "";
-        char c = word.charAt(0);
-        if (VOWELS.contains(c)) {
-            return word + "way";
-        } else {
-            boolean isCapitalized = c >= 'A' && c <= 'Z';
-            // make c lower
-            if (isCapitalized) {
-                c = Character.toLowerCase(c);
-            }
-            // take care of first char in new word
-            String newWord = word.substring(1) + c + "ay";
-            if (!isCapitalized) return newWord;
-            c = newWord.charAt(0);
-            c = Character.toUpperCase(c);
-            return "" + c + newWord.substring(1);
-        }
+	if (word.length() == 0) return "";
+	char c = word.charAt(0);
+	if (VOWELS.contains(c)) {
+	    return word + "way";
+	} else {
+	    boolean isCapitalized = c >= 'A' && c <= 'Z';
+	    // make c lower
+	    if (isCapitalized) {
+		c = Character.toLowerCase(c);
+	    }
+	    // take care of first char in new word
+	    String newWord = word.substring(1) + c + "ay";
+	    if (!isCapitalized) return newWord;
+	    c = newWord.charAt(0);
+	    c = Character.toUpperCase(c);
+	    return "" + c + newWord.substring(1);
+	}
     }
     // public static String convertWord(String word) {
     //     if (word.length() == 0) return "";
@@ -162,16 +162,16 @@ public class Solution {
     //     return word.substring(1) + word.charAt(0) + "ay";
     // }
     public static String convertString(String s) {
-        if (s.length() == 0) return s;
-        String[] words = s.split("\\s+");
-        StringBuilder sb = new StringBuilder();
-        for (String word : words) {
-            sb.append(convertWord(word)).append(" ");
-        }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1);
-        }
-        return sb.toString();
+	if (s.length() == 0) return s;
+	String[] words = s.split("\\s+");
+	StringBuilder sb = new StringBuilder();
+	for (String word : words) {
+	    sb.append(convertWord(word)).append(" ");
+	}
+	if (sb.length() > 0) {
+	    sb.setLength(sb.length() - 1);
+	}
+	return sb.toString();
     }
 }
 ```

@@ -1,8 +1,8 @@
 +++
 title = "hops tips"
 author = ["Fei Ni"]
-date = 2021-04-27T18:24:21-07:00
-lastmod = 2021-04-27T18:24:21-07:00
+date = 2021-06-25T11:51:40-07:00
+lastmod = 2021-06-25T11:51:40-07:00
 tags = ["helix"]
 draft = false
 +++
@@ -35,11 +35,44 @@ Secret rotated successfully.
 ```
 
 
+## <span class="section-num">2</span> create secrets between 2 services which are in different account {#create-secrets-between-2-services-which-are-in-different-account}
+
+Here is an example:
+
+-   sample-tracker is in hipaa-staging account
+-   mapping is in master account
+
+To create secrets between them we need do following steps:
+
+-   create secret IS-XXXXX
+-   in master profile, run `hops secret put -e staging -s mapping -p internal-service/sample-tracker/api-key/apiKey -v ${secret}`
+-   in hipaa-staging profile, run `hops secret put -e hippa-staging -s sample-tracker -p internal-service/mapping/api-key/apiKey -v ${secret}`
+
+\#+end\_src
+
+
+## <span class="section-num">3</span> example secrets o/p {#example-secrets-o-p}
+
 ```bash
-$ hops secret  get -e platform-development -s sample-tracker -p internal-service/myhealth-workflow/api-key/apiKey
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$ hops secret add -e hipaa-staging -s myhealth-workflow -p internal-service/sample-tracker/api-key/apiKey -v IS-TYJQ251AWXKPL7I3Y0SO06Q3EB1X3BGZF
+Parameter already exists
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$ hops secret  get -e hipaa-staging -s sample-tracker -p internal-service/myhealth-workflow/api-key/apiKey
+No such parameter
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$ hops secret  get -e hipaa-staging -s myhealth-workflow -p internal-service/sample-tracker/api-key/apiKey
 IS-WTOPYB55XJQJ89OVAN3DEH1G3PPXPCHCG
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$ hops secret  update -e hipaa-staging -s myhealth-workflow -p internal-service/sample-tracker/api-key/apiKey -v IS-TYJQ251AWXKPL7I3Y0SO06Q3EB1X3BGZF
+Secret updated successfully.
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 *$%)]$ hops secret  get -e hipaa-staging -s myhealth-workflow -p internal-service/sample-tracker/api-key/apiKey
+IS-TYJQ251AWXKPL7I3Y0SO06Q3EB1X3BGZF
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hipaa-staging acceptance (release/0.1.0 $%)]$ hops secret  get -e hipaa-staging -s sample-tracker -p internal-service/myhealth-workflow/api-key/apiKey
+IS-TYJQ251AWXKPL7I3Y0SO06Q3EB1X3BGZF
 ```
-## <span class="section-num">2</span> Use hops to access DB {#use-hops-to-access-db}
+
+
+## <span class="section-num">4</span> Use hops to access DB {#use-hops-to-access-db}
 
 ```bash
 [fei.ni@fei-ni-C02D72XMMD6N-SM master myhelix]$ hops db config -f eval -e staging -s mapping
@@ -70,7 +103,7 @@ mysql> \
 ```
 
 
-## <span class="section-num">3</span> DB tips {#db-tips}
+## <span class="section-num">5</span> DB tips {#db-tips}
 
 | Action            | mysql Command          | postgresql Command |
 |-------------------|------------------------|--------------------|
@@ -80,6 +113,6 @@ mysql> \
 | show table schema | describe <table\_name> | \d <table\_name>   |
 
 
-## <span class="section-num">4</span> Links {#links}
+## <span class="section-num">6</span> Links {#links}
 
 -   <https://myhelix.atlassian.net/wiki/spaces/ENG/pages/777420817/Managing+Serialized+Secrets+in+Parameter+Store>
