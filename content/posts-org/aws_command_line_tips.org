@@ -85,3 +85,17 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
     ]
 }
 #+end_src
+* Submit batch job
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev fei_work]$ cat job.json
+{
+    "jobName": "fei_test_r2v_new",
+    "jobQueue": "arn:aws:batch:us-east-1:304674702989:job-queue/hipaa-exome-workflow-job-queue",
+    "jobDefinition": "arn:aws:batch:us-east-1:304674702989:job-definition/r2v-batch-job:5",
+    "containerOverrides": {
+        "command": ["r2v","--platform","host","--json","s3://304674702989-hipaa-exome-workflow/test/fei/fei_test_r2v_run_cfg.json"]
+    }
+}
+
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev fei_work]$ aws batch submit-job  --cli-input-json file://job.json
+#+end_src

@@ -1,0 +1,189 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Helix Terms
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* PGX (PharmacoGenetics)
+
+Pharmacogenetic testing refers to a type of genetic test to predict a patient’s likelihood to experience an adverse event or not respond to a given drug.
+
+* R2V (Reads-to-Variants)
+* Variant identification and analysis
+A likely workflow in human genetic variation studies is the analysis and identification of variants associated with a specific trait or population. Bioinformatics is key to each stage of this process and is essential for handling genome-scale data. It also provides us with a standardised framework to describe variants.
+
+In this section we will learn about the major steps in the process of variant calling, the VCF file format and variant identifiers. We will also examine the value of prediction in determining impact of variation on protein function and structure.  
+
+What is variant calling?
+Variant calling is the process by which we identify variants from sequence data (Figure 11).
+
+  - Carry out whole genome or whole exome sequencing to create FASTQ files.
+  - Align the sequences to a reference genome, creating BAM or CRAM files.
+  - Identify where the aligned reads differ from the reference genome and write to a VCF file.
+  - Identify where the aligned reads differ from the reference genome and write to a VCF file.
+
+Figure 11 A CRAM file aligned to a reference genomic region as visualised in Ensembl. Differences are highlighted in red in the reads, and will be called as variants.
+Somatic versus germline variant calling
+In germline variant calling, the reference genome is the standard for the species of interest. This allows us to identify genotypes. As most genomes are diploid, we expect to see that at any given locus, either all reads have the same base, indicating homozygosity, or approximately half of all reads have one base and half have another, indicating heterozygosity. An exception to this would be the sex chromosomes in male mammals.
+
+In somatic variant calling, the reference is a related tissue from the same individual. Here, we expect to see mosaicism between cells.
+* Redox
+
+* Accessioning
+
+  Accessioning is the process of lab member scan the tube(helixBarcode/kitID) and record it into accessioning DB(scans)
+
+  After it succeed, it publish the kitID to SNS.
+
+  It also added one entry in BarcodeSpecimen table to keep the mapping of partnerBarcode and helixBarCode
+
+
+- DNAG notifies kit-service that a kit has been shipped
+- User registers kit
+
+- Accessioner scans kit barcode as PASS
+- accessioning service makes a call to kit-service with the Kit ID
+
+- kit-service retrieves the kit record in its DB: 
+- kit-service checks its kit record to ensure that it is registered and not cancelled or expired
+- kit-service uses the User ID from the kit record to check for demographic information in customer
+- If the kit is cancelled or expire the scan will be set to FAIL in accessioning.
+
+- Unregistered kits or kits that are missing demographic information will be placed on HOLD in accessioning
+
+- accessioning saves scan as PASS in db
+- manifest-upload CRON job grabs recent scans in PASS status and sends a manifest-upload notification to kit-service
+- kit-service sends a manifest upload notification to sample-mapping-service with age and sex info
+- sample-mapping-service creates new sampleId for the incoming kitId and sends manifests to BSSH, afterwards notifies kit-service of the update
+- Sample is processed through LIMS and the GENP data pipeline through delivery of results
+
+see https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1309704373/Accessioning+Flow+for+DNA+Samples
+* LIMS
+
+LIMS is the software the lab runs to process the samples.  It interacts with Hamilton instruments for automated steps and tracks the samples as they move between each of the different lab workflows.
+
+Helix has used Clarity LIMS since the beginning of the company. The core software is owned by Illumina, and Helix uses a heavily-customized instance which has been primarily setup and maintained by Semaphore, an Engineering services firm based in Victoria, British Columbia
+
+* BSSH (BaseSpace)
+BSSH calls and stores sequencing data as we run r2v pipelines
+
+* ID/BarCodes
+
+** PartnerBarcode/HelixBarCode/SpecieanID
+
+BarcodeSpecimen represents a BarcodeSpecimen mapping
+ - Notice In this patient service, SpecimenID means partnerBarcode,
+ - in other places of report service, SpecimenID means helixBarcode
+
+PartnerBarcode will only be used in accessioning and patient DB
+
+** KitID / SampleID
+
+Kit ID means the physical barcode attached to a sample tube and scanned on the Hamilton.
+Sample ID or Viral Sequencing ID means the anonymized identifier used in BSSH and LIMS.
+We maintain KitID/SampleID mapping in mapping service
+
+kitID is also helixBarcode.
+
+** PacID
+
+** AnalysisID
+
+* Frequently used services
+
+ - app-service 
+ - customer
+ - ddr
+ - hpapi
+ - kit-service
+ - mapping
+ - oauth
+ - product-reg 
+ - samplestatus
+
+* registing KitID
+
+#+begin_src bash
+{
+  "forwardedFor": "172.20.8.168",
+  "level": "info",
+  "method": "POST",
+  "msg": "",
+  "path": "/v1/kits/QGXWLAG564/events/register",
+  "remoteAddr": "172.20.66.80:46620",
+  "reportedAt": "/go/src/github.com/myhelix/kit-service/vendor/github.com/myhelix/hss/http/middleware/middleware.go:107",
+  "reportedBy": "gin",
+  "requestId": "1800362490",
+  "requestTime": 0.111563816,
+  "requestTimeHuman": "111.563816ms",
+  "status": 200,
+  "time": "2021-07-19T16:25:38.960988463Z"
+}
+#+end_src bash
+*  Services as Viewed through a Kit Lifecycle
+
+"Simple Happy Path":
+
+  - App + Kit ("bundle") is purchased (in shopify)
+  - the purchase is fulfilled (initial entries in Kit Service and App Service are created)
+  - ModusLink (3rdPartyLogistics) ships the physical Kit
+  - The user/customer goes to the Helix website to register their Kit
+  - The user/customer in the UI agrees to all the consent/legal agreements (sent to Product Reg and from there inserted into Customer Service database)
+  - If it is an "LDT" purchase then the additional questionnaire is filled out and saved to the LDT Service
+  - and the partner is notified (question) 
+  - Kit-Service emits the "Kit Registered Event" (for downstream systems like SFDC and Netsuite)
+  - A registered user/customer is provided via Email the corresponding "bundled" appcode
+  - The user/customer sends the kit (via return mailer) is sent to the San Diego Lab and accessioned
+  - The accessioning passes visual QualityControl and kit-service/customer demographic checks and is "manifest-uploaded" (via sample-mapping-service) to BaseSpace
+  - entries in samplestatus and mapping are created that de-couple/de-identify a sample from a user/kit
+  - Kit-Service emits the "Manifest Upload Event"
+  - Once the Lab is done sequencing Kit Service receives a BaseSpace "DataDeliveryComplete Event" which it propagates
+  - App-Service (as a kit-service-subscriber) verifies that for every app that is Partner Genomic Approved there is a DataDeliveryComplete Event propagated
+  - HPAPI has an event for each Partner (that are constantly polling)
+  - Partners query HPAPI for SampleStatusHistory (and/or User/Customer information)
+  - When the Partner gets the DataDeliveryComplete event they retrieve the user's subset of digitized dna data (as specified via regions in a BED file) via HGAPI
+
+* Links
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1575813721/Running+R2V+CNV+PGx+on+Sequencing+data

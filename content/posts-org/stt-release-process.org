@@ -1,0 +1,114 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     STT(Sample Tracker Tool) release process
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* Following RSDLC to create release branch
+ - Refer [[https://myhelix.atlassian.net/wiki/spaces/ENG/pages/674660439/Regulated+SDLC+2.0+git-flow+Playbook+rsdlc#RegulatedSDLC2.0git-flowPlaybook(rsdlc)-Install-gitflow-avh-tooling][this]]
+ - Update =Version= file to release version
+Here is an sample example
+#+begin_src bash
+$ git flow release start 5.8.0
+Switched to a new branch 'release/5.8.0'
+Updating version file from 5.7.3 to 5.8.0
+[release/5.3.0 8e7ba50] Update version file to 5.8.0
+1 file changed, 1 insertion(+), 1 deletion(-)
+
+Summary of actions:
+- A new branch 'release/5.8.0' was created, based on 'develop'
+- You are now on branch 'release/5.8.0'
+
+Follow-up actions:
+- Bump the version number now!
+- Start committing last-minute fixes in preparing your release
+- When done, run:
+
+$ git flow release finish '5.8.0'
+#+end_src
+
+* Prepare =hops token= (only for the first release)
+
+=hops token= will be used for =myhealth-workflow= communicating with =sample tracker=
+
+We need create both staging token and production token for this
+
+and others for JWT, we need all belows for hipaa-staging
+#+begin_src bash
+[fei.ni@fei-ni-C02D72XMMD6N-SM Hippa-platform-development sample-tracker-ui (feature/GENP-1246-tthomas-processed-samples-view *%)]$ hops secret list -e platform-development -s sample-tracker
+/platform-development/sample-tracker/internal-service/myhealth-workflow/api-key/apiKey
+/platform-development/sample-tracker/jwt/jwtSigningKey
+/platform-development/sample-tracker/saml/entity-id
+/platform-development/sample-tracker/saml/idp.cert
+/platform-development/sample-tracker/saml/service-provider.cert
+/platform-development/sample-tracker/saml/service-provider.key
+
+[fei.ni@fei-ni-C02FG3R2MD6N-SM hippa-staging aws-sso (update_genp_on_call)]$ hops secret list -e hipaa-staging -s sample-tracker
+/hipaa-staging/sample-tracker/internal-service/mapping/api-key/apiKey
+/hipaa-staging/sample-tracker/internal-service/myhealth-workflow/api-key/apiKey
+/hipaa-staging/sample-tracker/jwt/jwtSigningKey
+/hipaa-staging/sample-tracker/saml/entity-id
+/hipaa-staging/sample-tracker/saml/idp.cert
+/hipaa-staging/sample-tracker/saml/service-provider.cert
+/hipaa-staging/sample-tracker/saml/service-provider.key
+#+end_src
+
+* Create =testUser@helix.com= for acceptance test
+
+Create =testUser@helix.com= record in SampleTrackerUsers table.
+Create some other records for manual DUO authentication integration test.
+
+* Simulate some error and check if Sumo/Rollbar working as expectedly
+
+* send DUO production setting to Russell
+
+Entity ID: stt-hipaa-production
+Service Provider Name: Sample Tracker Tool - Hipaa-Production
+Acs URL: https://sample-tracker.helix.com/v1/saml/acs
+Default relay state: https://sample-tracker-ui.helix.com/
+
+* Create release from github
+
+* Prepare samlple-tracker production env

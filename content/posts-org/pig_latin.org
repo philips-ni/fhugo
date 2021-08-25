@@ -120,8 +120,8 @@ def convertSentence(s):
             word = ""
         else:
             word += c
-    if word != "":
-        words.append(word)
+	if word != "":
+            words.append(word)
     # rule 2
     for word in words:
         convertedWords.append(convertWord(word))

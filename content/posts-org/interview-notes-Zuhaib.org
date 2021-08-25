@@ -5,7 +5,7 @@
 #+LATEX_HEADER: \usepackage{helvetica}
 #+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
 #+LATEX_HEADER: \usepackage{geometry}
-#+TITLE:     Interview with Chaitanya
+#+TITLE:     Interview notes -- Zuhaib
 #+AUTHOR:    Fei Ni
 #+EMAIL:     fei.ni@helix.com
 #+DATE:      2021-01-01
@@ -45,44 +45,45 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 
 # Start from here
-
-
 * Basic Info
 
-| Candidate Name | Chaitanya Guttula    |
-| Job Level      | Senior               |
-| Type           | Tech phone screening |
-| Date           | 06/03/2021           |
+| Candidate Name | Zuhaib Siddique                   |
+| Job Level      | Senior                        |
+| Type           | Virtual onsite, system design |
+| Date           | 07/09/2021                    |
 
-Coderpad link: https://app.coderpad.io/C9KH94J4
+CoderPad:
+  - https://app.coderpad.io/WXE99EMM
 
+** Coding question
+
+ - https://github.com/myhelix/eng_interviews/tree/master/protein_synthesis
+
+Highlight
+  - cannot make the code runnable at the end of this session: 
+  - don't have clear idea about the solution even before coding
+  - stuck at implementing a helper to split string into 3-char substring, even with our prompt
+  - don't think about the input format and possible negative cases
 
 * timeline
 
-|  Time | activity                                                             |
-| 12:00 | Interview started                                                    |
-| 12:10 | Switch to coding challenge                                           |
-| 12:22 | Start coding                                                         |
-| 13:05 | Stop the session, still not be able to complete the coding           |
+|  Time | Activity             |
+|-------+----------------------|
+| 15:30 | Kick start           |
+| 15:40 | Moving to coderpad   |
+| 15:45 | Start coding         |
+| 16:30 | Start Q&A            |
+| 16:35 | Complete the session |
+|       |                      |
+|       |                      |
+|       |                      |
 
 
 
 
 * General notes
 
-Pros: 
-  - Talking about a recent troubleshooting experience(email cannot be sent out), he can explain the whole process crossing different components clearly 
-    - sender side
-    - receiver side
-    - OS layer
-    - Library (jar) layer
-  - Asked some corner cases for clarification 
-    - How about empty string
-    - How about a string like "Quickly"
-  - Before coding, he read and thought about all the rules, and gave basic idea for the solution
-Cons:
-  - Tried to use regex, but looks like not very familiar with it , took a long time to make it working
-  - Not be able to complete the coding in time, code is not in runnable state
-  - Don't have time to talk about how to test it
- 
-    
+
+* Reference
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/2347663742/Tech+Screen+and+Onsite+Coding+Questions
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/51350569/Interview+Coding+Exercise+Assignments#Tech-screens

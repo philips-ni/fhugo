@@ -1,0 +1,856 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Helix Basespace info
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+* Info
+* APIs
+
+** list datasets
+#+begin_src bash
+# curl https://api.basespace.illumina.com/v2/datasets?limit=50&offset=0&sortby=DateCreated&sortdir=Desc&include=properties&datasettypes=~common.fastq&propertyfilters=Input.Libraries,Input.Runs,BaseSpace.Metrics.FastQ&inputbiosamples=206788768
+{
+  "Items": [
+    {
+      "Id": "ds.16c5252720b84f1a9856632de17cd6a3",
+      "Href": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3",
+      "HrefFiles": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/files",
+      "Name": "ST_EV3_8P5XU_LP0005268-DNA_C02_L001",
+      "DateCreated": "2020-01-18T03:41:01.0000000Z",
+      "DateModified": "2020-10-14T00:43:14.0000000Z",
+      "AppSession": {
+        "Id": "200643506",
+        "Name": "FASTQ Generation 2020-01-17 23:56:13Z 1",
+        "Href": "https://api.basespace.illumina.com/v2/appsessions/200643506",
+        "Application": {
+          "Id": "2313311",
+          "Href": "v1pre3/applications/2313311",
+          "Name": "FASTQ Generation",
+          "CompanyName": "Illumina",
+          "VersionNumber": "1.0.0",
+          "ShortDescription": "FASTQ Generation using the BCL2FASTQ 2.20 algorithm",
+          "DateCreated": "2015-11-29T23:43:42.0000000Z",
+          "PublishStatus": "Beta",
+          "IsBillingActivated": false,
+          "Category": "Native",
+          "Classifications": [
+            "Resequencing",
+            "SmallRNA",
+            "TargetedSequencing",
+            "DeNovoAssembly",
+            "RNASeq",
+            "GeneFusionDetection",
+            "ChiPSeq",
+            "MethylSeq",
+            "Metagenomics",
+            "TumorNormal",
+            "Quality",
+            "Proteomics",
+            "SyntheticLongReads",
+            "Hipaa"
+          ],
+          "AppFamilySlug": "illumina.fastq-generation",
+          "AppVersionSlug": "illumina.fastq-generation.1.0.0",
+          "Features": [
+            "IsAppRegisteredToPlatform",
+            "AbortParentIfAnyChildAborts"
+          ],
+          "LockStatus": "Unlocked"
+        },
+        "UserCreatedBy": {
+          "Id": "8930924",
+          "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+          "Name": "HelixR&D",
+          "DateCreated": "2016-08-18T09:13:19.0000000Z",
+          "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+          "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+          "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+        },
+        "ExecutionStatus": "Complete",
+        "QcStatus": "Undefined",
+        "StatusSummary": "Application completed successfully",
+        "Purpose": "AppTrigger",
+        "DateCreated": "2020-01-17T23:56:30.0000000Z",
+        "DateModified": "2020-10-14T00:43:14.0000000Z",
+        "DateCompleted": "2020-01-18T03:26:00.0000000Z",
+        "DateStarted": "2020-01-17T23:58:24.0000000Z",
+        "TotalSize": 483090964213,
+        "DeliveryStatus": "None",
+        "ContainsComments": false,
+        "HrefComments": "https://api.basespace.illumina.com/v2/appsessions/200643506/comments"
+      },
+      "Project": {
+        "Id": "68745677",
+        "UserOwnedBy": {
+          "Id": "8930924",
+          "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+          "Name": "HelixR&D",
+          "DateCreated": "2016-08-18T09:13:19.0000000Z",
+          "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+          "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+          "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+        },
+        "Href": "https://api.basespace.illumina.com/v2/projects/68745677",
+        "Name": "Validation",
+        "Description": "",
+        "DateCreated": "2018-03-12T05:52:59.0000000Z",
+        "DateModified": "2021-06-24T23:48:38.0000000Z",
+        "HasCollaborators": false,
+        "TotalSize": 29018999725311
+      },
+      "TotalSize": 2626097530,
+      "IsArchived": false,
+      "UserOwnedBy": {
+        "Id": "8930924",
+        "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+        "Name": "HelixR&D",
+        "DateCreated": "2016-08-18T09:13:19.0000000Z",
+        "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+        "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+        "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+      },
+      "DatasetType": {
+        "Id": "illumina.fastq.v1.8",
+        "Href": "https://api.basespace.illumina.com/v2/datasettypes/illumina.fastq.v1.8",
+        "Name": "Illumina Fastq",
+        "ConformsToIds": [
+          "common.files",
+          "common.fastq"
+        ]
+      },
+      "Attributes": {
+        "common_fastq": {
+          "MaxLengthRead1": 151,
+          "MaxLengthRead2": 151,
+          "IsPairedEnd": true,
+          "TotalClustersPF": 17419093,
+          "TotalClustersRaw": 17419093,
+          "TotalReadsPF": 34838186,
+          "TotalReadsRaw": 34838186,
+          "MaxLengthIndexRead1": 8,
+          "MaxLengthIndexRead2": 8
+        }
+      },
+      "Properties": {
+        "Items": [
+          {
+            "Type": "map",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties/BaseSpace.Metrics.FastQ",
+            "Name": "BaseSpace.Metrics.FastQ",
+            "Description": "",
+            "ContentMap": [
+              {
+                "Key": "LaneNumber",
+                "Values": [
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "Type": "library[]",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties/Input.Libraries",
+            "Name": "Input.Libraries",
+            "Description": "",
+            "SampleLibraryItems": [
+              {
+                "Id": "114382300",
+                "Href": "https://api.basespace.illumina.com/v2/libraries/114382300",
+                "Name": "LP0005268-DNA_C2_c49cfea6-7cac-4ddb-895c-9681b4e91aaa",
+                "DateCreated": "2020-01-15T22:00:07.0000000Z",
+                "DateModified": "2020-01-15T22:00:07.0000000Z",
+                "Status": "Active",
+                "BioSample": {
+                  "Id": "206788768",
+                  "Href": "https://api.basespace.illumina.com/v2/biosamples/206788768",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "BioSampleName": "ST_EV3_8P5XU_LP0005268-DNA_C02",
+                  "DefaultProject": {
+                    "Id": "68745677",
+                    "UserOwnedBy": {
+                      "Id": "8930924",
+                      "Href": "v1pre3/users/8930924",
+                      "Name": "HelixR&D",
+                      "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                      "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG"
+                    },
+                    "Href": "v1pre3/projects/68745677",
+                    "Name": "Validation",
+                    "Description": "",
+                    "DateCreated": "2018-03-12T05:52:59.0000000Z",
+                    "DateModified": "2021-06-24T23:48:38.0000000Z",
+                    "HasCollaborators": false,
+                    "TotalSize": 29018999725311
+                  },
+                  "DateModified": "2021-01-28T01:20:10.0000000Z",
+                  "DateCreated": "2020-01-03T15:18:54.0000000Z",
+                  "ContainerName": "LP0005268-DNA",
+                  "ContainerPosition": "C02",
+                  "Status": "New",
+                  "LabStatus": "Complete"
+                },
+                "LibraryPrep": {
+                  "Id": "4038034",
+                  "Href": "v1pre3/libraryprepkits/4038034",
+                  "Name": "Helix DNA Enrichment",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "ValidIndexingStrategies": "None,SingleIndex,DualIndex",
+                  "ValidReadTypes": "SingleRead,PairedEnd",
+                  "NumIndexCycles": 8,
+                  "AdapterSequenceRead1": "CTGTCTCTTATACACATCT",
+                  "AdapterSequenceRead2": "CTGTCTCTTATACACATCT",
+                  "DateModified": "2017-05-25T23:27:59.0000000Z",
+                  "State": "Active",
+                  "DefaultRead1Cycles": 0,
+                  "DefaultRead2Cycles": 0,
+                  "LibraryType": "helix-dna-enrichment"
+                },
+                "Project": {
+                  "Id": "68745677",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "Href": "https://api.basespace.illumina.com/v2/projects/68745677",
+                  "Name": "Validation",
+                  "Description": "",
+                  "DateCreated": "2018-03-12T05:52:59.0000000Z",
+                  "DateModified": "2021-06-24T23:48:38.0000000Z",
+                  "HasCollaborators": false,
+                  "TotalSize": 29018999725311
+                },
+                "Biomolecule": "Undefined",
+                "UserOwnedBy": {
+                  "Id": "8930924",
+                  "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                  "Name": "HelixR&D",
+                  "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                  "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                  "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                }
+              }
+            ],
+            "HrefItems": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties/Input.Libraries/items",
+            "ItemsDisplayedCount": 1,
+            "ItemsTotalCount": 1
+          },
+          {
+            "Type": "run[]",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties/Input.Runs",
+            "Name": "Input.Runs",
+            "Description": "",
+            "RunItems": [
+              {
+                "Id": "193064938",
+                "Href": "v1pre3/runs/193064938",
+                "Name": "200115_A00913_0016_BHWYCJDSXX",
+                "Number": 16,
+                "ExperimentName": "HWYCJDSXX",
+                "Status": "Complete",
+                "ReagentBarcode": "NV2617923-RGSBS",
+                "FlowcellBarcode": "HWYCJDSXX",
+                "DateCreated": "2020-01-15T21:56:22.0000000Z",
+                "DateModified": "2020-02-27T23:50:57.0000000Z",
+                "UserOwnedBy": {
+                  "Id": "8930924",
+                  "Href": "v1pre3/users/8930924",
+                  "Name": "HelixR&D",
+                  "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG"
+                },
+                "UserUploadedBy": {
+                  "Id": "15905898",
+                  "Href": "v1pre3/users/15905898",
+                  "Name": "Tyler Cassens",
+                  "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/c051960ed5045e2f09ae966a02bd45a6.jpg?s=20&d=mm&r=PG"
+                },
+                "TotalSize": 2918569131,
+                "PlatformName": "NovaSeq",
+                "Workflow": "HiSeqFastQ",
+                "Instrument": {
+                  "InstrumentId": 12486474,
+                  "Name": "A00913",
+                  "SerialNumber": "A00913"
+                },
+                "InstrumentName": "A00913",
+                "InstrumentType": "NovaSeq6000",
+                "NumCyclesRead1": 0,
+                "NumCyclesRead2": 0,
+                "NumCyclesIndex1": 0,
+                "NumCyclesIndex2": 0,
+                "HrefBaseSpaceUI": "https://helix.basespace.illumina.com/run/193064938/HWYCJDSXX",
+                "HasCollaborators": false,
+                "IsArchived": false,
+                "IsFileDataDeleted": true,
+                "SequencingStats": {
+                  "Chemistry": "",
+                  "ErrorRate": 0.178279,
+                  "ErrorRateR1": 0.158565,
+                  "ErrorRateR2": 0.197993,
+                  "Href": "v1pre3/runs/193064938/sequencingstats",
+                  "IntensityCycle1": 1551.61,
+                  "IsIndexed": true,
+                  "MaxCycleCalled": 318,
+                  "MaxCycleExtracted": 318,
+                  "MaxCycleScored": 318,
+                  "MinCycleCalled": 318,
+                  "MinCycleExtracted": 318,
+                  "MinCycleScored": 318,
+                  "NonIndexedErrorRate": 0.178279,
+                  "NonIndexedIntensityCycle1": 1490.56,
+                  "NonIndexedPercentAligned": 2.378,
+                  "NonIndexedPercentGtQ30": 94.1981,
+                  "NonIndexedProjectedTotalYield": 3706.1,
+                  "NonIndexedYieldTotal": 3706.1,
+                  "NumCyclesIndex1": 8,
+                  "NumCyclesIndex2": 8,
+                  "NumCyclesRead1": 151,
+                  "NumCyclesRead2": 151,
+                  "NumLanes": 4,
+                  "NumReads": 4,
+                  "NumSurfaces": 2,
+                  "NumSwathsPerLane": 1,
+                  "NumTilesPerSwath": 78,
+                  "PercentAligned": 2.378,
+                  "PercentGtQ30": 94.1662,
+                  "PercentGtQ30R1": 95.1389,
+                  "PercentGtQ30R2": 93.2573,
+                  "PercentGtQ30Last10Cycles": 91.671,
+                  "PercentPf": 0.806365,
+                  "PercentResynthesis": 73.3643,
+                  "PhasingR1": 0.0830095,
+                  "PhasingR2": 0.0717814,
+                  "PrePhasingR1": 0.0628231,
+                  "PrePhasingR2": 0.0510129,
+                  "ProjectedTotalYield": 3879.02,
+                  "ReadsPfTotal": 49414328320,
+                  "ReadsTotal": 61280354304,
+                  "YieldTotal": 3879.02,
+                  "Clusters": 15320088576,
+                  "ClustersPf": 12353582107,
+                  "ClusterDensity": 0,
+                  "Occupancy": 0
+                },
+                "AnalysisSettings": {
+                  "ReverseComplementI5Index": false
+                },
+                "LaneAndQcStatus": "QcPassed",
+                "LimsStatus": "LimsSampleSheetGenerated",
+                "Side": "B",
+                "DateInstrumentStarted": "2020-01-15T21:56:22.0000000Z",
+                "DateInstrumentCompleted": "2020-01-17T13:13:29.0000000Z"
+              }
+            ],
+            "HrefItems": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties/Input.Runs/items",
+            "ItemsDisplayedCount": 1,
+            "ItemsTotalCount": 1
+          }
+        ],
+        "DisplayedCount": 3,
+        "TotalCount": 3,
+        "Href": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/properties"
+      },
+      "QcStatus": "Undefined",
+      "QcStatusSummary": "No thresholds were evaluated",
+      "UploadStatus": "Completed",
+      "UploadStatusSummary": "",
+      "ValidationStatus": "Passed",
+      "HrefComments": "https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/comments",
+      "ContainsComments": false
+    },
+    {
+      "Id": "ds.bed52aabbbc24e178aaf1a68edb2dca5",
+      "Href": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5",
+      "HrefFiles": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/files",
+      "Name": "ST_EV3_8P5XU_LP0005268-DNA_C02_L001",
+      "DateCreated": "2020-01-18T03:32:06.0000000Z",
+      "DateModified": "2020-06-10T20:30:50.0000000Z",
+      "AppSession": {
+        "Id": "200642499",
+        "Name": "FASTQ Generation 2020-01-17 23:49:57Z 1",
+        "Href": "https://api.basespace.illumina.com/v2/appsessions/200642499",
+        "Application": {
+          "Id": "2313311",
+          "Href": "v1pre3/applications/2313311",
+          "Name": "FASTQ Generation",
+          "CompanyName": "Illumina",
+          "VersionNumber": "1.0.0",
+          "ShortDescription": "FASTQ Generation using the BCL2FASTQ 2.20 algorithm",
+          "DateCreated": "2015-11-29T23:43:42.0000000Z",
+          "PublishStatus": "Beta",
+          "IsBillingActivated": false,
+          "Category": "Native",
+          "Classifications": [
+            "Resequencing",
+            "SmallRNA",
+            "TargetedSequencing",
+            "DeNovoAssembly",
+            "RNASeq",
+            "GeneFusionDetection",
+            "ChiPSeq",
+            "MethylSeq",
+            "Metagenomics",
+            "TumorNormal",
+            "Quality",
+            "Proteomics",
+            "SyntheticLongReads",
+            "Hipaa"
+          ],
+          "AppFamilySlug": "illumina.fastq-generation",
+          "AppVersionSlug": "illumina.fastq-generation.1.0.0",
+          "Features": [
+            "IsAppRegisteredToPlatform",
+            "AbortParentIfAnyChildAborts"
+          ],
+          "LockStatus": "Unlocked"
+        },
+        "UserCreatedBy": {
+          "Id": "8930924",
+          "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+          "Name": "HelixR&D",
+          "DateCreated": "2016-08-18T09:13:19.0000000Z",
+          "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+          "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+          "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+        },
+        "ExecutionStatus": "Complete",
+        "QcStatus": "Undefined",
+        "StatusSummary": "Application completed successfully",
+        "Purpose": "AppTrigger",
+        "DateCreated": "2020-01-17T23:50:45.0000000Z",
+        "DateModified": "2020-06-10T17:04:48.0000000Z",
+        "DateCompleted": "2020-01-18T03:27:50.0000000Z",
+        "DateStarted": "2020-01-17T23:52:23.0000000Z",
+        "TotalSize": 483090964213,
+        "DeliveryStatus": "None",
+        "ContainsComments": false,
+        "HrefComments": "https://api.basespace.illumina.com/v2/appsessions/200642499/comments"
+      },
+      "Project": {
+        "Id": "68745677",
+        "UserOwnedBy": {
+          "Id": "8930924",
+          "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+          "Name": "HelixR&D",
+          "DateCreated": "2016-08-18T09:13:19.0000000Z",
+          "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+          "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+          "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+        },
+        "Href": "https://api.basespace.illumina.com/v2/projects/68745677",
+        "Name": "Validation",
+        "Description": "",
+        "DateCreated": "2018-03-12T05:52:59.0000000Z",
+        "DateModified": "2021-06-24T23:48:38.0000000Z",
+        "HasCollaborators": false,
+        "TotalSize": 29018999725311
+      },
+      "TotalSize": 2626097530,
+      "IsArchived": false,
+      "UserOwnedBy": {
+        "Id": "8930924",
+        "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+        "Name": "HelixR&D",
+        "DateCreated": "2016-08-18T09:13:19.0000000Z",
+        "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+        "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+        "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+      },
+      "DatasetType": {
+        "Id": "illumina.fastq.v1.8",
+        "Href": "https://api.basespace.illumina.com/v2/datasettypes/illumina.fastq.v1.8",
+        "Name": "Illumina Fastq",
+        "ConformsToIds": [
+          "common.files",
+          "common.fastq"
+        ]
+      },
+      "Attributes": {
+        "common_fastq": {
+          "MaxLengthRead1": 151,
+          "MaxLengthRead2": 151,
+          "IsPairedEnd": true,
+          "TotalClustersPF": 17419093,
+          "TotalClustersRaw": 17419093,
+          "TotalReadsPF": 34838186,
+          "TotalReadsRaw": 34838186,
+          "MaxLengthIndexRead1": 8,
+          "MaxLengthIndexRead2": 8
+        }
+      },
+      "Properties": {
+        "Items": [
+          {
+            "Type": "map",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties/BaseSpace.Metrics.FastQ",
+            "Name": "BaseSpace.Metrics.FastQ",
+            "Description": "",
+            "ContentMap": [
+              {
+                "Key": "LaneNumber",
+                "Values": [
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "Type": "library[]",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties/Input.Libraries",
+            "Name": "Input.Libraries",
+            "Description": "",
+            "SampleLibraryItems": [
+              {
+                "Id": "114382300",
+                "Href": "https://api.basespace.illumina.com/v2/libraries/114382300",
+                "Name": "LP0005268-DNA_C2_c49cfea6-7cac-4ddb-895c-9681b4e91aaa",
+                "DateCreated": "2020-01-15T22:00:07.0000000Z",
+                "DateModified": "2020-01-15T22:00:07.0000000Z",
+                "Status": "Active",
+                "BioSample": {
+                  "Id": "206788768",
+                  "Href": "https://api.basespace.illumina.com/v2/biosamples/206788768",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "BioSampleName": "ST_EV3_8P5XU_LP0005268-DNA_C02",
+                  "DefaultProject": {
+                    "Id": "68745677",
+                    "UserOwnedBy": {
+                      "Id": "8930924",
+                      "Href": "v1pre3/users/8930924",
+                      "Name": "HelixR&D",
+                      "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                      "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG"
+                    },
+                    "Href": "v1pre3/projects/68745677",
+                    "Name": "Validation",
+                    "Description": "",
+                    "DateCreated": "2018-03-12T05:52:59.0000000Z",
+                    "DateModified": "2021-06-24T23:48:38.0000000Z",
+                    "HasCollaborators": false,
+                    "TotalSize": 29018999725311
+                  },
+                  "DateModified": "2021-01-28T01:20:10.0000000Z",
+                  "DateCreated": "2020-01-03T15:18:54.0000000Z",
+                  "ContainerName": "LP0005268-DNA",
+                  "ContainerPosition": "C02",
+                  "Status": "New",
+                  "LabStatus": "Complete"
+                },
+                "LibraryPrep": {
+                  "Id": "4038034",
+                  "Href": "v1pre3/libraryprepkits/4038034",
+                  "Name": "Helix DNA Enrichment",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "ValidIndexingStrategies": "None,SingleIndex,DualIndex",
+                  "ValidReadTypes": "SingleRead,PairedEnd",
+                  "NumIndexCycles": 8,
+                  "AdapterSequenceRead1": "CTGTCTCTTATACACATCT",
+                  "AdapterSequenceRead2": "CTGTCTCTTATACACATCT",
+                  "DateModified": "2017-05-25T23:27:59.0000000Z",
+                  "State": "Active",
+                  "DefaultRead1Cycles": 0,
+                  "DefaultRead2Cycles": 0,
+                  "LibraryType": "helix-dna-enrichment"
+                },
+                "Project": {
+                  "Id": "68745677",
+                  "UserOwnedBy": {
+                    "Id": "8930924",
+                    "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                    "Name": "HelixR&D",
+                    "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                    "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                    "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                    "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                  },
+                  "Href": "https://api.basespace.illumina.com/v2/projects/68745677",
+                  "Name": "Validation",
+                  "Description": "",
+                  "DateCreated": "2018-03-12T05:52:59.0000000Z",
+                  "DateModified": "2021-06-24T23:48:38.0000000Z",
+                  "HasCollaborators": false,
+                  "TotalSize": 29018999725311
+                },
+                "Biomolecule": "Undefined",
+                "UserOwnedBy": {
+                  "Id": "8930924",
+                  "Href": "https://api.basespace.illumina.com/v2/users/8930924",
+                  "Name": "HelixR&D",
+                  "DateCreated": "2016-08-18T09:13:19.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG",
+                  "HrefProperties": "https://api.basespace.illumina.com/v2/users/current/properties",
+                  "ExternalDomainId": "YXdzLXVzLXBsYXRmb3JtOjQzNDo3MjhiMTQ1MC1mNzQ5LTQxNDYtYWE0ZC1lY2VhMWFhOTJjZjM"
+                }
+              }
+            ],
+            "HrefItems": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties/Input.Libraries/items",
+            "ItemsDisplayedCount": 1,
+            "ItemsTotalCount": 1
+          },
+          {
+            "Type": "run[]",
+            "Href": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties/Input.Runs",
+            "Name": "Input.Runs",
+            "Description": "",
+            "RunItems": [
+              {
+                "Id": "193064938",
+                "Href": "v1pre3/runs/193064938",
+                "Name": "200115_A00913_0016_BHWYCJDSXX",
+                "Number": 16,
+                "ExperimentName": "HWYCJDSXX",
+                "Status": "Complete",
+                "ReagentBarcode": "NV2617923-RGSBS",
+                "FlowcellBarcode": "HWYCJDSXX",
+                "DateCreated": "2020-01-15T21:56:22.0000000Z",
+                "DateModified": "2020-02-27T23:50:57.0000000Z",
+                "UserOwnedBy": {
+                  "Id": "8930924",
+                  "Href": "v1pre3/users/8930924",
+                  "Name": "HelixR&D",
+                  "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/37b04693fe675510ac0e392f0a680da1.jpg?s=20&d=mm&r=PG"
+                },
+                "UserUploadedBy": {
+                  "Id": "15905898",
+                  "Href": "v1pre3/users/15905898",
+                  "Name": "Tyler Cassens",
+                  "DateCreated": "0001-01-01T00:00:00.0000000Z",
+                  "GravatarUrl": "https://secure.gravatar.com/avatar/c051960ed5045e2f09ae966a02bd45a6.jpg?s=20&d=mm&r=PG"
+                },
+                "TotalSize": 2918569131,
+                "PlatformName": "NovaSeq",
+                "Workflow": "HiSeqFastQ",
+                "Instrument": {
+                  "InstrumentId": 12486474,
+                  "Name": "A00913",
+                  "SerialNumber": "A00913"
+                },
+                "InstrumentName": "A00913",
+                "InstrumentType": "NovaSeq6000",
+                "NumCyclesRead1": 0,
+                "NumCyclesRead2": 0,
+                "NumCyclesIndex1": 0,
+                "NumCyclesIndex2": 0,
+                "HrefBaseSpaceUI": "https://helix.basespace.illumina.com/run/193064938/HWYCJDSXX",
+                "HasCollaborators": false,
+                "IsArchived": false,
+                "IsFileDataDeleted": true,
+                "SequencingStats": {
+                  "Chemistry": "",
+                  "ErrorRate": 0.178279,
+                  "ErrorRateR1": 0.158565,
+                  "ErrorRateR2": 0.197993,
+                  "Href": "v1pre3/runs/193064938/sequencingstats",
+                  "IntensityCycle1": 1551.61,
+                  "IsIndexed": true,
+                  "MaxCycleCalled": 318,
+                  "MaxCycleExtracted": 318,
+                  "MaxCycleScored": 318,
+                  "MinCycleCalled": 318,
+                  "MinCycleExtracted": 318,
+                  "MinCycleScored": 318,
+                  "NonIndexedErrorRate": 0.178279,
+                  "NonIndexedIntensityCycle1": 1490.56,
+                  "NonIndexedPercentAligned": 2.378,
+                  "NonIndexedPercentGtQ30": 94.1981,
+                  "NonIndexedProjectedTotalYield": 3706.1,
+                  "NonIndexedYieldTotal": 3706.1,
+                  "NumCyclesIndex1": 8,
+                  "NumCyclesIndex2": 8,
+                  "NumCyclesRead1": 151,
+                  "NumCyclesRead2": 151,
+                  "NumLanes": 4,
+                  "NumReads": 4,
+                  "NumSurfaces": 2,
+                  "NumSwathsPerLane": 1,
+                  "NumTilesPerSwath": 78,
+                  "PercentAligned": 2.378,
+                  "PercentGtQ30": 94.1662,
+                  "PercentGtQ30R1": 95.1389,
+                  "PercentGtQ30R2": 93.2573,
+                  "PercentGtQ30Last10Cycles": 91.671,
+                  "PercentPf": 0.806365,
+                  "PercentResynthesis": 73.3643,
+                  "PhasingR1": 0.0830095,
+                  "PhasingR2": 0.0717814,
+                  "PrePhasingR1": 0.0628231,
+                  "PrePhasingR2": 0.0510129,
+                  "ProjectedTotalYield": 3879.02,
+                  "ReadsPfTotal": 49414328320,
+                  "ReadsTotal": 61280354304,
+                  "YieldTotal": 3879.02,
+                  "Clusters": 15320088576,
+                  "ClustersPf": 12353582107,
+                  "ClusterDensity": 0,
+                  "Occupancy": 0
+                },
+                "AnalysisSettings": {
+                  "ReverseComplementI5Index": false
+                },
+                "LaneAndQcStatus": "QcPassed",
+                "LimsStatus": "LimsSampleSheetGenerated",
+                "Side": "B",
+                "DateInstrumentStarted": "2020-01-15T21:56:22.0000000Z",
+                "DateInstrumentCompleted": "2020-01-17T13:13:29.0000000Z"
+              }
+            ],
+            "HrefItems": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties/Input.Runs/items",
+            "ItemsDisplayedCount": 1,
+            "ItemsTotalCount": 1
+          }
+        ],
+        "DisplayedCount": 3,
+        "TotalCount": 3,
+        "Href": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/properties"
+      },
+      "QcStatus": "QcPassed",
+      "QcStatusSummary": "No thresholds were evaluated",
+      "UploadStatus": "Completed",
+      "UploadStatusSummary": "",
+      "ValidationStatus": "Passed",
+      "HrefComments": "https://api.basespace.illumina.com/v2/datasets/ds.bed52aabbbc24e178aaf1a68edb2dca5/comments",
+      "ContainsComments": false
+    }
+  ],
+  "Paging": {
+    "DisplayedCount": 2,
+    "TotalCount": 2,
+    "Offset": 0,
+    "Limit": 50,
+    "SortDir": "Desc",
+    "SortBy": "DateCreated"
+  }
+}
+
+#+end_src
+
+** list files in datasets
+#+begin_src bash
+# curl https://api.basespace.illumina.com/v2/datasets/ds.16c5252720b84f1a9856632de17cd6a3/files?sortdir=Asc&sortby=Name&limit=100
+{
+  "Items": [
+    {
+      "Id": "17693290267",
+      "Href": "https://api.basespace.illumina.com/v2/files/17693290267",
+      "HrefContent": "https://api.basespace.illumina.com/v2/files/17693290267/content",
+      "Name": "LP0005268-DNA-C2-c49cfea6-7cac-4ddb-895c-9681b4e91aaa_S19_L001_R1_001.fastq.gz",
+      "ContentType": "application/x-gzip",
+      "Size": 1290587783,
+      "Path": "LP0005268-DNA-C2-c49cfea6-7cac-4ddb-895c-9681b4e91aaa_S19_L001_R1_001.fastq.gz",
+      "IsArchived": false,
+      "DateCreated": "2020-01-18T03:41:02.0000000Z",
+      "DateModified": "2020-01-18T03:41:02.0000000Z",
+      "ETag": "746e3edc233fe39ab6d2680039ade65c-154",
+      "IdAsLong": 17693290267
+    },
+    {
+      "Id": "17693290266",
+      "Href": "https://api.basespace.illumina.com/v2/files/17693290266",
+      "HrefContent": "https://api.basespace.illumina.com/v2/files/17693290266/content",
+      "Name": "LP0005268-DNA-C2-c49cfea6-7cac-4ddb-895c-9681b4e91aaa_S19_L001_R2_001.fastq.gz",
+      "ContentType": "application/x-gzip",
+      "Size": 1335509747,
+      "Path": "LP0005268-DNA-C2-c49cfea6-7cac-4ddb-895c-9681b4e91aaa_S19_L001_R2_001.fastq.gz",
+      "IsArchived": false,
+      "DateCreated": "2020-01-18T03:41:02.0000000Z",
+      "DateModified": "2020-01-18T03:41:02.0000000Z",
+      "ETag": "854badc0d3898c41f415c2abdbbd4a82-160",
+      "IdAsLong": 17693290266
+    }
+  ],
+  "Paging": {
+    "DisplayedCount": 2,
+    "TotalCount": 2,
+    "Offset": 0,
+    "Limit": 100,
+    "SortDir": "Asc",
+    "SortBy": "Name"
+  }
+}
+
+
+#+end_src
+* Link
+ - https://helix.basespace.illumina.com/dashboard

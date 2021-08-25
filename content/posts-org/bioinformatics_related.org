@@ -1,0 +1,78 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Bioinformatics related
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix bioinformatics
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+* Concepts
+** principles of inheritance:  
+ - The law of segregation
+#+begin_src bash
+A pair of genes defines a trait. 
+In the production of sex cells, only one gene from each parent's pair of genes is selected to reside in each of the sex cells, female and male ones. 
+During fertilization, these sex cells unite. Therefore the offspring cells will end up containing only one randomly selected gene from each of the parents.
+#+end_src
+ - the law of independent assortment 
+#+begin_src bash
+Genes for each trait are sorted independently of each other. Thus, the inheritance of traits is independent of each other.
+#+end_src
+ - the law of dominance
+#+begin_src bash
+There are two different forms of genes: 
+Dominant and recessive. 
+If an individual has one dominant and one recessive gene, then t
+he dominant one controls the trait. Only when an individual inherits two recessive genes, then recessive genes have a control. 
+The inheritance of two dominant genes will result in the dominant genes to control a trait.
+
+Dominance is dependent on (1) a particular gene pair. In other words, it is a relationship between two genes. and (2) the location in the genome.
+#+end_src
+
+
+* Tools
+ - https://www.omim.org/ (An Online Catalog of Human Genes and Genetic Disorders)
+
+* Links
+ - https://bioinformaticshome.com/bioinformatics_tutorials/tutorials_main.html
+ - https://medium.com/@wvsharber/introduction-to-genbank-and-bioinformatics-with-python-8a25a0f15e3f
+ - https://biopython.org/wiki/Documentation

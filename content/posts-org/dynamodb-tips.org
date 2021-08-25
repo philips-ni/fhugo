@@ -54,3 +54,22 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 * common commands
  - https://dynobase.dev/dynamodb-cli-query-examples/#scan
+
+* Clear a table
+
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM hippa-staging sample-tracker (release/0.1.0 %)]$ cat del_all.sh
+tableName=$1
+export KEY_SCHEMA=$(aws dynamodb describe-table  --table-name ${tableName} | jq -r '.Table.KeySchema[].AttributeName')
+echo $KEY_SCHEMA
+
+aws dynamodb scan \
+    --table-name ${tableName} \
+    --attributes-to-get ${KEY_SCHEMA} | \
+    jq -r ".Items[] | tojson" | \
+    tr '\n' '\0' | \
+    xargs -0 -I keyItem \
+          aws dynamodb delete-item \
+          --table-name ${tableName} \
+          --key=keyItem
+#+end_src

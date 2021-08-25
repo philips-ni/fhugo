@@ -1,0 +1,99 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Interview with Vineeth 
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-01-01
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* Basic Info
+
+| Candidate Name | Vineeth Reddy                 |
+| Job Level      | Senior                        |
+| Type           | Virtual onsite, system design |
+| Date           | 06/22/2021                    |
+
+CoderPad:
+  - https://app.coderpad.io/ZGP6F66P
+
+** Design question
+
+
+#+begin_src bash
+We'll be doing the architecture interview question for designing a system to return ancestry and traits results to a patient
+
+#+end_src
+
+
+
+Highlight: 
+  - 
+* timeline
+
+|  Time | Activity                     |
+|-------+------------------------------|
+| 15:05 | Kick start                   |
+| 15:18 | Start system design question |
+| 16:00 | Start Q&A                    |
+| 16:06 | Complete the session         |
+|       |                              |
+|       |                              |
+|       |                              |
+
+
+
+
+* General notes
+
+- mostly backend engineer
+- recent challenge:
+  - Showing live data to customer via socket , data was stored in S3, using API gateway websocket
+  - He can explain the requirement and design, but didn't explain well about what's the challenge there, what's his approach to solve it
+- Didn't ask the average data size, traffic(input/output) pattern, etc before doing design
+- Didn't define the overall workflow/data flow before doing design
+- Talking about cache even before asking the access/request pattern
+- Didn't define data model and API draft
+
+* Reference
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/2347663742/Tech+Screen+and+Onsite+Coding+Questions
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/51350569/Interview+Coding+Exercise+Assignments#Tech-screens

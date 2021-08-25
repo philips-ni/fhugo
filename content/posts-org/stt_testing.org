@@ -100,4 +100,57 @@ $ curl -v https://ob5m8axfye.execute-api.us-east-1.amazonaws.com/v1/info?info_ty
 #+end_src
 
 
+* Deal with users
+#+begin_src python
+import boto3
+from boto3.dynamodb.conditions import Key
+
+dynamodb = boto3.resource('dynamodb')
+
+table = dynamodb.Table('SampleTrackerUsers')
+
+
+def list_users():
+    resp = table.scan()
+    print("=========List Users==================")
+    for item in resp['Items']:
+        print(item["UserID"])
+
+
+def add_user(user_email):
+    item = {
+        "UserID": user_email,
+        "Role": "Staff"
+    }
+    table.put_item(Item=item)
+    print("\n!!! {} is added".format(user_email))
+
+def add_users(users):
+    for user in users:
+        add_user(user)
+
+
+def del_user(user_email):
+    key = {
+        "UserID": user_email
+    }
+    table.delete_item(Key=key)
+    print("\n!!! {} is deleted".format(user_email))
+
+
+def del_users(users):
+    for user in users:
+        del_user(user)
+
+
+users = [
+    "fei.ni@helix.com"
+]
+
+list_users()
+del_users(users)
+list_users()
+add_users(users)
+list_users()
+#+end_src
 

@@ -5,7 +5,7 @@
 #+LATEX_HEADER: \usepackage{helvetica}
 #+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
 #+LATEX_HEADER: \usepackage{geometry}
-#+TITLE:     Interview with Chaitanya
+#+TITLE:     Helix VPNs
 #+AUTHOR:    Fei Ni
 #+EMAIL:     fei.ni@helix.com
 #+DATE:      2021-01-01
@@ -46,43 +46,18 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 # Start from here
 
+* GlobalConnect
+It's required to access staging environment, for example STT staging environment
 
-* Basic Info
-
-| Candidate Name | Chaitanya Guttula    |
-| Job Level      | Senior               |
-| Type           | Tech phone screening |
-| Date           | 06/03/2021           |
-
-Coderpad link: https://app.coderpad.io/C9KH94J4
+- Download it from https://vpn.helix.com/
+- Portal address vpn.helx.com
 
 
-* timeline
+* AWS VPN client
 
-|  Time | activity                                                             |
-| 12:00 | Interview started                                                    |
-| 12:10 | Switch to coding challenge                                           |
-| 12:22 | Start coding                                                         |
-| 13:05 | Stop the session, still not be able to complete the coding           |
+A virtual private network (VPN) allows connections from your laptop to private resources in Helix AWS accounts.
 
+You will need a VPN connection into the appropriate AWS VPC to access most Helix Engineering services. 
 
+ - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/2063597598/AWS+VPN
 
-
-* General notes
-
-Pros: 
-  - Talking about a recent troubleshooting experience(email cannot be sent out), he can explain the whole process crossing different components clearly 
-    - sender side
-    - receiver side
-    - OS layer
-    - Library (jar) layer
-  - Asked some corner cases for clarification 
-    - How about empty string
-    - How about a string like "Quickly"
-  - Before coding, he read and thought about all the rules, and gave basic idea for the solution
-Cons:
-  - Tried to use regex, but looks like not very familiar with it , took a long time to make it working
-  - Not be able to complete the coding in time, code is not in runnable state
-  - Don't have time to talk about how to test it
- 
-    
