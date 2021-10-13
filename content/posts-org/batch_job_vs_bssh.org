@@ -1,0 +1,103 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     R2V batch job vs bssh
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-10-06
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+* Intro
+
+For a given sample, we want to compare the output from R2V batch job and from BSSH R2V appsession, to make sure they are doing the equivalent thing.
+
+* Related data
+sampleID : ST_EV3_37FY2_LP0005265-DNA_G01
+** Batch job input 
+#+begin_src bash
+fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev ~]$ aws s3 cp s3://helix-analysis-workflow-results-staging/r2v_job_input/r2v_ST_EV3_37FY2_LP0005265-DNA_G01_AN-XU2DV33SZB7X2UAAD273I6P4EIURISR6.json -
+{
+    "config": {
+        "alignment_input.remote_fastq": [
+            "https://basespace-data-east.s3-external-1.amazonaws.com/03797969f187494ba8bfab4000b96ba0/LP0005265-DNA-G1-79e1e5f2-8609-409b-b058-862e4ca03728_S6_L004_R1_001.fastq.gz?AWSAccessKeyId=AKIARPYQJSWQ3VMWNJWH\u0026Expires=1634093364\u0026response-content-disposition=filename%3DLP0005265-DNA-G1-79e1e5f2-8609-409b-b058-862e4ca03728_S6_L004_R1_001.fastq.gz\u0026response-content-type=application%2Fx-gzip\u0026Signature=IcfOJSUgA%2BP5Y98mEZy1hVJMhVk%3D",
+            "https://basespace-data-east.s3-external-1.amazonaws.com/03797969f187494ba8bfab4000b96ba0/LP0005265-DNA-G1-79e1e5f2-8609-409b-b058-862e4ca03728_S6_L004_R2_001.fastq.gz?AWSAccessKeyId=AKIARPYQJSWQ3VMWNJWH\u0026Expires=1634093364\u0026response-content-disposition=filename%3DLP0005265-DNA-G1-79e1e5f2-8609-409b-b058-862e4ca03728_S6_L004_R2_001.fastq.gz\u0026response-content-type=application%2Fx-gzip\u0026Signature=4v2cH786dXRNpBz7AMcqlE8NGY0%3D"
+        ],
+        "analysis.sample": "ST_EV3_37FY2_LP0005265-DNA_G01",
+        "analysis.assay_version": "v3",
+        "analysis.tag": "container",
+        "scratch.scratch_dir": "/scratch",
+        "reference_bundle.basepath": "/reference/2.15.0/ref_bundle",
+        "output.output_dir": "/scratch/output",
+        "logs.logs_dir": "/scratch/output/logs",
+        "output.s3_upload_uri": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-SO4WZLJRGCCGHBYU2L7XM5LAQQCL2V22/ST_EV3_37FY2_LP0005265-DNA_G01",
+        "analysis.cleanup_output": "yes",
+        "imputation_scratch.copy_hap_ref": "no",
+        "analysis.download_reference": "yes",
+        "analysis.reported_sex": "Female",
+        "analysis.expected_total_reads": 37269514,
+        "analysis.biosample_creation_year": "2020",
+        "analysis.biosample_creation_month": "01",
+        "analysis.biosample_creation_day": "02"
+    }
+#+end_src
+
+** BCF & BCF index
+*** BSSH
+ #+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev ~]$ aws s3 ls s3://helix-analysis-workflow-results-staging/bcf/BA-CBTVOXDUE4A545BORDLENOTNS4VPB5ME/AN-AV3RH3D5RLTZS6F5GUVZTMU6SLWKEYUT/
+2021-09-27 13:33:37  639815993 ST_EV3_37FY2_LP0005265-DNA_G01_partner_9437428.201283116_helix.bcf
+2021-09-27 13:34:00      83968 ST_EV3_37FY2_LP0005265-DNA_G01_partner_9437428.201283116_helix.bcf.csi
+
+ #+end_src
+
+*** R2V batch job
+
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev ~]$ aws s3 ls s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-SO4WZLJRGCCGHBYU2L7XM5LAQQCL2V22/ST_EV3_37FY2_LP0005265-DNA_G01/VCF/ST_EV3_37FY2_LP0005265-DNA_G01_partner_container_helix.bcf
+2021-10-05 21:08:40  532624376 ST_EV3_37FY2_LP0005265-DNA_G01_partner_container_helix.bcf
+2021-10-05 21:09:02      52388 ST_EV3_37FY2_LP0005265-DNA_G01_partner_container_helix.bcf.csi
+#+end_src
+
+
+* Switch back to BSSH mode
+ - Update bcl2fastq-listener repo
+   - refer https://github.com/myhelix/bcl2fastq-listener/pull/107/commits/6b012ce277cb6c5790c58f1ce38246e38956f353
+ - update lab config

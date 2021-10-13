@@ -1,0 +1,73 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Prepare AW env
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-09-23
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* Clear analysis records
+
+- Run this command to access db console
+  - eval `hops db config -f eval -e staging -s sample-metadata`
+
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev fei_work]$ for i in `cat samples.txt`;do echo "delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = '${i}';";done
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_JA8UB_LP0005265-DNA_G02';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_7RZMA_LP0005265-DNA_F03';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_3DWPG_LP0005265-DNA_G04';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NA20509_LP0005265-DNA_H01';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_37FY2_LP0005265-DNA_G01';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_63V8Q_LP0005265-DNA_E03';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_2SDWW_LP0005265-DNA_E04';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_PJ2ZV_LP0005265-DNA_F04';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NA20509_LP0005265-DNA_H02';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_8BBRW_LP0005265-DNA_G03';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_GK58H_LP0005265-DNA_F01';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_TPNZT_LP0005265-DNA_F02';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NA14622_LP0005265-DNA_E01';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NA20509_LP0005265-DNA_H03';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NYUT3_LP0005265-DNA_E02';
+delete from metadata_current where metadata_type = 'analysis' and raw_json->>'SampleId' = 'ST_EV3_NA14623_LP0005265-DNA_H04';
+
+#+end_src

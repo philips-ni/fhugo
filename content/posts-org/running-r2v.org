@@ -484,3 +484,18 @@ the difference is :
 - Very important function =convertAppSessionToAnalysis=
 
 
+** dev only code 
+#+begin_src golang
+        /* for development only start
+        samplesWhiteList := map[string]bool{
+                "206803716": true,
+                "206810781": true,
+        }
+        if _, foundIt := samplesWhiteList[analysisObj.BioSampleId]; !foundIt {
+                logger.Info(fmt.Sprintf("Skip R2V run for %s only for test purpose", analysisObj.BioSampleId))
+                return states.R2V_Exit, nil
+        }
+        logger.Info(fmt.Sprintf("checking %v", analysisObj))
+        for development only end
+        */
+#+end_src
