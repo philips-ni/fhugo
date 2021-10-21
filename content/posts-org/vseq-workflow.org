@@ -45,5 +45,147 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 
 # Start from here
-* Notes with Andrew
+* Current process
+
+** prepare_analysis_from_run_name.py
+*** Input
+  - runName
+
+*** Ouput
+  - from_run/samplesheet.csv
+  - samples.tsv
+  
+*** logic
+
+Just need communicate with BSSH
+  
+#+begin_src bash
+
+runName -> runId -> appSession -> write samplesheet.csv -> write samples.tsv
+
+#+end_src
+
+** write_fastagenerator_input_json.py
+
+*** input
+  - samples_tsv
+  - appsession_id
+*** output
+  - a list of json file under input_json dir
+
+its content is like:
+#+begin_src bash
+  /Users/fei.ni/Downloads/from_andrew/1a/input/input_json:
+  total used in directory 4608 available 531.4 GiB
+  drwxr-xr-x 1154 fei.ni staff 36928 Oct 12 09:12 .
+  drwxr-xr-x   21 fei.ni staff   672 Oct 14 13:22 ..
+  -rw-r--r--    1 fei.ni staff  2011 Oct 12 09:11 0.fastagenerator_input.json
+  -rw-r--r--    1 fei.ni staff  2021 Oct 12 09:11 1.fastagenerator_input.json
+  -rw-r--r--    1 fei.ni staff  2021 Oct 12 09:11 10.fastagenerator_input.json
+  -rw-r--r--    1 fei.ni staff  2071 Oct 12 09:11 100.fastagenerator_input.json
+  -rw-r--r--    1 fei.ni staff  2077 Oct 12 09:11 1000.fastagenerator_input.json
+  -rw-r--r--    1 fei.ni staff  2083 Oct 12 09:11 1001.fastagenerator_input.json
+
+{
+    "config": {
+        "analysis.sample": "CTL-LP0007362-SUR-A01",
+        "alignment_input.remote_fastq": "['https://basespace-data-east.s3-external-1.amazonaws.com/2d22ebb3b50240489f2cadbf00129c27/CTL-LP0007362-SUR-A01_S95_L002_R1_001.fastq.gz?AWSAccessKeyId=AKIARPYQJSWQ3VMWNJWH&Expires=1634659\
+790&response-content-disposition=filename%3DCTL-LP0007362-SUR-A01_S95_L002_R1_001.fastq.gz&response-content-type=application%2Fx-gzip&Signature=NVntAQHEQrkosgi4c3AabbVvQHI%3D', 'https://basespace-data-east.s3-external-1.amazonaws.\
+com/2d22ebb3b50240489f2cadbf00129c27/CTL-LP0007362-SUR-A01_S95_L002_R2_001.fastq.gz?AWSAccessKeyId=AKIARPYQJSWQ3VMWNJWH&Expires=1634659790&response-content-disposition=filename%3DCTL-LP0007362-SUR-A01_S95_L002_R2_001.fastq.gz&resp\
+onse-content-type=application%2Fx-gzip&Signature=B1XEbkWV5T4L7OeV37522jhMvlY%3D', 'https://basespace-data-east.s3-external-1.amazonaws.com/4df5249b580b41ddba7fadbf00125404/CTL-LP0007362-SUR-A01_S95_L001_R1_001.fastq.gz?AWSAccessKe\
+yId=AKIARPYQJSWQ3VMWNJWH&Expires=1634659791&response-content-disposition=filename%3DCTL-LP0007362-SUR-A01_S95_L001_R1_001.fastq.gz&response-content-type=application%2Fx-gzip&Signature=3aNutSDY7Ydv6SmFYxuAxfATl0I%3D', 'https://base\
+space-data-east.s3-external-1.amazonaws.com/4df5249b580b41ddba7fadbf00125404/CTL-LP0007362-SUR-A01_S95_L001_R2_001.fastq.gz?AWSAccessKeyId=AKIARPYQJSWQ3VMWNJWH&Expires=1634659791&response-content-disposition=filename%3DCTL-LP00073\
+62-SUR-A01_S95_L001_R2_001.fastq.gz&response-content-type=application%2Fx-gzip&Signature=RYP6p5Zi4f8y7Ldji8HPhP98Aq4%3D']",
+        "upload.s3_folder": "s3://helix-research-ngs-results/helix/2021-10-12/CTL-LP0007362-SUR-A01/",
+        "analysis.run_name": "PROD_AMP_NV0415415-LIB",
+        "environment.SENTIEON_LICENSE": "sentieon-license.research.helix.com:8990",
+        "reference_bundle.basepath": "/ref_bundle",
+        "output.output_dir": "/tmp/output",
+        "logs.logs_dir": "/tmp/output/logs",
+        "scratch.scratch_dir": "/tmp/scratch"
+    }
+}
+
+#+end_src
+
+*** logic
+#+begin_src bash
+ samples_tsv -> samples_fastqPreSignUrls -> json
+
+#+end_src
+
+** run_fastagenerator_in_batch_array_job.py
+*** input
+ - input_s3_folder
+ - trim_setting
+
+*** output
+
+files generated into output dir
+#+begin_src bash
+AWS_PROFILE=$aws_profile aws s3 ls --recursive $s3_out_folder | cut -d. -f2- | sort | uniq -c
+#   1152 helix_qc.json
+#   1152 tar.gz
+#   1152 vcf2consensus.fasta
+#   1152 vcf2consensus.klados.json
+#+end_src
+
+
+** run_glue_jobs.py
+
+*** input
+ - ???
+
+*** output
+ - ???
+
+*** logic
+
+#+begin_src bash
+    # Run AWS Glue jobs and wait for them to complete.
+    jr_fastagenerator = JobRun('research-etl-trigger-incremental-helix-seq-metrics-on-demand')
+    jr_classifier_part_1 = JobRun('research-etl-trigger-klados-on-demand')
+    jr_classifier_part_1.wait()
+    jr_classifier_part_2 = JobRun('research-etl-trigger-klados-on-demand-pt2')
+    jr_classifier_part_2.wait()
+    jr_fastagenerator.wait()
+
+    logging.info('Success.')
+#+end_src
+
+
+** query_qPCR_and_klados_results_by_run_name.py
+
+#+begin_src bash
+$in_dir/query_qPCR_and_klados_results_by_run_name.py \
+    --samples $samples_tsv \
+    --run_name $run_name \
+    --query_sql $out_dir/qPCR_and_klados_query.sql \
+    --query_output $out_dir/raw_qPCR_and_klados_query.tsv \
+    --output $out_dir/$experiment.qPCR_and_klados_results.tsv
+#+end_src
+
+
+*** output $experiment.qPCR_and_klados_results.tsv
+
+#+begin_src bash
+ sample_name     run_name        plate_id        project qpcr_source_table       n_gene_cq       orf1ab_cq       s_gene_cq       rpp30_cq        ms2_cq  n_gene_call     orf1ab_call     s_gene_call     rpp30_call      qpcr_technical_assessment       qpcr_thresholds_version pipeline_version        pipeline_run_date       trim_setting    dedup_percent_read_pair_dup$
+CTL-LP0007362-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:07     snap    None    None    None    54      1323.778179     0.0     0.0     0.71195 0.897407        1.0     54      0.182074        0.006068        0.0     0.003051        0.0$
+CTL-LP0007362-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:06     snap    None    None    None    155     1765.622701     0.0     0.0     0.759045        0.863164        1.0     155     0.101039        0.023468        0.0     0.015891   $
+CTL-LP0007363-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:09     snap    None    None    None    108     2144.080202     0.0     0.0     0.794261        0.833833        1.0     108     0.037884        0.027122        0.0     0.017936   $
+CTL-LP0007363-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:55     snap    None    None    None    26      6095.914059     0.0     0.0     0.315522        0.527566        1.0     26      0.207803        0.015891        0.0     0.009488   $
+CTL-LP0007364-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:58     snap    None    None    None    136     2701.887006     0.0     0.0     0.758154        0.790603        1.0     136     0.030083        0.037917        0.0     0.021859   $
+CTL-LP0007364-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:02     snap    None    None    None    72      3010.01655      0.0     0.0     0.673345        0.766723        1.0     72      0.09236 0.019981        0.0     0.016863        0.0$
+CTL-LP0007365-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:02     snap    None    None    None    156     1200.297721     0.0     0.0     0.816654        0.906977        1.0     156     0.087322        0.020216        0.0     0.014148   $
+CTL-LP0007365-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:53     snap    None    None    None    390     208.724664      0.0     0.0     0.026646        0.983824        1.0     390     0.953664        0.019244        0.0     0.01284 0.0$
+CTL-LP0007366-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:48     snap    None    None    None    262     694.408025      0.0     0.0     0.936967        0.946183        1.0     262     0.009129        0.017869        0.0     0.011767   $
+CTL-LP0007366-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:51     snap    None    None    None    266     514.116261      0.0     0.0     0.909376        0.960156        1.0     266     0.048289        0.012237        0.0     0.006169   $
+CTL-LP0007367-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:49     snap    None    None    None    646     548.917192      0.0     0.0     0.570707        0.957459        1.0     646     0.38385 0.032151        0.0     0.021389        0.0$
+CTL-LP0007367-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:53     snap    None    None    None    485     1073.601693     0.0     0.0     0.606689        0.916796        1.0     485     0.305513        0.047942        0.0     0.024809   $
+CTL-LP0007368-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:49     snap    None    None    None    514     101.330951      0.0     0.0     0.668843        0.992147        1.0     514     0.319149        0.005766        0.0     0.002883   $
+CTL-LP0007368-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:58     snap    None    None    None    1889    12623.427501    0.0     0.0     0.020864        0.021682        1.0     1889    0.001231        5.66508 1.0     0.649021        0.4$
+CTL-LP0007369-SUR-A01   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:18:14     snap    None    None    None    874     10948.550183    0.0     0.0     0.148809        0.151486        1.0     874     0.002617        1.878302        0.0     0.010661   $
+CTL-LP0007369-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    None    None    None    None    None    None    None    None    None    None    2.7.2   2021-10-12 09:17:51     snap    None    None    None    72      0.0     0.0     0.0     0.498811        1.0     1.0     72      0.403488        0.0     0.0     0.0     0.0     0.0     0.0     0.0$
+...
+#+end_src
 

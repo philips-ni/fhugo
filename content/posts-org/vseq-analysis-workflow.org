@@ -1,0 +1,175 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     Vseq analysis workflow design
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2021-10-19
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:nil \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+* Background/Rationale
+
+ - Why is this project needed? 
+
+Helix want to automate the viral sequencing workflow to enable sequencing and analysis.
+
+ - Who will use it? 
+
+After Vseq analysis result is created,  it will be pushed to =vseq review app=, so that some one from ?? team is able to review it.
+
+ - When do we need it by? 
+
+By End of Q4
+
+ - What does MVP look like?
+  - Vseq analysis pipeline  will be triggered after the Vseq Fastq data is ready from BSSH.
+  - Vseq analysis result would be pushed to GLUE DB after Vseq pipeline is completed
+  - Should not make impact for existing analysis workflow
+  - Should support =VSeq-CAPTURE= and =VSeq-AMPLICON=
+  - Be able to handle negative scenarios:
+    - Failed to run some fasta generater batch job 
+    - Failed to run klados lambda
+    - Failed to call GLUE triggers
+   
+ - What will follow MVP?
+   - Make Vseq analysis pipeline more robust
+   - Make Vseq analysis pipeline running as fast as it can
+   - Be able to track Vseq analysis pipeline's status in different stage
+
+* Requirements
+
+  Please see the PRD from https://myhelix.atlassian.net/wiki/spaces/PROD/pages/2422800494/Viral+Sequencing+workflow+PRD+DRAFT
+
+* In Scope
+  - fastq event listener which can be triggered after fastq data is ready
+  - event handler which can identify if this event is for vseq, if yes, it may trigger the Vseq analysis pipeline
+  - the vseq analysis pipeline itself
+
+* Out of Scope
+ - The =fastqToFasta generated batch job= ( It's owned by bioinformatics team, and it has been implemented)
+ - The =klados= lambda ( It's owned by bioinformatics team, and it has been implemented)
+ - The =vseq review app= ( It's the next project after this is done)
+
+* Threat Modeling
+Sometimes this section is optional depending on the Security
+
+ 
+
+* Current Existing Workflow
+Optionally describe and diagram what the current environment and workflow
+
+ 
+
+* Solutions Considered
+
+** Option 1: Doing nothing
+*** Pros:
+- no new development required
+*** Cons:
+- Require some manual work to trigger the pipeline and send back the result
+- Require more manual work if some error happens while running vseq analsyis manually
+
+** Option 2: Integrate everything into the current GENP platform
+
+-  Create New step function for vseq analysis pipeline,  runs fastq -> fasta + klados and load result to GLUE
+-  bcl2fastq-listener calls the new step function and 
+-  use DDR for review
+-  Everything still runs in master except for the fastq -> fastq conversion and klados
+
+
+*** Pros:
+- Reuse existing webhook/sns/sqs/bcl2fastqlistener in master account
+- Reuse sample-metadata
+- Reuse analsyis-workflow git repo
+
+
+*** Cons:
+- Need update existing analysis workflow,  increase the complexity, and there is regression risk
+- Need update existing DDR, it also increase DDR's complexity as well.
+- Cross-account(master->research) o/p to call =fastq -> fastq conversion and klados=
+
+** Option 3: We build everything new in the hipaa zone, follow the pattern as current analysis-workflow is doing
+
+ - New lambda that does what current =bcl2fastq-listener= does
+ - Create batch/analysis objects in fastq-listener lambda, save them into DB and track their state in the whole process
+ - New step function that runs fastq -> fasta + klados and load result to GLUE
+ - New review tool (out of scope for this doc)
+
+
+*** Pros:
+- All new servies are in hipaa zone
+- create batch/analysis records and store it in DB to align with current analysis-workflow
+- If some sample's analysis failed,  it may cause the whole pipeline failed,  but we can resolve it by putting the failed fastqSessionId into sqs to trigger the whole flow again, and it will skip those analysis-completed samples.
+- doesn't couple with analysis-workflow and existing lab API, no regression risk
+- It's easy to bioinfomatics team to migrate their batch job, lambda to hipaa zone 
+
+*** Cons:
+-  A little complex comaring with Proposal2
+-  Not exact the same as current manual process
+
+
+** Option 4: We build everything new in the hipaa zone, follow the current manual process 
+ - New lambda that does what current =bcl2fastq-listener= does
+ - Do not create batch/analysis objects in fastq-listener lambda
+ - New step function that runs fastq -> fasta + klados and load result to GLUE
+ - New review tool (out of scope for this doc)
+
+
+*** Pros
+- replicate almost the same steps as  current manual process, simple, and quick be implemented quickly. 
+- doesn't couple with analsyis-workflow and existing lab API, no regression risk
+- all new services are in hipaa zone
+- It's easy to bioinfomatics team to migreate their batch job, lambda to hipaa zone
+
+*** Cons
+- No batch/analysis records created as current analysis-workflow is doing, it's not easy to track each sample's  analsyis progress, status ,etc.
+- if one sample's analysis failed,  it may require to rerun everything or require someone to do some dirty manual work to run failed ones and trigger submitGlueJobs manually 
+* Data model
+
+** refer to existing analysis workflow data model
+
+ - batch/analyses structures
+ - one fastqAppsessionId mapping to one runId/runName
+ - fastqAppsessionid/runId, vseq pipeline version mapping to a VseqBatch
+ - 1 VseqBatch can include 1000+ sample's VseqAnalyses
+
+
