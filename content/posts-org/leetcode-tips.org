@@ -938,6 +938,5 @@ class Foo:
    - https://leetcode.com/problems/print-in-order/discuss/335939/5-Python-threading-solutions-(Barrier-Lock-Event-Semaphore-Condition)-with-explanation
    - https://www.baeldung.com/cs/deadlock-livelock-starvation
 
-
 * Links
   - https://emre.me/categories/#coding-patterns
