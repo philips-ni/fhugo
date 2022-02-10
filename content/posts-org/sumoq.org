@@ -89,9 +89,6 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
   | regulapi     | regulapi-production           |
 
 
-* keys
- - access_id: suKN97d4MuHHuc
- - access_key: FJjatwpJ08kWhkaxcavg7kW6rmwMbU7re9HmWXYMwWZCig00fi4cGqTzcKPSff6l
 
 * links
   - https://help.sumologic.com/05Search/Search-Cheat-Sheets/General-Search-Examples-Cheat-Sheet
