@@ -1,8 +1,8 @@
 +++
-title = "Helix Mapping of those entities"
+title = "Mapping of those entities"
 author = ["Fei Ni"]
-date = 2022-01-19T14:42:47-08:00
-lastmod = 2022-01-19T14:42:47-08:00
+date = 2021-03-01
+lastmod = 2022-02-09T19:03:52-08:00
 tags = ["helix"]
 draft = false
 +++

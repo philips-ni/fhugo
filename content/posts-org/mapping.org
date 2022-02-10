@@ -5,7 +5,7 @@
 #+LATEX_HEADER: \usepackage{helvetica}
 #+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
 #+LATEX_HEADER: \usepackage{geometry}
-#+TITLE:     Helix Mapping of those entities
+#+TITLE:     Mapping of those entities
 #+AUTHOR:    Fei Ni
 #+EMAIL:     feiphilips.ni@veritas.com
 #+DATE:      2021-03-01
