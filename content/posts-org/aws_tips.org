@@ -300,37 +300,5 @@ aws ecr get-login-password \
 * AWS redis
   - https://aws.amazon.com/elasticache/redis/
     
-* My AWS resource 
- - 34.239.126.10
-#+begin_src bash
-[fei.ni@fei-ni-C02FG3R2MD6N-SM  ~]$ cat ~/Downloads/fei-dev.pem
------BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAqB7T5AVkUdOsm8/LkcuNTLD5w3ObOaK0Gs7+cv7kkoHGehsH
-8J8G54bD564j77hWAWziRPFtISQPxppXu9BSjGs56dFdbhmwmc6+FSszq9vr/JAk
-e8nXPqQPQnDpj1lA4xhuqdIZTYZo6h95cKXdN20NbAsqGqS5ZD/xk8Sbo0uHOpaH
-diNZKKnI4uFSySYIiMo8tWQiIpB/f+bf79vJ+JRXWVZLOelrjjUOonzvItgR0Fr0
-WNbK1uJusp8A0ut3kiKDqVJWwcS9Y/Hvn6vk5WBMgwZ24kgaHUKP0mVopH6b1Ewq
-wuDzon/LtnZL/oZP+ZOvZjIc/Kf6jlHXnsxK+QIDAQABAoIBAE08PGQZBgmBkV7T
-i9YjCXseIuBkD//ee5eFWOhDqYaVEDWwjWlB5c4f34hkPCY5LWniN+EseNIs2wKG
-jZ+/CO1xpV2BzcZzDuraTAE1o7tkgXm6Tsh/5d7lSA1iCirM+j5aTxy9ZNp00WYd
-p5DU4lhARVZJmsI6wuEHb1hPjqDppzGW0QzjArX3PhNi4YUL+9ccFERCNMw/IoCk
-i3wFeAD1J+PYCZ0my7+ElUMs/8yoNe45jZLVCbpukxRlmzFYvemeq/tkJxTdxfD9
-AyFtwyCJMVK7X45+JkCK1fkkGVnQwoXtbYCqaZP0Ux1hMLsnmcGIERkvAxHjgYzU
-2KjBc8ECgYEA1ncK+rs5yvTRQ2JcKsgUAHb0mP2vaGYkGel30RzE0PspH5B0hQvl
-Ov4CvJ9K7ud0qP9pPCLQCK+zSTTxUzqxtju/xHqjWowgmOAjPZEmGI9q7WAIACLd
-SWZweN1+qp6dXvq3r960qjsEmhsVPUF2V6DKm4ei7gHYAxrMXzJ8cwUCgYEAyK4R
-MKpHzZcszNWkKp+mg/qjyOwyn/gLi2ApGK7TdfWWIeg9l1YuA/SPVWGxPo9Tvg+Q
-CsCQiCKOXTWjNMv9oVjdEgPuQilJt8IxOV2FubZXtx+e+c9R4QQ4X4CITo2QuyS+
-lyL1NDq06w3KCABd+70ABFDVwQPNqJxzOlbvYmUCgYBmmbLl+tYOM4s9envvd6Ki
-CkbAPnVBM8RHpTrODr5V4CJvWFN2Jxe2Xjj+9hIKMy7Lfs1gmKL/1Nanyi09jRHh
-xbnbjHRD6E/b8zbIyHz6OPqFr3CEaCmHaPubxxNHGvTcsINaHug9nFh6RUSm9n9g
-MqtbNsuKo9UsvxBQ5r1E5QKBgQCRPaojVppxKaC6/0S5tKKHkrdHi+t368YvMYGM
-47sX/I6UK8mn5i+XnUC/wtzNMl6hiBHwNj5kyN3QiCl+5MTEKdSWXVHrgIZiAKIv
-qohGSLpjRveARZQ1DyDdveDpOXwudgGa0So2iua12F0IPXvH3ppMhVSvRVlrVw/u
-gUzwIQKBgG/Xq6VufMIlY1qkdIDvj15NtYsgnKQdKXsmIKmhiE/2dF8UGk94HC7b
-H/gXrOMf1CFA9u/YqBuzY0wjkOormLiUW7jPF3QF9GoCR+XJsBDvP7M4MOP0raJx
-sfeYl/DWfdK6D0dVMZasTCnCtAk9pXOaeJgoGLsAXfs3prrk4kVh
------END RSA PRIVATE KEY-----
-#+end_src
 
 

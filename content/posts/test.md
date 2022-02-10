@@ -1,8 +1,8 @@
 +++
 title = "Just for test"
 author = ["Fei Ni"]
-date = 2021-05-03T15:57:00-07:00
-lastmod = 2021-05-03T15:57:00-07:00
+date = 2020-04-01
+lastmod = 2022-02-09T17:11:40-08:00
 tags = ["helix"]
 draft = false
 +++
@@ -22,9 +22,6 @@ Paragraphs are separated by at least one empty line.
 [Link description](https://nickhigham.wordpress.com/)
 
 <https://nickhigham.wordpress.com/> A link without a description.
-
-A DOI (digital object identifier) link:
-[Matching Exponential-Based and Resolvent-Based Centrality Measures](10.1093/comnet/cnv016)
 
 A horizontal line, fill-width across the page:
 
@@ -95,13 +92,3 @@ LaTeX macros can be included: \\(x\_2 = \alpha + \beta^2 - \gamma\\).
 just a atest
 aldkfjasldkf
 ```
-
-
-## <span class="section-num">3</span> Notes {#notes}
-
--   PE client library
-    -   input: coID, testcode, VRC,  (not need pacID)
-    -   output: PEID
--   new endpoint for creating PE order (PHP team),
-    -   Which service , (prefer to be part of my-health-workflow, by Zubin)
--   How to test it?

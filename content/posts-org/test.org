@@ -61,8 +61,7 @@ Paragraphs are separated by at least one empty line.
 
 https://nickhigham.wordpress.com/ A link without a description.
 
-A DOI (digital object identifier) link: 
-[[doi:10.1093/comnet/cnv016][Matching Exponential-Based and Resolvent-Based Centrality Measures]]
+
 
 A horizontal line, fill-width across the page:
 -----
@@ -127,11 +126,3 @@ just a atest
 aldkfjasldkf
 #+end_src
 
-* Notes
- - PE client library 
-   - input: coID, testcode, VRC,  (not need pacID)
-   - output: PEID
- - new endpoint for creating PE order (PHP team), 
-   - Which service , (prefer to be part of my-health-workflow, by Zubin)
- - How to test it?
- 
