@@ -8,7 +8,7 @@
 #+TITLE:     LeetCode tips
 #+AUTHOR:    Fei Ni
 #+EMAIL:     fei.ni@helix.com
-#+DATE:      2022-01-23
+#+DATE:      2022-02-09
 #+HUGO_CATEGORIES: helix
 #+HUGO_tags: helix
 #+hugo_auto_set_lastmod: t
