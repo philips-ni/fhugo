@@ -173,3 +173,100 @@ Optionally describe and diagram what the current environment and workflow
  - 1 VseqBatch can include 1000+ sample's VseqAnalyses
 
 
+* Vseq core info
+
+ - https://github.com/myhelix/helix-sars-klados
+ - https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/stackinfo?stackId=arn%3Aaws%3Acloudformation%3Aus-east-1%3A409670809604%3Astack%2FHelixSarsKlados%2F18cd4aa0-ce1e-11eb-b7f1-0eaa1a5b8293
+
+* SNS & SQS cross account integration
+#+begin_src bash
+
+Fei Ni Today at 1:36 PM
+hey, any guidance/example about SNS & SQS cross-account integration? my use case is , SNS is in master account, SQS is in hipaa zone (edited) 
+
+Chad Nicely  4 hours ago
+fulfillment-workflow may provide some good examples - specifically the access policy on the SNS topic in master. Note the "subaccount-subscriptions" statement, which delegates permissions to principals (e.g. roles) in hipaa-production (032052122631):
+{
+  "Version": "2012-10-17",
+  "Id": "__default_policy_ID",
+  "Statement": [
+    ...
+    {
+      "Sid": "subaccount-subscriptions",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": [
+          "arn:aws:iam::032052122631:root",
+          "arn:aws:iam::424766430878:root"
+        ]
+      },
+      "Action": [
+        "SNS:Subscribe",
+        "SNS:Receive"
+      ],
+      "Resource": "arn:aws:sns:us-east-1:820411415250:fulfillment-workflow-production"
+    }
+  ]
+}
+
+Chad Nicely  4 hours ago
+@fei.ni are you wanting to do this in a CDK project?
+
+Fei Ni  4 hours ago
+ya
+
+Fei Ni  4 hours ago
+thanks @chad.nicely
+
+Chad Nicely  4 hours ago
+This particular project was provisioned with terraform monorepo, and takes advantage of "peer accounts" in the environments module. We may have a CDK example of this as well, but I need to have a look.
+
+Chad Nicely  4 hours ago
+Note that a corresponding permission would need to be added to the IAM policies of the role in hipaa-production.
+
+John Corrales  3 hours ago
+We do something similar for the custom resource that manages dns records Its from the early days of our cdk adoption, and not necessarily how i'd write it now, but probably still pretty close. one main difference is HERE where we hardcode the OU id, we can use this.namedEnv.organizationalUnit and it will resolve to the correct value in the correct place.
+recordmanager-stack.ts
+<https://github.com/myhelix/cfn-custom-resources|myhelix/cfn-custom-resources>myhelix/cfn-custom-resources | Added by GitHub
+recordmanager-stack.ts
+<https://github.com/myhelix/cfn-custom-resources|myhelix/cfn-custom-resources>myhelix/cfn-custom-resources | Added by GitHub
+
+Fei Ni  3 hours ago
+cool, thanks John!
+
+John Corrales  3 hours ago
+for the sqs side https://docs.aws.amazon.com/cdk/api/latest/docs/aws-sns-subscriptions-readme.html#amazon-sqs
+docs.aws.amazon.comdocs.aws.amazon.com
+@aws-cdk/aws-sns-subscriptions module · AWS CDK
+Language | Package
+
+John Corrales  3 hours ago
+KMS key permissions will automatically be granted to SNS when a subscription is made to an encrypted queue.
+:+1:
+1
+
+
+John Corrales  3 hours ago
+Oh actually it looks like this.namedEnv.organizationalUnit doesn't resolve to the ou value, would probably have to use this instead, that mapping would be a good addition to cdk-library. maybe we can add that as part of the NamedEnv object as organizationalUnitId
+organization.ts
+class HelixOrganization {
+<https://github.com/myhelix/cdk-library|myhelix/cdk-library>myhelix/cdk-library | Added by GitHub
+:+1:
+1
+
+
+#+end_src
+
+** calling webhook 
+
+#+begin_src bash
+curl -X POST 'https://bssh-events-webhook.staging.helix.com' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer <bearer token>' \
+-d '{
+	"dataType": "AppSessionStatus",
+	"data": "{\"Comments\":\"Execution Status changed\",\"AppSessionId\":\"107199111\",\"AppName\":\"FASTQ Generation 2018-06-30 09:55:42Z\",\"ExecutionStatus\":\"Complete\"}"
+}'
+#+end_src
+* reference 
+ - https://github.com/myhelix/deletion

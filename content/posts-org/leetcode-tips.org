@@ -1,0 +1,943 @@
+#+hugo_base_dir: ../../
+# -*- mode: org; coding: utf-8; -*-
+* Header Information                                               :noexport:
+#+LaTeX_CLASS_OPTIONS: [11pt]
+#+LATEX_HEADER: \usepackage{helvetica}
+#+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
+#+LATEX_HEADER: \usepackage{geometry}
+#+TITLE:     LeetCode tips
+#+AUTHOR:    Fei Ni
+#+EMAIL:     fei.ni@helix.com
+#+DATE:      2022-01-23
+#+HUGO_CATEGORIES: helix
+#+HUGO_tags: helix
+#+hugo_auto_set_lastmod: t
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+OPTIONS:   ^:{}
+#+INFOJS_OPT: view:nil toc:nil ltoc:nil mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+HTML_HEAD: <link rel="stylesheet" href="org.css" type="text/css"/>
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:
+#+LINK_HOME:
+#+XSLT:
+
+#+STARTUP: hidestars
+
+#+STARTUP: overview   (or: showall, content, showeverything)
+http://orgmode.org/org.html#Visibility-cycling  info:org#Visibility cycling
+
+#+TODO: TODO(t) NEXT(n) STARTED(s) WAITING(w@/!) SOMEDAY(S!) | DONE(d!/!) CANCELLED(c@/!)
+http://orgmode.org/org.html#Per_002dfile-keywords  info:org#Per-file keywords
+
+#+TAGS: important(i) private(p)
+#+TAGS: @HOME(h) @OFFICE(o)
+http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
+
+#+NOstartup: beamer
+#+NOLaTeX_CLASS: beamer
+#+NOLaTeX_CLASS_OPTIONS: [bigger]
+#+NOBEAMER_FRAME_LEVEL: 2
+
+
+# Start from here
+
+
+* Bit o/p
+** set a bit in pos for number
+   #+begin_src c++
+num |= (1 << pos);
+   #+end_src
+** unset/clear a bit in pos for number
+   #+begin_src c++
+num &= (~(1 << pos));
+   #+end_src
+
+** Toggling a bit at nth position
+   #+begin_src c++
+num ^= (1 << pos);
+   #+end_src
+
+** Checking if bit at nth position is set or unset:
+   #+begin_src c++
+bool bit = num & (1<<pos);
+   #+end_src
+
+** Stripping off the lowest set bit :
+   #+begin_src c++
+num = num & (num-1);
+   #+end_src
+** Getting lowest set bit of a number
+
+   #+begin_src c++
+int ret = num & (-num);
+   #+end_src
+** XOR
+   #+begin_src c++
+     0^N == N
+     N^N == 0
+     M^N == N^M
+     a^b^a = b
+   #+end_src
+
+   #+begin_src python
+     '''
+     Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.
+
+     You must write an algorithm that runs in linear runtime complexity and uses only constant extra space.
+
+
+
+     Example 1:
+
+     Input: nums = [1,2,1,3,2,5]
+     Output: [3,5]
+     Explanation:  [5, 3] is also a valid answer.
+     '''
+    from functools import reduce
+    class Solution(object):
+        def singleNumber(self, nums):
+  	  a_xor_b = reduce(lambda x, y: x ^ y, nums)
+  	  xor_sum = dict()
+  	  for a in nums:
+  	      b = a_xor_b ^ a
+  	      if b in xor_sum and xor_sum[b] == a:
+  		  return [b,a]
+  	      xor_sum[a] = b
+   #+end_src
+   - https://leetcode.com/problems/binary-gap/
+   - https://leetcode.com/problems/single-number-iii/
+   - https://leetcode.com/problems/decode-xored-permutation/
+   - https://emre.me/computer-science/bit-manipulation-tricks/
+* Linked List
+  #+begin_src python
+ class ListNode(object):
+     def __init__(self, x):
+         self.val = x
+         self.next = None
+  #+end_src
+  #+begin_src c++
+ struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode() : val(0), next(nullptr) {}
+     ListNode(int x) : val(x), next(nullptr) {}
+     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ };
+  #+end_src
+  - Dummy node
+  - three points (pre, curr, next)
+  - https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
+  - https://leetcode.com/problems/reverse-linked-list/
+  - https://leetcode.com/problems/lru-cache/ (hash + linkedList)
+  - https://leetcode.com/problems/lfu-cache/
+    #+begin_src c++
+      list<int> usage;
+      //  insert key into the begin of list
+      usage.insert(usage.begin(), key);
+      // move the node of it to the begin of list
+      usage.splice(usage.begin(), usage, it);
+   #+end_src
+* tortoise & hare
+  #+begin_src python
+class Solution:
+    def findDuplicate(self, nums):
+        # Find the intersection point of the two runners.
+        tortoise = nums[0]
+        hare = nums[0]
+        while True:
+            # print "tortoise: %d, hare: %d" % (tortoise, hare)
+            tortoise = nums[tortoise]
+            hare = nums[nums[hare]]
+            # print "tortoise: %d, hare: %d" % (tortoise, hare)
+            if tortoise == hare:
+                break
+        # Find the "entrance" to the cycle.
+        ptr1 = nums[0]
+        ptr2 = tortoise
+        while ptr1 != ptr2:
+            ptr1 = nums[ptr1]
+            ptr2 = nums[ptr2]
+        return ptr1
+  #+end_src
+* Sliding window
+  Sliding Window Technique is a method for finding subarrays in an array that satisfy given conditions.
+  We do this via maintaining a subset of items as our window, and resize and move that window within the larger list until we find a solution.
+  Sliding Window Technique is a subset of Dynamic Programming, and it frequently appears in algorithm interviews.
+
+  Examples:
+- Easy: Statically Sized Sliding Window: Given an array of integers, find maximum/minimum sum subarray of the required size.
+- Medium: Dynamically Sized Sliding Window: Given an array of positive integers, find the subarrays that add up to a given number.
+- Variation (Medium): Same question but for an array with all integers (positive, 0, negative). The optimal solution is Kadane’s Algorithm, but Sliding Window can still be applied with modifications (not recommended though).
+- Medium: Flipping/Swapping: Given an array of 0’s and 1’s, find the maximum sequence of continuous 1’s that can be formed by flipping at-most k 0’s to 1’s.
+- Hard: Strings: Given a string and n characters, find the shortest substring that contains all the desired characters.
+
+  #+begin_src python
+    # Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+    # Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+    # Output: 6
+    # Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+    # Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+    class Solution:
+	def longestOnes(self, nums: List[int], k: int) -> int:
+	    left = 0
+	    for right in range(len(nums)):
+		# If we included a zero in the window we reduce the value of k.
+		# Since k is the maximum zeros allowed in a window.
+		k -= 1 - nums[right]
+		# A negative k denotes we have consumed all allowed flips and window has
+		# more than allowed zeros, thus increment left pointer by 1 to keep the window size same.
+		if k < 0:
+		    # If the left element to be thrown out is zero we increase k.
+		    k += 1 - nums[left]
+		    left += 1
+	    return right - left + 1
+
+  #+end_src
+Links:
+ - https://quanticdev.com/algorithms/dynamic-programming/sliding-window/
+ - https://leetcode.com/problems/max-consecutive-ones-iii
+* Heap
+
+  scenarios:
+   - top K ordered items
+   - two-heaps pattern,  where we are given a set of elements such that we can divide them into two parts, To be able to solve these kinds of problems, we want to know the smallest element in one part and the biggest element in the other part.
+     - https://emre.me/coding-patterns/two-heaps/
+
+  Notes:
+  - python default heap is minHeap
+  - C++ default heap is maxHeap
+
+  
+  #+begin_src cpp
+    class Solution {
+    public:
+	int findKthLargest(vector<int>& nums, int k) {
+            // using minHeap here
+	    priority_queue<int, vector<int>, greater<int>> pq;
+	    for (int num : nums) {
+		pq.push(num);
+		if (pq.size() > k) {
+		    pq.pop();
+		}
+	    }
+	    return pq.top();
+	}
+    };
+  #+end_src
+  #+begin_src python
+def findKthLargest(self, nums, k):
+    heap = nums[:k]
+    heapify(heap)
+    for n in nums[k:]:  heappushpop(heap, n)
+    return heap[0]
+  #+end_src
+
+  #+begin_src python
+from heapq import *
+
+class MedianFinder:
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.small = []
+        self.large = []
+        # heapq.heapify(self.small)
+        # heapq.heapify(self.large)
+        
+
+    def addNum(self, num: int) -> None:
+        heapq.heappush(self.small,num)
+        tmp = heapq.heappop(self.small)
+        heapq.heappush(self.large, -1 * tmp)
+        if len(self.large) > len(self.small):
+            tmp = heapq.heappop(self.large)
+            heapq.heappush(self.small, -1 * tmp)
+        
+
+    def findMedian(self) -> float:
+        if len(self.large) == len(self.small):
+            return (-1 * self.large[0] + self.small[0]) / 2
+        else:
+            return self.small[0]
+  #+end_src
+  
+  - https://leetcode.com/problems/find-median-from-data-stream/
+* Binary Search
+  #+begin_src c++
+    vector<int> searchRange(vector<int>& nums, int target) {
+	 return {findBound(nums, target, true), findBound(nums, target, false)};
+    }
+
+     int findBound(vector<int>& nums, int target, bool lower) {
+	 int l = 0, r = nums.size() - 1, answer = -1;
+
+	 while(l <= r) {
+	     int mid = (l+r)/2;
+	     if (nums[mid] == target) {
+		 answer = mid; // keep the current answer as you mignt not be able to comback if this was the answer.
+		 if (lower) {
+		     r = mid - 1;
+		 } else {
+		     l = mid + 1;
+		 }
+	     } else if (nums[mid] > target) {
+		 r = mid - 1;
+	     } else {
+		 l = mid + 1;
+	     }
+	 }
+
+	 return answer;
+     }
+  #+end_src
+  #+begin_src python
+import bisect
+
+# bisect_left(a, x, lo=0, hi=None)
+# This method returns the index i where must be inserted the value x such that list a is kept ordered
+a = [1, 3, 5, 6, 7, 9, 10, 12, 14]
+x = 8
+# i = bisect.bisect_left(a, x, lo=2, hi=7) # [5, 6, 7, 9, 10]
+i = bisect.bisect_left(a, x)
+print(i) # 5
+a.insert(i, x)
+print(a) # [1, 3, 5, 6, 7, 8, 9, 10, 12, 14]
+
+# bisect_right(a, x, lo=0, hi=None)
+# This function works the same as bisect_left but in the event that x value already appears in the a list , the index i would be just after the rightmost x value already there.
+a = [1, 2, 3, 4, 4, 7]
+x = 4
+i = bisect.bisect_right(a, x)
+print(i) # 5
+
+a.insert(i, x)
+print(a) # [1, 2, 3, 4, 4, 4, 7]
+  #+end_src
+   - https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+* Rolling Hash
+  #+begin_src c++
+    class Solution {
+    public:
+	string longestPrefix(string &s) {
+	    long h1 = 0, h2 = 0, mul = 1, len = 0, mod = 1000000007;
+	    for (int i = 0, j = s.length() - 1; j > 0; ++i, --j) {
+		int first = s[i] - 'a', last = s[j] - 'a';
+		h1 = (h1 * 26 + first) % mod;
+		h2 = (h2 + mul * last) % mod;
+		mul = mul * 26 % mod;
+		if (h1 == h2)
+		    len = i + 1;
+	    }
+	    return s.substr(0, len);
+	}
+    };
+
+  #+end_src
+  #+begin_src python
+    class Solution(object):
+	def longestPrefix(self, s):
+	    hashF = hashB = 0
+	    code = 32
+	    mod = int(1e9 + 7)
+
+	    l = 0
+	    mul = 1
+	    for i in range(len(s) - 1):
+		hashF = (hashF * code + ord(s[i])) % mod
+		hashB = (hashB + ord(s[~i]) * mul) % mod
+		mul = (mul * code) % mod
+		if hashF == hashB:
+		    l = i + 1
+	    return s[:l]
+
+  #+end_src
+  - https://leetcode.com/problems/longest-happy-prefix/
+* Stack
+  - https://leetcode.com/problems/valid-parentheses/
+
+* Monotonic stack
+  #+begin_src python
+    # trapping-rain-water
+    class Solution:
+	def trap(self, height: List[int]) -> int:
+	    res, stk = 0, []
+	    for i in range(len(height)):
+		while stk and height[i] > height[stk[-1]]:
+		    h = height[stk.pop()]
+		    if stk:
+			minH = min(height[stk[-1]], height[i])
+			res += (minH - h) * (i - stk[-1] - 1)
+		stk.append(i)
+	    returnb2 res
+  #+end_src
+  - https://leetcode.com/problems/largest-rectangle-in-histogram/
+  - https://leetcode.com/problems/trapping-rain-water/
+* Queue  
+
+* Monotonic queue
+
+* Tree traverse
+  - https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/?ref=lbp
+  - 
+* Trie Tree
+  #+begin_src bash
+    A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings.
+    There are various applications of this data structure, such as autocomplete and spellchecker.
+
+    Implement the Trie class:
+
+    Trie() Initializes the trie object.
+    void insert(String word) Inserts the string word into the trie.
+    boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
+    boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
+  #+end_src
+
+
+  #+begin_src python
+class TrieNode:
+    # Initialize your data structure here.
+    def __init__(self):
+        self.children = collections.defaultdict(TrieNode)
+        self.is_word = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    def insert(self, s):
+        curr = self.root
+        for i in s:
+            curr = curr.children[i]
+        curr.is_word = True
+    def search(self, s):
+        curr = self.root
+        for i in s:
+            if i in curr.children:
+                curr = curr.children[i]
+            else:
+                return False
+        return curr.is_word
+
+    def startsWith(self,s):
+        curr = self.root
+        for i in s:
+            if i in curr.children:
+                curr = curr.children[i]
+            else:
+                return False
+        return True
+  #+end_src
+  #+begin_src c++
+class Trie {
+public:
+    Trie() {}
+
+    void insert(string word) {
+        Trie* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { node->next[ch] = new Trie(); }
+            node = node->next[ch];
+        }
+        node->isword = true;
+    }
+
+    bool search(string word) {
+        Trie* node = this;
+        for (char ch : word) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return node->isword;
+    }
+
+    bool startsWith(string prefix) {
+        Trie* node = this;
+        for (char ch : prefix) {
+            if (!node->next.count(ch)) { return false; }
+            node = node->next[ch];
+        }
+        return true;
+    }
+
+private:
+    map<char, Trie*> next = {};
+    bool isword = false;
+};
+  #+end_src
+   - https://leetcode.com/problems/implement-trie-prefix-tree/submissions/
+
+* Segment Tree
+  #+begin_src python
+#Segment tree node
+class Node(object):
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+        self.total = 0
+        self.left = None
+        self.right = None
+
+class NumArray(object):
+    def __init__(self, nums):
+        """
+        initialize your data structure here.
+        :type nums: List[int]
+        """
+        #helper function to create the tree from input array
+        def createTree(nums, l, r):
+            #base case
+            if l > r:
+                return None
+            #leaf node
+            if l == r:
+                n = Node(l, r)
+                n.total = nums[l]
+                return n
+            mid = (l + r) // 2
+            root = Node(l, r)
+            #recursively build the Segment tree
+            root.left = createTree(nums, l, mid)
+            root.right = createTree(nums, mid+1, r)
+            
+            #Total stores the sum of all leaves under root
+            #i.e. those elements lying between (start, end)
+            root.total = root.left.total + root.right.total
+            return root
+        self.root = createTree(nums, 0, len(nums)-1)
+            
+    def update(self, i, val):
+        """
+        :type i: int
+        :type val: int
+        :rtype: int
+        """
+        #Helper function to update a value
+        def updateVal(root, i, val):
+            #Base case. The actual value will be updated in a leaf.
+            #The total is then propogated upwards
+            if root.start == root.end:
+                root.total = val
+                return val
+            mid = (root.start + root.end) // 2
+            #If the index is less than the mid, that leaf must be in the left subtree
+            if i <= mid:
+                updateVal(root.left, i, val)
+            #Otherwise, the right subtree
+            else:
+                updateVal(root.right, i, val)
+            #Propogate the changes after recursive call returns
+            root.total = root.left.total + root.right.total
+            
+            return root.total
+        
+        return updateVal(self.root, i, val)
+
+    def sumRange(self, i, j):
+        """
+        sum of elements nums[i..j], inclusive.
+        :type i: int
+        :type j: int
+        :rtype: int
+        """
+        #Helper function to calculate range sum
+        def rangeSum(root, i, j):
+            #If the range exactly matches the root, we already have the sum
+            if root.start == i and root.end == j:
+                return root.total
+            mid = (root.start + root.end) // 2
+            #If end of the range is less than the mid, the entire interval lies
+            #in the left subtree
+            if j <= mid:
+                return rangeSum(root.left, i, j)
+            #If start of the interval is greater than mid, the entire inteval lies
+            #in the right subtree
+            elif i >= mid + 1:
+                return rangeSum(root.right, i, j)
+            #Otherwise, the interval is split. So we calculate the sum recursively,
+            #by splitting the interval
+            else:
+                return rangeSum(root.left, i, mid) + rangeSum(root.right, mid+1, j)
+        return rangeSum(self.root, i, j)
+
+# Your NumArray object will be instantiated and called as such:
+# numArray = NumArray(nums)
+# numArray.sumRange(0, 1)
+# numArray.update(1, 10)
+# numArray.sumRange(1, 2)
+  #+end_src
+   - https://leetcode.com/problems/range-sum-query-mutable/
+* Binary index tree （树状数组)
+  It's also named as Fenwick tree
+  Doing similar work as segment tree, less code, both are good at rangeSum and rangeQuery
+  The idea to create a array bit, bit[x] store the sum of bit[x,x+lowBit(x)-1] inclusive.
+  please notice, bit is using 1-based indexing
+  - [[https://blog.csdn.net/bestsort/article/details/80796531?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7EHighlightScore-3.queryctrv2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7EHighlightScore-3.queryctrv2&utm_relevant_index=6][About binary index tree]]
+  - https://www.youtube.com/watch?v=RgITNht_f4Q
+  #+begin_src python
+    def lowBit(n):
+	return n & (-n)
+    class BIT:
+	def __init__(self, size):
+	    self.bit = [0] * (size + 1)
+
+	def getSum(self, idx):  # Get sum in range [1..idx], 1-based indexing
+	    s = 0
+	    while idx > 0:
+		s += self.bit[idx]
+		idx -= lowBit(idx)
+	    return s 
+
+	def getSumRange(self, left, right):  # left, right inclusive, 1-based indexing
+	    return self.getSum(right) - self.getSum(left - 1)
+
+	def addValue(self, idx, val):  # 1-based indexing
+	    while idx < len(self.bit):
+		self.bit[idx] += val
+		idx += lowBit(idx)
+
+    class NumArray:
+
+	def __init__(self, nums: List[int]):
+	    self.nums = nums
+	    self.bit = BIT(len(nums))
+	    for i, v in enumerate(nums):
+		self.bit.addValue(i+1, v)
+
+	def update(self, index: int, val: int) -> None:
+	    diff = val - self.nums[index]  # get diff amount of `val` compared to current value
+	    self.bit.addValue(index+1, diff)  # add this `diff` amount at index `index+1` of BIT, plus 1 because in BIT it's 1-based indexing
+	    self.nums[index] = val # update latest value of `nums[index]`
+
+	def sumRange(self, left: int, right: int) -> int:
+	    return self.bit.getSumRange(left+1, right+1)
+  #+end_src
+   - https://leetcode.com/problems/range-sum-query-mutable/discuss/1406686/C%2B%2BJavaPython-Binary-Indexed-Tree
+   - https://zhuanlan.zhihu.com/p/92920381
+* Union Find
+  
+  #+begin_src python
+    # Idea: find minimal edges to make graph fully traversable
+    # - we can use union-find here, we will have 2 union here, one for Alice, one for Bob
+    # - because type 3 may add travese for both Alice and Boby, so we will pick such edges firstly
+    # - every time while we pick one edge, we update the union, also update the requiredEdgeNum, if both node of this edge alread in union, we don't need add this edge
+    # - At the end we check if both union are fully connected, if yes, the answer is len(edges) - requiredEdgeNum
+    class UnionFind:
+	def __init__(self,n):
+	    self.distinct_component_num = n
+	    self.components = list(range(n+1))
+	def union(self,i,j):
+	    if self.find(i) == self.find(j):
+		return False
+	    else:
+		self.components[self.find(i)] = j
+		self.distinct_component_num -= 1
+		return True
+    
+	def find(self,i):
+	    if i == self.components[i]:
+		return i
+	    else:
+		self.components[i] = self.find(self.components[i])
+		return self.components[i]
+    
+	def connected(self):
+	    return self.distinct_component_num == 1
+        
+    class Solution:
+	def maxNumEdgesToRemove(self, n: int, edges: List[List[int]]) -> int:
+	    required_edge_num = 0
+	    edges.sort(key=lambda x:x[0], reverse = True)
+	    alice = UnionFind(n)
+	    bob = UnionFind(n)
+	    for e in edges:
+		if e[0] == 3:
+		    tmp1 = alice.union(e[1],e[2])  
+		    tmp2 = bob.union(e[1],e[2])
+		    if tmp1 or tmp2:
+			required_edge_num += 1
+		elif e[0] == 2:
+		    if bob.union(e[1],e[2]):
+			required_edge_num += 1
+		elif e[0] == 1:
+		    if alice.union(e[1],e[2]):
+			required_edge_num += 1
+	    if alice.connected() and bob.connected():
+		return len(edges) - required_edge_num
+	    else:
+		return -1
+  #+end_src
+ - https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/
+ - https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/
+ - https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/
+* DFS
+  #+begin_src python
+class Solution:
+    def numIslands(self, grid):
+        if not grid:
+            return 0
+
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == '1':
+                    self.dfs(grid, i, j)
+                    count += 1
+        return count
+
+    def dfs(self, grid, i, j):
+        if i<0 or j<0 or i>=len(grid) or j>=len(grid[0]) or grid[i][j] != '1':
+            return
+        grid[i][j] = '#'
+        self.dfs(grid, i+1, j)
+        self.dfs(grid, i-1, j)
+        self.dfs(grid, i, j+1)
+        self.dfs(grid, i, j-1)
+  #+end_src
+ - https://leetcode.com/problems/number-of-islands/
+* BFS
+  #+begin_src python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+        q = deque([root])
+        ret = []
+        level = 0
+        while len(q) > 0:
+            sz = len(q)
+            current = [-1] * sz
+            for i in range(0,sz):
+                node = q.popleft()
+                if level % 2 == 0:
+                    current[i] = node.val
+                else:
+                    current[sz-i-1] = node.val
+                if node.left: q.append(node.left)
+                if node.right: q.append(node.right)
+            level += 1
+            ret.append(current)
+        return ret    
+  #+end_src
+  - https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+* Sort
+
+Sort 2D array
+   #+begin_src cpp
+     vector<vector<int>>& edges;
+     sort(begin(edges), end(edges),
+	  [](vector<int>& a, vector<int>& b) { return a[0] > b[0]; });
+   #+end_src
+
+   #+begin_src python
+     edges: List[List[int]]
+     edges.sort(key:lambda x: x[0], reverse=False)
+   #+end_src
+
+   More python example:
+#+begin_src python
+l = [[1,2,3],[3,4,6,],[2,4,5],[2,101,5],[2,34,1]]
+l.sort(key=lambda x: (x[0],x[1]), reverse=True)
+print(l)
+
+
+students= [['Harry', 37.21], ['Berry', 37.21], ['Tina', 37.2], ['Akriti', 41.0], ['Harsh', 39.0]]
+
+def compare(e):
+  return (e[1],e[0])
+
+students = sorted(students,key=compare)
+print(students)
+
+
+# task: sort the list of strings, such that items listed as '_fw' come before '_bw'
+foolist = ['Goo_fw', 'Goo_bw', 'Foo_fw', 'Foo_bw', 'Boo_fw', 'Boo_bw']
+
+def sortfoo(s):
+    s1, s2 = s.split('_')
+    r = 1 if s2 == 'fw' else 2     # forces 'fw' to come before 'bw'
+    return (r, s1)                 # order first by 'fw'/'bw', then by name
+
+foolist.sort(key=sortfoo)          # sorts foolist inplace
+
+print(foolist)
+# prints:
+# ['Boo_fw', 'Foo_fw', 'Goo_fw', 'Boo_bw', 'Foo_bw', 'Goo_bw']
+
+#+end_src
+* Topology sort
+  #+begin_src python
+class Solution:    
+    def findOrder(self, N,P):
+        graph = defaultdict(list)
+        indegree = [0] * N
+        q = deque()
+        ans = []
+        for nxt, pre in P:
+            graph[pre].append(nxt)
+            indegree[nxt] += 1
+        for i in range(N):
+            if indegree[i] == 0:
+                q.append(i)
+        while q:
+            cur = q.popleft()
+            ans.append(cur)
+            for nxt in graph[cur]:
+                indegree[nxt] -= 1
+                if indegree[nxt] == 0:
+                    q.append(nxt)
+        return ans if len(ans) == N else []
+  #+end_src
+  - https://leetcode.com/problems/course-schedule/
+  - https://leetcode.com/problems/course-schedule-ii/
+  
+* DP
+  #+begin_src python
+class Solution:
+    def maxValue(self, events: List[List[int]], k: int) -> int:        
+        events.sort()
+        starts = [x for x,y,z in events]
+        
+        @lru_cache(None)
+        def dp(idx, k):
+            if k == 0 or idx >= len(events):
+                return 0
+            next_event = bisect_right(starts, events[idx][1])
+            return max(dp(idx+1, k), events[idx][2] + dp(next_event, k-1))
+    
+        return dp(0,k)
+  #+end_src
+  - https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/
+* Backtracking
+  #+begin_src python
+#Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+class Solution(object):
+    def permute(self, l):
+        if len(l) == 0:
+            return [[]]
+        permuations = []
+        curr = []
+        isVisited = [False] * len(l)
+        self.backTracking(permuations, curr, isVisited, l)
+        return permuations
+
+    def backTracking(self, permuations,  curr, isVisited, l):
+        if len(curr) == len(l):
+            permuations.append(curr[:])
+            return
+
+        for i in range(len(l)):
+            if not isVisited[i]:
+                isVisited[i] = True
+                curr.append(l[i])
+                self.backTracking(permuations, curr, isVisited, l)
+                isVisited[i] = False
+                curr.pop()
+  #+end_src
+   - https://leetcode.com/problems/permutations/submissions/
+   - https://leetcode.com/problems/word-search-ii/
+*  Standard parser implementation
+  #+begin_src python
+class Solution:
+    # Standard parser implementation based on this BNF
+    #   s := expression
+    #   expression := term | term { [+,-] term] }
+    #   term := factor | factor { [*,/] factor] }
+    #   factor :== digit | '(' expression ')'
+    #   digit := [0..9]
+    
+    def expTree(self, s: str) -> 'Node':
+        tokens = collections.deque(list(s))
+        return self.parse_expression(tokens)
+
+    def parse_expression(self, tokens):
+        lhs = self.parse_term(tokens)
+        while len(tokens) > 0 and tokens[0] in ['+', '-']:
+            op = tokens.popleft()
+            rhs = self.parse_term(tokens)
+            lhs = Node(val=op, left=lhs, right=rhs)
+        return lhs
+    
+    def parse_term(self, tokens):
+        lhs = self.parse_factor(tokens)
+        while len(tokens) > 0 and tokens[0] in ['*', '/']:
+            op = tokens.popleft()
+            rhs = self.parse_factor(tokens)
+            lhs = Node(val=op, left=lhs, right=rhs)
+        return lhs
+
+    def parse_factor(self, tokens):
+        if tokens[0] == '(':
+            tokens.popleft() # consume '('
+            node = self.parse_expression(tokens)
+            tokens.popleft() # consume ')'
+            return node
+        else:
+            # Single operand
+            token = tokens.popleft()
+            return Node(val=token)
+  #+end_src
+  - https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/
+* multiple threading
+  #+begin_src python
+from threading import Lock
+
+class Foo:
+    def __init__(self):
+        self.locks = (Lock(),Lock())
+        self.locks[0].acquire()
+        self.locks[1].acquire()
+        
+    def first(self, printFirst):
+        printFirst()
+        self.locks[0].release()
+        
+    def second(self, printSecond):
+        with self.locks[0]:
+            printSecond()
+            self.locks[1].release()
+            
+            
+    def third(self, printThird):
+        with self.locks[1]:
+            printThird()
+  #+end_src
+
+** dead lock
+   A deadlock is a situation in which processes block each other due to resource acquisition and none of the processes makes any progress as they wait for the resource held by the other process.
+   To successfully characterize a scenario as deadlock, the following four conditions must hold simultaneously:
+
+    - Mutual Exclusion: At least one resource needs to be held by a process in a non-sharable mode. Any other process requesting that resource needs to wait.
+    - Hold and Wait: A process must hold one resource and requests additional resources that are currently held by other processes.
+    - No Preemption: A resource can’t be forcefully released from a process. A process can only release a resource voluntarily once it deems to release.
+    - Circular Wait: A set of a process {p0, p1, p2,.., pn} exists in a manner that p0 is waiting for a resource held by p1, pn-1 waiting for a resource held by p0.
+** live lock
+   In the case of a livelock, the states of the processes involved in a live lock scenario constantly change. On the other hand, the processes still depend on each other and can never finish their tasks.
+
+** Starvation
+   Starvation is an outcome of a process that is unable to gain regular access to the shared resources it requires to complete a task and thus, unable to make any progress.
+
+   One of the possible solutions to prevent starvation is to use a resource scheduling algorithm with a priority queue that also uses the aging technique. Aging is a technique that periodically increases the priority of a waiting process. With this approach, any process waiting for a resource for a longer duration eventually gains a higher priority. And as the resource sharing is driven through the priority of the process, no process starves for a resource indefinitely.
+
+   Another solution to prevent starvation is to follow the round-robin pattern while allocating the resources to a process. In this pattern, the resource is fairly allocated to each process providing a chance to use the resource before it is allocated to another process again.
+
+** Race condition
+   When two processes are competing with each other causing data corruption
+   - https://leetcode.com/problems/design-bounded-blocking-queue/
+   - https://leetcode.com/problemset/concurrency/
+   - https://leetcode.com/problems/print-in-order/discuss/335939/5-Python-threading-solutions-(Barrier-Lock-Event-Semaphore-Condition)-with-explanation
+   - https://www.baeldung.com/cs/deadlock-livelock-starvation
+
+
+* Links
+  - https://emre.me/categories/#coding-patterns

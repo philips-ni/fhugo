@@ -1,8 +1,8 @@
 +++
 title = "HTTP CORS error"
 author = ["Fei Ni"]
-date = 2021-06-12T07:03:56-07:00
-lastmod = 2021-06-12T07:03:56-07:00
+date = 2021-12-20T09:15:01-08:00
+lastmod = 2021-12-20T09:15:01-08:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false

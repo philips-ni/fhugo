@@ -188,5 +188,24 @@ def main():
 if __name__ == "__main__":
     sys.exit(main())
    #+end_src
+
+* BatchID to step functions execution ARN
+Searching ODB
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-oncall sample_biosample (b_dev_add_samplesheet_util *%)]$ psql -h odb.helix.com -p 5439 -U opsread odb
+Password for user opsread:
+psql (14.1, server 8.0.2)
+SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+odb=> SELECT json_executionarn FROM sm_batch_current WHERE id = 'BA-4TKYFURG2YBDQNJXE4GB2HRBWGEXINDA';
+                                                           json_executionarn
+----------------------------------------------------------------------------------------------------------------------------------------
+ arn:aws:states:us-east-1:820411415250:execution:analysis-workflow-production-cnv-state-machine-dp:da67eedc-46f3-40ea-b0a8-829f6ede3ecc
+(1 row)
+#+end_src
+
 * Links
   - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1029439860/Genomic+Data+Service+Process+System+Overview#Sample-Callsets
+
+

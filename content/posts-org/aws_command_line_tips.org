@@ -99,3 +99,10 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 [fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev fei_work]$ aws batch submit-job  --cli-input-json file://job.json
 #+end_src
+* Publish to SNS
+#+begin_src bash
+aws sns publish \
+    --subject "My Subject " \
+    --message "Hello world " \
+    --topic-arn "YOUR SNS TOPIC ARN"
+#+end_src

@@ -189,3 +189,164 @@ CTL-LP0007369-SUR-H12   PROD_AMP_NV0415415-LIB  None    None    None    None    
 ...
 #+end_src
 
+
+
+* Test data
+
+** From Andrew
+
+Helix R&D run NV0415323-LIB_CAP has FASTQ Generation parent appsession ID 482506238:
+https://helix.basespace.illumina.com/analyses/482506238/info
+
+** input for lambda
+#+begin_src bash
+[
+  {
+    "Idx": 0,
+    "SampleID": "STM-P4Q6JJ67J",
+    "SampleName": "LP0002001-SURC_STM-P4Q6JJ67J",
+    "RunName": "NV0415323-LIB_CAP",
+    "AppSessionId": "482506238",
+    "ProcessDate": "2021-12-02",
+    "ExpectedFastqFileNum": 4
+  },
+  {
+    "Idx": 1,
+    "SampleID": "STM-8KEDGJMHV",
+    "SampleName": "LP0002002-SURC_STM-8KEDGJMHV",
+    "RunName": "NV0415323-LIB_CAP",
+    "AppSessionId": "482506238",
+    "ProcessDate": "2021-12-02",
+    "ExpectedFastqFileNum": 4
+  }
+]
+#+end_src
+
+* New flow
+ - call BSSH API to get SampleSheet and reorg into this format
+
+#+begin_src bash
+SampleID        Lanes   Sample_Name     index   index2  Sample_Project
+CTL-LP0007362-SUR-A01   1,2     CTL-LP0007362-SUR-A01   TACCTGGCAA      TATAGCCAGG      Delta
+CTL-LP0007362-SUR-H12   1,2     CTL-LP0007362-SUR-H12   GTAACAGGAA      TGTCTTCAGA      Delta
+
+SampleID                Sample_Name              ExpectedFastqFileNum
+CTL-LP0007362-SUR-A01    CTL-LP0007362-SUR-A01        4
+
+#+end_src
+
+ - for each sample, we call BSSH API to =demuxSummary= then, while check each lane's PF sum,we get to know the expected fastq files' number X
+ - for each sample, we call BSSH API to get all fastq files, excluding those =QcStatusFailed= files, we get to know the exact fastq files number Y
+ - If X == Y, we will create batch job batch job json input , otherwise, ????
+#+begin_src bash
+            data = {'config': {
+                # Sample-specific parameters.
+                'analysis.sample': biosample_name,
+                'alignment_input.remote_fastq': presigned_urls_str,
+                'upload.s3_folder': upload_s3_folder,
+                # Common parameters.
+                'analysis.run_name': self.demux_summary.run_name,
+                'environment.SENTIEON_LICENSE': job_sentieon_license,
+                'reference_bundle.basepath': job_ref_bundle,
+                'output.output_dir': job_output_dir,
+                'logs.logs_dir': job_logs_dir,
+                'scratch.scratch_dir': job_scratch_dir,
+            }}
+
+            path = os.path.join(dir_path, '{:d}.fastagenerator_input.json'.format(i))
+            with open(path, 'w') as f:
+                json.dump(data, f, indent=4)
+                f.write('\n')
+
+#+end_src
+
+* E2E test in platform-development
+  
+** webhook
+#+begin_src bash
+
+curl -X POST 'https://bssh-events-webhook.development.helix.com' \
+-H 'Content-Type: application/json' \
+-H 'Authorization: Bearer 9c53bf2600c0407c89d138301d93befd' \
+-d '{
+	"dataType": "AppSessionStatus",
+	"data": "{\"Comments\":\"Execution Status changed\",\"AppSessionId\":\"482506238\",\"AppName\":\"FASTQ Generation 2018-06-30 09:55:42Z\",\"ExecutionStatus\":\"Complete\"}"
+}'
+
+#+end_src
+
+** SNS
+ - arn:aws:sns:us-east-1:820411415250:bssh-events-webhook-development
+ - arn:aws:sns:us-east-1:820411415250:bssh-events-webhook-staging
+
+** SQS 
+ - arn:aws:sqs:us-east-1:409670809604:hipaa-bcl2fastq-listener-processing-sqs
+ - arn:aws:sqs:us-east-1:304674702989:hipaa-analysis-workflow-processing-sqs
+** Lambda
+
+** SNS(master) to SQS(hipaa) integration 
+
+** update SNS policy
+
+#+begin_src javascript
+     {
+       "Effect":"Allow",
+        "Principal":{
+           "AWS":"409670809604"
+         },
+        "Action":"sns:Subscribe",
+        "Resource":"arn:aws:sns:us-east-1:820411415250:bssh-events-webhook-development"
+    },
+#+end_src
+
+** Update SQS policy
+
+* hops bssh tokens
+
+#+begin_src bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev ~]$ hops secret get -e staging -s analysis-workflow -p external-service/basespace/api-key/apiKey
+9c53bf2600c0407c89d138301d93befd
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev ~]$ hops secret get -e production -s analysis-workflow -p external-service/basespace/api-key/apiKey
+c43f3609415a42b0a04fa978fda8d862
+
+[fei.ni@fei-ni-C02FG3R2MD6N-SM platform-dev ~]$ hops secret get -e platform-development -s hipaa-bcl2fastq-listener -p external-service/basespace/api-key/apiKey
+9c53bf2600c0407c89d138301d93befd
+
+
+#+end_src
+
+
+* Step to deploy "Vseq Automation" to production
+
+** CircleCI production deployment for
+  - bssh-events-webhook
+  - hipaa-bcl2fastq-listener
+  - hipaa-analysis-workflow
+
+** hops to add bssh production token
+   - hipaa-bcl2fastq-listener
+     - hops secret add -e hipaa-production -s hipaa-bcl2fastq-listener -p external-service/basespace/api-key/apiKey -v c43f3609415a42b0a04fa978fda8d862
+   - hipaa-analysis-workflow
+     - hops secret add -e hipaa-production -s hipaa-analysis-workflow -p external-service/basespace/api-key/apiKey -v c43f3609415a42b0a04fa978fda8d862
+
+** Add a list of email to result delivery SNS subscription
+
+  - SNS arn: arn:aws:sns:us-east-1:032052122631:vseq-pipeline-result_delivery_topic
+
+  - Email list
+    - andrew.deirossi@helix.com,
+    - efren.sandoval@helix.com,
+    - eric.kil@helix.com,
+    - francisco.tanudjaja@helix.com,
+    - jasmin.rizko@helix.com,
+    - magnus.isaksson@helix.com,
+    - shishi.luo@helix.com,
+    - tera.bates@helix.com
+    - simon.white@helix.com
+    - patricia.wang@helix.com
+    - fei.ni@helix.com
+
+** subscribe SQS in hipaa-production to webhook SNS (in master)
+ 
+ - SNS arn: arn:aws:sns:us-east-1:820411415250:bssh-events-webhook-production
+ - SQS arn: arn:aws:sqs:us-east-1:032052122631:hipaa-bcl2fastq-listener-processing-sqs

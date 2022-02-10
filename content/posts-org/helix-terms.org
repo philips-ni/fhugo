@@ -184,6 +184,16 @@ kitID is also helixBarcode.
   - HPAPI has an event for each Partner (that are constantly polling)
   - Partners query HPAPI for SampleStatusHistory (and/or User/Customer information)
   - When the Partner gets the DataDeliveryComplete event they retrieve the user's subset of digitized dna data (as specified via regions in a BED file) via HGAPI
-
+    
+* How to run terraform locally
+#+begin_src bash
+commit in your terraform directory
+then run ecrlogin
+then run `build.sh` there
+then update the version in your project in build_config.sh
+then from the project youll need to run `build.sh` (Only if you've changed anything inside the project)
+then `ENVIRONMENT=staging DEPLOY_DEV_BUILD=true plan.sh` 
+then `ENVIRONMENT=staging DEPLOY_DEV_BUILD=true deploy.sh`
+#+end_src
 * Links
  - https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1575813721/Running+R2V+CNV+PGx+on+Sequencing+data

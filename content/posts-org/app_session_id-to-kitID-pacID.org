@@ -54,6 +54,7 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 #+begin_src bash
 # Beforeing running this please use GlobalProtect VPN 
 # password can be found from https://helix-engineering.1password.com/vaults/gxhrwag245jkcrq7dvulaivmnq/allitems/2jte2zc3knd4pboslqbtk2o7y4
+H3lix0ps!
 $ psql -h odb.helix.com -p 5439 -U opsread odb
 #+end_src
 

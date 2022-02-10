@@ -1,8 +1,8 @@
 +++
 title = "AWS command line tips"
 author = ["Fei Ni"]
-date = 2021-07-21T14:54:47-07:00
-lastmod = 2021-07-21T14:54:47-07:00
+date = 2021-12-08T09:51:40-08:00
+lastmod = 2021-12-08T09:51:40-08:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -65,4 +65,14 @@ draft = false
 }
 
 [fei.ni@fei-ni-C02FG3R2MD6N-SM master-dev fei_work]$ aws batch submit-job  --cli-input-json file://job.json
+```
+
+
+## <span class="section-num">3</span> Publish to SNS {#publish-to-sns}
+
+```bash
+aws sns publish \
+    --subject "My Subject " \
+    --message "Hello world " \
+    --topic-arn "YOUR SNS TOPIC ARN"
 ```

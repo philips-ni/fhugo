@@ -1,8 +1,8 @@
 +++
 title = "Helix Mapping of those entities"
 author = ["Fei Ni"]
-date = 2021-05-10T07:18:23-07:00
-lastmod = 2021-05-10T07:18:23-07:00
+date = 2022-01-19T14:42:47-08:00
+lastmod = 2022-01-19T14:42:47-08:00
 tags = ["helix"]
 draft = false
 +++
@@ -87,7 +87,7 @@ mysql> select * from appAnalysisMinVersions
  | AP-4QMZA6ZSXJBTGCXTYVNWUPJDU3X2W7IO | r2v                 |       1 | 2.3.0      | 2017-08-15 23:46:59.044287 |
  | AP-4QMZA6ZSXJBTGCXTYVNWUPJDU3X2W7IO | r2v                 |       2 | 2.3.0      | 2017-09-19 19:54:24.915295 |
  | AP-4QMZA6ZSXJBTGCXTYVNWUPJDU3X2W7IO | r2v                 |       3 | 2.3.0      | 2017-11-17 19:12:34.546720 |
-        ...
+	...
 ```
 
 
@@ -96,30 +96,30 @@ mysql> select * from appAnalysisMinVersions
 ```bash
 
 var (
-        ANALYSIS                  = newUuidPrefix("AN", strongKeyMethod)
-        ANALYSIS_GROUP            = newUuidPrefix("AG", strongKeyMethod)
-        APP                       = newUuidPrefix("AP", strongKeyMethod)
-        BATCH_ID                  = newUuidPrefix("BA", strongKeyMethod)
-        BUNDLE_ID                 = newUuidPrefix("BU", strongKeyMethod)
-        CLIENT                    = newUuidPrefix("CL", strongKeyMethod)
-        CLIENT_SECRET             = newUuidPrefix("CS", strongKeyMethod)
-        CONFIRM_EMAIL             = newUuidPrefix("CE", strongKeyMethod)
-        GENERIC_SECRET            = newUuidPrefix("SC", strongKeyMethod)
-        GENOMIC_UPLOAD            = newUuidPrefix("GU", humanReadableMethod)
-        INTERNAL_SERVICE          = newUuidPrefix("IS", strongKeyMethod)
-        INTERPRETATION_COLLECTION = newUuidPrefix("IC", strongKeyMethod)
-        METRIC_COLLECTION         = newUuidPrefix("MC", strongKeyMethod)
-        PARTNER                   = newUuidPrefix("PA", strongKeyMethod)
-        PAC                       = newUuidPrefix("PC", strongKeyMethod)
-        PASSWORD_RESET            = newUuidPrefix("PR", strongKeyMethod)
-        REFRESH_TOKEN             = newUuidPrefix("RF", strongKeyMethod)
-        SAMPLE                    = newUuidPrefix("SA", humanReadableMethod)
-        STATE_MACHINE             = newUuidPrefix("SM", strongKeyMethod)
-        TEST_SAMPLE               = newUuidPrefix("ST", looselyHumanReadableMethod)
-        TWO_FACTOR_AUTH_TOKEN     = newUuidPrefix("FA", humanReadableMethod)
-        USER                      = newUuidPrefix("US", humanReadableMethod)
-        VAULT_APPID               = newUuidPrefix("VA", strongKeyMethod)
-        VAULT_USERID              = newUuidPrefix("VU", strongKeyMethod)
+	ANALYSIS                  = newUuidPrefix("AN", strongKeyMethod)
+	ANALYSIS_GROUP            = newUuidPrefix("AG", strongKeyMethod)
+	APP                       = newUuidPrefix("AP", strongKeyMethod)
+	BATCH_ID                  = newUuidPrefix("BA", strongKeyMethod)
+	BUNDLE_ID                 = newUuidPrefix("BU", strongKeyMethod)
+	CLIENT                    = newUuidPrefix("CL", strongKeyMethod)
+	CLIENT_SECRET             = newUuidPrefix("CS", strongKeyMethod)
+	CONFIRM_EMAIL             = newUuidPrefix("CE", strongKeyMethod)
+	GENERIC_SECRET            = newUuidPrefix("SC", strongKeyMethod)
+	GENOMIC_UPLOAD            = newUuidPrefix("GU", humanReadableMethod)
+	INTERNAL_SERVICE          = newUuidPrefix("IS", strongKeyMethod)
+	INTERPRETATION_COLLECTION = newUuidPrefix("IC", strongKeyMethod)
+	METRIC_COLLECTION         = newUuidPrefix("MC", strongKeyMethod)
+	PARTNER                   = newUuidPrefix("PA", strongKeyMethod)
+	PAC                       = newUuidPrefix("PC", strongKeyMethod)
+	PASSWORD_RESET            = newUuidPrefix("PR", strongKeyMethod)
+	REFRESH_TOKEN             = newUuidPrefix("RF", strongKeyMethod)
+	SAMPLE                    = newUuidPrefix("SA", humanReadableMethod)
+	STATE_MACHINE             = newUuidPrefix("SM", strongKeyMethod)
+	TEST_SAMPLE               = newUuidPrefix("ST", looselyHumanReadableMethod)
+	TWO_FACTOR_AUTH_TOKEN     = newUuidPrefix("FA", humanReadableMethod)
+	USER                      = newUuidPrefix("US", humanReadableMethod)
+	VAULT_APPID               = newUuidPrefix("VA", strongKeyMethod)
+	VAULT_USERID              = newUuidPrefix("VU", strongKeyMethod)
 )
 ```
 
@@ -149,10 +149,10 @@ def main():
     lines = sys.stdin.readlines()
     content = ""
     for idx, line in enumerate(lines):
-        if idx != len(lines) - 1:
-            content += '  "{}",\n'.format(line.rstrip())
-        else:
-            content += '  "{}"\n'.format(line.rstrip())
+	if idx != len(lines) - 1:
+	    content += '  "{}",\n'.format(line.rstrip())
+	else:
+	    content += '  "{}"\n'.format(line.rstrip())
     output = SQL_TPL.format(content)
     print(output)
 
@@ -162,6 +162,25 @@ if __name__ == "__main__":
 ```
 
 
-## <span class="section-num">7</span> Links {#links}
+## <span class="section-num">7</span> BatchID to step functions execution ARN {#batchid-to-step-functions-execution-arn}
+
+Searching ODB
+
+```bash
+[fei.ni@fei-ni-C02FG3R2MD6N-SM master-oncall sample_biosample (b_dev_add_samplesheet_util *%)]$ psql -h odb.helix.com -p 5439 -U opsread odb
+Password for user opsread:
+psql (14.1, server 8.0.2)
+SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+odb=> SELECT json_executionarn FROM sm_batch_current WHERE id = 'BA-4TKYFURG2YBDQNJXE4GB2HRBWGEXINDA';
+							   json_executionarn
+----------------------------------------------------------------------------------------------------------------------------------------
+ arn:aws:states:us-east-1:820411415250:execution:analysis-workflow-production-cnv-state-machine-dp:da67eedc-46f3-40ea-b0a8-829f6ede3ecc
+(1 row)
+```
+
+
+## <span class="section-num">8</span> Links {#links}
 
 -   <https://myhelix.atlassian.net/wiki/spaces/ENG/pages/1029439860/Genomic+Data+Service+Process+System+Overview#Sample-Callsets>

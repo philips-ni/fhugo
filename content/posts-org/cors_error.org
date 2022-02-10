@@ -46,6 +46,6 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 # Start from here
 
-* Links
+* Links 
  - https://medium.com/@dtkatz/3-ways-to-fix-the-cors-error-and-how-access-control-allow-origin-works-d97d55946d9
  - https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request

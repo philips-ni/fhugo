@@ -1,8 +1,8 @@
 +++
 title = "app_session_id to kitID and pacID"
 author = ["Fei Ni"]
-date = 2021-05-18T13:09:32-07:00
-lastmod = 2021-05-18T13:09:32-07:00
+date = 2022-01-23T10:12:55-08:00
+lastmod = 2022-01-23T10:12:55-08:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -19,6 +19,7 @@ draft = false
 ```bash
 # Beforeing running this please use GlobalProtect VPN
 # password can be found from https://helix-engineering.1password.com/vaults/gxhrwag245jkcrq7dvulaivmnq/allitems/2jte2zc3knd4pboslqbtk2o7y4
+H3lix0ps!
 $ psql -h odb.helix.com -p 5439 -U opsread odb
 ```
 
