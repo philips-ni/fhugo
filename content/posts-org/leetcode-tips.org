@@ -380,6 +380,29 @@ print(a) # [1, 2, 3, 4, 4, 4, 7]
   - https://leetcode.com/problems/trapping-rain-water/
 * Queue  
 
+* Robot Bounded In Circle
+  It's said to be used by Amazon very often
+  #+begin_src python
+    class Solution(object):
+	def isRobotBounded(self, instructions):
+	    """
+	    :type instructions: str
+	    :rtype: bool
+	    """
+
+	    di = (0,1)
+            # G -> (0,1), L -> (-1,0), R -> (1,0)
+	    x,y = 0,0
+	    for instruction in instructions:
+		if instruction == 'G':
+		    x,y = x+di[0],y+di[1]
+		elif instruction == 'L':
+		    di = (-di[1],di[0]) # very smart way to change direction
+		else:
+		    di = (di[1],-di[0])
+	    return (x==0 and y==0) or di!=(0,1)
+  #+end_src
+   - https://leetcode.com/problems/robot-bounded-in-circle/
 * Monotonic queue
 
 * Tree traverse

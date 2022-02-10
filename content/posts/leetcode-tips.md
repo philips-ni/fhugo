@@ -2,7 +2,7 @@
 title = "LeetCode tips"
 author = ["Fei Ni"]
 date = 2022-02-10
-lastmod = 2022-02-09T18:08:12-08:00
+lastmod = 2022-02-09T20:28:14-08:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -35,25 +35,26 @@ draft = false
 - <span class="section-num">8</span> [Stack](#stack)
 - <span class="section-num">9</span> [Monotonic stack](#monotonic-stack)
 - <span class="section-num">10</span> [Queue](#queue)
-- <span class="section-num">11</span> [Monotonic queue](#monotonic-queue)
-- <span class="section-num">12</span> [Tree traverse](#tree-traverse)
-- <span class="section-num">13</span> [Trie Tree](#trie-tree)
-- <span class="section-num">14</span> [Segment Tree](#segment-tree)
-- <span class="section-num">15</span> [Binary index tree （树状数组)](#binary-index-tree-树状数组)
-- <span class="section-num">16</span> [Union Find](#union-find)
-- <span class="section-num">17</span> [DFS](#dfs)
-- <span class="section-num">18</span> [BFS](#bfs)
-- <span class="section-num">19</span> [Sort](#sort)
-- <span class="section-num">20</span> [Topology sort](#topology-sort)
-- <span class="section-num">21</span> [DP](#dp)
-- <span class="section-num">22</span> [Backtracking](#backtracking)
-- <span class="section-num">23</span> [Standard parser implementation](#standard-parser-implementation)
-- <span class="section-num">24</span> [multiple threading](#multiple-threading)
-    - <span class="section-num">24.1</span> [dead lock](#dead-lock)
-    - <span class="section-num">24.2</span> [live lock](#live-lock)
-    - <span class="section-num">24.3</span> [Starvation](#starvation)
-    - <span class="section-num">24.4</span> [Race condition](#race-condition)
-- <span class="section-num">25</span> [Links](#links)
+- <span class="section-num">11</span> [Robot Bounded In Circle](#robot-bounded-in-circle)
+- <span class="section-num">12</span> [Monotonic queue](#monotonic-queue)
+- <span class="section-num">13</span> [Tree traverse](#tree-traverse)
+- <span class="section-num">14</span> [Trie Tree](#trie-tree)
+- <span class="section-num">15</span> [Segment Tree](#segment-tree)
+- <span class="section-num">16</span> [Binary index tree （树状数组)](#binary-index-tree-树状数组)
+- <span class="section-num">17</span> [Union Find](#union-find)
+- <span class="section-num">18</span> [DFS](#dfs)
+- <span class="section-num">19</span> [BFS](#bfs)
+- <span class="section-num">20</span> [Sort](#sort)
+- <span class="section-num">21</span> [Topology sort](#topology-sort)
+- <span class="section-num">22</span> [DP](#dp)
+- <span class="section-num">23</span> [Backtracking](#backtracking)
+- <span class="section-num">24</span> [Standard parser implementation](#standard-parser-implementation)
+- <span class="section-num">25</span> [multiple threading](#multiple-threading)
+    - <span class="section-num">25.1</span> [dead lock](#dead-lock)
+    - <span class="section-num">25.2</span> [live lock](#live-lock)
+    - <span class="section-num">25.3</span> [Starvation](#starvation)
+    - <span class="section-num">25.4</span> [Race condition](#race-condition)
+- <span class="section-num">26</span> [Links](#links)
 
 </div>
 <!--endtoc-->
@@ -451,16 +452,44 @@ class Solution:
 ## <span class="section-num">10</span> Queue {#queue}
 
 
-## <span class="section-num">11</span> Monotonic queue {#monotonic-queue}
+## <span class="section-num">11</span> Robot Bounded In Circle {#robot-bounded-in-circle}
+
+It's said to be used by Amazon very often
+
+```python
+class Solution(object):
+    def isRobotBounded(self, instructions):
+	"""
+	:type instructions: str
+	:rtype: bool
+	"""
+
+	di = (0,1)
+	# G -> (0,1), L -> (-1,0), R -> (1,0)
+	x,y = 0,0
+	for instruction in instructions:
+	    if instruction == 'G':
+		x,y = x+di[0],y+di[1]
+	    elif instruction == 'L':
+		di = (-di[1],di[0]) # very smart way to change direction
+	    else:
+		di = (di[1],-di[0])
+	return (x==0 and y==0) or di!=(0,1)
+```
+
+-   <https://leetcode.com/problems/robot-bounded-in-circle/>
 
 
-## <span class="section-num">12</span> Tree traverse {#tree-traverse}
+## <span class="section-num">12</span> Monotonic queue {#monotonic-queue}
+
+
+## <span class="section-num">13</span> Tree traverse {#tree-traverse}
 
 -   <https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/?ref=lbp>
 -
 
 
-## <span class="section-num">13</span> Trie Tree {#trie-tree}
+## <span class="section-num">14</span> Trie Tree {#trie-tree}
 
 ```bash
 A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings.
@@ -549,7 +578,7 @@ private:
 -   <https://leetcode.com/problems/implement-trie-prefix-tree/submissions/>
 
 
-## <span class="section-num">14</span> Segment Tree {#segment-tree}
+## <span class="section-num">15</span> Segment Tree {#segment-tree}
 
 ```python
 #Segment tree node
@@ -653,7 +682,7 @@ class NumArray(object):
 -   <https://leetcode.com/problems/range-sum-query-mutable/>
 
 
-## <span class="section-num">15</span> Binary index tree （树状数组) {#binary-index-tree-树状数组}
+## <span class="section-num">16</span> Binary index tree （树状数组) {#binary-index-tree-树状数组}
 
 It's also named as Fenwick tree
 Doing similar work as segment tree, less code, both are good at rangeSum and rangeQuery
@@ -708,7 +737,7 @@ class NumArray:
 -   <https://zhuanlan.zhihu.com/p/92920381>
 
 
-## <span class="section-num">16</span> Union Find {#union-find}
+## <span class="section-num">17</span> Union Find {#union-find}
 
 ```python
 # Idea: find minimal edges to make graph fully traversable
@@ -767,7 +796,7 @@ class Solution:
 -   <https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/>
 
 
-## <span class="section-num">17</span> DFS {#dfs}
+## <span class="section-num">18</span> DFS {#dfs}
 
 ```python
 class Solution:
@@ -796,7 +825,7 @@ class Solution:
 -   <https://leetcode.com/problems/number-of-islands/>
 
 
-## <span class="section-num">18</span> BFS {#bfs}
+## <span class="section-num">19</span> BFS {#bfs}
 
 ```python
 # Definition for a binary tree node.
@@ -831,7 +860,7 @@ class Solution:
 -   <https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/>
 
 
-## <span class="section-num">19</span> Sort {#sort}
+## <span class="section-num">20</span> Sort {#sort}
 
 Sort 2D array
 
@@ -880,7 +909,7 @@ print(foolist)
 ```
 
 
-## <span class="section-num">20</span> Topology sort {#topology-sort}
+## <span class="section-num">21</span> Topology sort {#topology-sort}
 
 ```python
 class Solution:
@@ -909,7 +938,7 @@ class Solution:
 -   <https://leetcode.com/problems/course-schedule-ii/>
 
 
-## <span class="section-num">21</span> DP {#dp}
+## <span class="section-num">22</span> DP {#dp}
 
 ```python
 class Solution:
@@ -930,7 +959,7 @@ class Solution:
 -   <https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/>
 
 
-## <span class="section-num">22</span> Backtracking {#backtracking}
+## <span class="section-num">23</span> Backtracking {#backtracking}
 
 ```python
 #Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
@@ -962,7 +991,7 @@ class Solution(object):
 -   <https://leetcode.com/problems/word-search-ii/>
 
 
-## <span class="section-num">23</span> Standard parser implementation {#standard-parser-implementation}
+## <span class="section-num">24</span> Standard parser implementation {#standard-parser-implementation}
 
 ```python
 class Solution:
@@ -1008,7 +1037,7 @@ class Solution:
 -   <https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/>
 
 
-## <span class="section-num">24</span> multiple threading {#multiple-threading}
+## <span class="section-num">25</span> multiple threading {#multiple-threading}
 
 ```python
 from threading import Lock
@@ -1035,7 +1064,7 @@ class Foo:
 ```
 
 
-### <span class="section-num">24.1</span> dead lock {#dead-lock}
+### <span class="section-num">25.1</span> dead lock {#dead-lock}
 
 A deadlock is a situation in which processes block each other due to resource acquisition and none of the processes makes any progress as they wait for the resource held by the other process.
 To successfully characterize a scenario as deadlock, the following four conditions must hold simultaneously:
@@ -1046,12 +1075,12 @@ To successfully characterize a scenario as deadlock, the following four conditio
 -   Circular Wait: A set of a process {p0, p1, p2,.., pn} exists in a manner that p0 is waiting for a resource held by p1, pn-1 waiting for a resource held by p0.
 
 
-### <span class="section-num">24.2</span> live lock {#live-lock}
+### <span class="section-num">25.2</span> live lock {#live-lock}
 
 In the case of a livelock, the states of the processes involved in a live lock scenario constantly change. On the other hand, the processes still depend on each other and can never finish their tasks.
 
 
-### <span class="section-num">24.3</span> Starvation {#starvation}
+### <span class="section-num">25.3</span> Starvation {#starvation}
 
 Starvation is an outcome of a process that is unable to gain regular access to the shared resources it requires to complete a task and thus, unable to make any progress.
 
@@ -1060,7 +1089,7 @@ One of the possible solutions to prevent starvation is to use a resource schedul
 Another solution to prevent starvation is to follow the round-robin pattern while allocating the resources to a process. In this pattern, the resource is fairly allocated to each process providing a chance to use the resource before it is allocated to another process again.
 
 
-### <span class="section-num">24.4</span> Race condition {#race-condition}
+### <span class="section-num">25.4</span> Race condition {#race-condition}
 
 When two processes are competing with each other causing data corruption
 
@@ -1070,6 +1099,6 @@ When two processes are competing with each other causing data corruption
 -   <https://www.baeldung.com/cs/deadlock-livelock-starvation>
 
 
-## <span class="section-num">25</span> Links {#links}
+## <span class="section-num">26</span> Links {#links}
 
 -   <https://emre.me/categories/#coding-patterns>
