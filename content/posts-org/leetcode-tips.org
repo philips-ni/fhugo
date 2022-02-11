@@ -113,6 +113,16 @@ int ret = num & (-num);
    - https://leetcode.com/problems/single-number-iii/
    - https://leetcode.com/problems/decode-xored-permutation/
    - https://emre.me/computer-science/bit-manipulation-tricks/
+* String tips
+  #+begin_src python
+    # check if a string is something like "abcabcabc"
+    def repeatedSubstringPattern(self, str):
+	return str in (2 * str)[1:-1]
+  #+end_src
+  #+begin_src python
+    def isRotatedFrom(self, s1, s2):
+        return s1 in (s2 + s2)
+  #+end_src
 * Linked List
   #+begin_src python
  class ListNode(object):
@@ -597,7 +607,7 @@ class NumArray(object):
 * Binary index tree （树状数组)
   It's also named as Fenwick tree
   Doing similar work as segment tree, less code, both are good at rangeSum and rangeQuery
-  The idea to create a array bit, bit[x] store the sum of bit[x,x+lowBit(x)-1] inclusive.
+  The idea to create a array bit, bit[x] store the sum of bit[x-lowBit(x)+1,x] inclusive.
   please notice, bit is using 1-based indexing
   - [[https://blog.csdn.net/bestsort/article/details/80796531?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7EHighlightScore-3.queryctrv2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7EHighlightScore-3.queryctrv2&utm_relevant_index=6][About binary index tree]]
   - https://www.youtube.com/watch?v=RgITNht_f4Q
