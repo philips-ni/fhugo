@@ -722,6 +722,19 @@ class NumArray(object):
  - https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/
 * DFS
   #+begin_src python
+    # 797. All Paths From Source to Target
+    class Solution:
+	def allPathsSourceTarget(self, graph):
+	    def dfs(cur, path):
+		if cur == len(graph) - 1: res.append(path)
+		else:
+		    for i in graph[cur]: 
+			dfs(i, path + [i])
+	    res = []
+	    dfs(0, [0])
+	    return res
+  #+end_src
+  #+begin_src python
 class Solution:
     def numIslands(self, grid):
         if not grid:
@@ -744,6 +757,8 @@ class Solution:
         self.dfs(grid, i, j+1)
         self.dfs(grid, i, j-1)
   #+end_src
+
+  
  - https://leetcode.com/problems/number-of-islands/
 * BFS
   #+begin_src python
