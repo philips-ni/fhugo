@@ -2,7 +2,7 @@
 title = "LeetCode tips"
 author = ["Fei Ni"]
 date = 2022-02-10
-lastmod = 2022-02-10T22:56:47-08:00
+lastmod = 2022-03-23T12:01:32-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -55,7 +55,10 @@ draft = false
     - <span class="section-num">26.2</span> [live lock](#live-lock)
     - <span class="section-num">26.3</span> [Starvation](#starvation)
     - <span class="section-num">26.4</span> [Race condition](#race-condition)
-- <span class="section-num">27</span> [Links](#links)
+    - <span class="section-num">26.5</span> [Vmware questions](#vmware-questions)
+- <span class="section-num">27</span> [System design template](#system-design-template)
+- <span class="section-num">28</span> [Leetcode template](#leetcode-template)
+- <span class="section-num">29</span> [Links](#links)
 
 </div>
 <!--endtoc-->
@@ -806,6 +809,19 @@ class Solution:
 	    return -1
 ```
 
+```python
+# a graph is a valid tree only if len(edges) == n-1 and no cycle
+def validTree(self, n, edges):
+    parent = list(range(n))
+    def find(x):
+	return x if parent[x] == x else find(parent[x])
+    def union(xy): # xy is a list of x and y
+	x, y = map(find, xy)
+	parent[x] = y
+	return x != y
+    return len(edges) == n-1 and all(map(union, edges))
+```
+
 -   <https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/>
 -   <https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths/>
 -   <https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/>
@@ -893,34 +909,38 @@ edges.sort(key:lambda x: x[0], reverse=False)
 More python example:
 
 ```python
-l = [[1,2,3],[3,4,6,],[2,4,5],[2,101,5],[2,34,1]]
-l.sort(key=lambda x: (x[0],x[1]), reverse=True)
-print(l)
+  l = [[1,2,3],[3,4,6,],[2,4,5],[2,101,5],[2,34,1]]
+  l.sort(key=lambda x: (x[0],x[1]), reverse=True)
+  print(l)
 
 
-students= [['Harry', 37.21], ['Berry', 37.21], ['Tina', 37.2], ['Akriti', 41.0], ['Harsh', 39.0]]
+  students= [['Harry', 37.21], ['Berry', 37.21], ['Tina', 37.2], ['Akriti', 41.0], ['Harsh', 39.0]]
 
-def compare(e):
-  return (e[1],e[0])
+  def compare(e):
+    return (e[1],e[0])
 
-students = sorted(students,key=compare)
-print(students)
+  students = sorted(students,key=compare)
+  print(students)
 
 
-# task: sort the list of strings, such that items listed as '_fw' come before '_bw'
-foolist = ['Goo_fw', 'Goo_bw', 'Foo_fw', 'Foo_bw', 'Boo_fw', 'Boo_bw']
+  # task: sort the list of strings, such that items listed as '_fw' come before '_bw'
+  foolist = ['Goo_fw', 'Goo_bw', 'Foo_fw', 'Foo_bw', 'Boo_fw', 'Boo_bw']
 
-def sortfoo(s):
-    s1, s2 = s.split('_')
-    r = 1 if s2 == 'fw' else 2     # forces 'fw' to come before 'bw'
-    return (r, s1)                 # order first by 'fw'/'bw', then by name
+  def sortfoo(s):
+      s1, s2 = s.split('_')
+      r = 1 if s2 == 'fw' else 2     # forces 'fw' to come before 'bw'
+      return (r, s1)                 # order first by 'fw'/'bw', then by name
 
-foolist.sort(key=sortfoo)          # sorts foolist inplace
+  foolist.sort(key=sortfoo)          # sorts foolist inplace
 
-print(foolist)
-# prints:
-# ['Boo_fw', 'Foo_fw', 'Goo_fw', 'Boo_bw', 'Foo_bw', 'Goo_bw']
+  print(foolist)
+  # prints:
+  # ['Boo_fw', 'Foo_fw', 'Goo_fw', 'Boo_bw', 'Foo_bw', 'Goo_bw']
 
+class Solution:
+    def frequencySort(self, nums: List[int]) -> List[int]:
+	r = Counter(nums)
+	return sorted(nums, key=lambda x: (r[x], -x))
 ```
 
 
@@ -972,6 +992,7 @@ class Solution:
 ```
 
 -   <https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/>
+-   <https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/>
 
 
 ## <span class="section-num">24</span> Backtracking {#backtracking}
@@ -1078,6 +1099,61 @@ class Foo:
 	    printThird()
 ```
 
+```python
+'''
+There are two kinds of threads: oxygen and hydrogen. Your goal is to group these threads to form water molecules.
+
+This solution uses Semaphore and Barrier. It is simple to understand, and performs well.
+
+Semantics
+a Semaphore -- trying to acquire it, is possible if there are tokens left. Otherwise the thread that tried is asked to wait until a different thread returns the tokens it was using.
+a Barrier -- if a thread reaches it, it can cross it, only if a predefined number of other threads have also arrived.
+Logic
+The solution creates 1 Semaphore for Hydrogen, and allows 2 threads to aquire it concurrently. Likewise, we create one for Oxygen, but this one only allows 1 thread.
+
+To ensure the molecule is generated at once, we use a barrier, which can only be crossed when 3 atoms have gathered.
+
+After each function completes, we release the token on the Semaphore.
+'''
+
+from threading import Semaphore
+from threading import Barrier
+
+class H2O:
+    def __init__(self):
+	self.sem_h = Semaphore(2)
+	self.sem_o = Semaphore(1)
+	self.bar_assembling = Barrier(3)
+
+    def hydrogen(self, releaseHydrogen: 'Callable[[], None]') -> None:
+	with self.sem_h:
+	    self.bar_assembling.wait()
+	    releaseHydrogen()
+    def oxygen(self, releaseOxygen: 'Callable[[], None]') -> None:
+	with self.sem_o:
+	    self.bar_assembling.wait()
+	    releaseOxygen()
+```
+
+```python
+from concurrent import futures
+
+class Solution:
+    def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+	hostname = lambda url: url.split('/')[2]
+	seen = {startUrl}
+
+	with futures.ThreadPoolExecutor(max_workers=16) as executor:
+	    tasks = deque([executor.submit(htmlParser.getUrls, startUrl)])
+	    while tasks:
+		for url in tasks.popleft().result():
+		    if url not in seen and hostname(startUrl) == hostname(url):
+			seen.add(url)
+			tasks.append(executor.submit(htmlParser.getUrls, url))
+
+	return list(seen)
+```
+
 
 ### <span class="section-num">26.1</span> dead lock {#dead-lock}
 
@@ -1108,12 +1184,147 @@ Another solution to prevent starvation is to follow the round-robin pattern whil
 
 When two processes are competing with each other causing data corruption
 
+
+### <span class="section-num">26.5</span> Vmware questions {#vmware-questions}
+
+-   What's the diffrence between mutex and spinlock?
+    -   mutex will sleep for waiting
+    -   spinlock will keep trying (busy waiting)
+    -   mutex need do context switch
+    -   spinlock doesn't do context switch
+    -   using spinlock , we should keep the protected area code very simple and running fast, otherwise ,it may occupy a lot of cpu
+-   Can you talk about condition variable
+    -   contdition variable always comes with a lock and a condtion checking monitor
+    -   condition variable support notify, so once some state chane, we can we can notify condition vaiable, and it will recheck the condition
+
+<!--listend-->
+
 -   <https://leetcode.com/problems/design-bounded-blocking-queue/>
 -   <https://leetcode.com/problemset/concurrency/>
 -   <https://leetcode.com/problems/print-in-order/discuss/335939/5-Python-threading-solutions>-(Barrier-Lock-Event-Semaphore-Condition)-with-explanation
 -   <https://www.baeldung.com/cs/deadlock-livelock-starvation>
+-   <https://leetcode.com/problems/fizz-buzz-multithreaded/discuss/542960/python-greater99.28-a-standard-Lock>()-based-solution-with-detailed-explanation
+-   <https://stackoverflow.com/questions/5869825/when-should-one-use-a-spinlock-instead-of-mutex>
 
 
-## <span class="section-num">27</span> Links {#links}
+## <span class="section-num">27</span> System design template {#system-design-template}
+
+```nil
+(1) FEATURE EXPECTATIONS [5 min]
+	(1) Use cases
+	(2) Scenarios that will not be covered
+	(3) Who will use
+	(4) How many will use
+	(5) Usage patterns
+(2) ESTIMATIONS [5 min]
+	(1) Throughput (QPS for read and write queries)
+	(2) Latency expected from the system (for read and write queries)
+	(3) Read/Write ratio
+	(4) Traffic estimates
+		- Write (QPS, Volume of data)
+		- Read  (QPS, Volume of data)
+	(5) Storage estimates
+	(6) Memory estimates
+		- If we are using a cache, what is the kind of data we want to store in cache
+		- How much RAM and how many machines do we need for us to achieve this ?
+		- Amount of data you want to store in disk/ssd
+(3) DESIGN GOALS [5 min]
+	(1) Latency and Throughput requirements
+	(2) Consistency vs Availability  [Weak/strong/eventual => consistency | Failover/replication => availability]
+(4) HIGH LEVEL DESIGN [5-10 min]
+	(1) APIs for Read/Write scenarios for crucial components
+	(2) Database schema
+	(3) Basic algorithm
+	(4) High level design for Read/Write scenario
+(5) DEEP DIVE [15-20 min]
+	(1) Scaling the algorithm
+	(2) Scaling individual components:
+		-> Availability, Consistency and Scale story for each component
+		-> Consistency and availability patterns
+	(3) Think about the following components, how they would fit in and how it would help
+		a) DNS
+		b) CDN [Push vs Pull]
+		c) Load Balancers [Active-Passive, Active-Active, Layer 4, Layer 7]
+		d) Reverse Proxy
+		e) Application layer scaling [Microservices, Service Discovery]
+		f) DB [RDBMS, NoSQL]
+			> RDBMS
+			    >> Master-slave, Master-master, Federation, Sharding, Denormalization, SQL Tuning
+			> NoSQL
+			    >> Key-Value, Wide-Column, Graph, Document
+				Fast-lookups:
+				-------------
+				    >>> RAM  [Bounded size] => Redis, Memcached
+				    >>> AP [Unbounded size] => Cassandra, RIAK, Voldemort
+				    >>> CP [Unbounded size] => HBase, MongoDB, Couchbase, DynamoDB
+		g) Caches
+			> Client caching, CDN caching, Webserver caching, Database caching, Application caching, Cache @Query level, Cache @Object level
+			> Eviction policies:
+				>> Cache aside
+				>> Write through
+				>> Write behind
+				>> Refresh ahead
+		h) Asynchronism
+			> Message queues
+			> Task queues
+			> Back pressure
+		i) Communication
+			> TCP
+			> UDP
+			> REST
+			> RPC
+(6) JUSTIFY [5 min]
+	(1) Throughput of each layer
+	(2) Latency caused between each layer
+	(3) Overall latency justification
+```
+
+
+## <span class="section-num">28</span> Leetcode template {#leetcode-template}
+
+```bash
+If input array is sorted then
+    - Binary search
+    - Two pointers
+
+If asked for all permutations/subsets then
+    - Backtracking
+
+If given a tree then
+    - DFS
+    - BFS
+
+If given a graph then
+    - DFS
+    - BFS
+
+If given a linked list then
+    - Two pointers
+
+If recursion is banned then
+    - Stack
+
+If must solve in-place then
+    - Swap corresponding values
+    - Store one or more different values in the same pointer
+
+If asked for maximum/minimum subarray/subset/options then
+    - Dynamic programming
+
+If asked for top/least K items then
+    - Heap
+
+If asked for common strings then
+    - Map
+    - Trie
+
+Else
+    - Map/Set for O(1) time & O(n) space
+    - Sort input for O(nlogn) time and O(1) space
+```
+
+
+## <span class="section-num">29</span> Links {#links}
 
 -   <https://emre.me/categories/#coding-patterns>
+-   <https://github.com/seanprashad/leetcode-patterns>
