@@ -2,7 +2,7 @@
 title = "LeetCode tips"
 author = ["Fei Ni"]
 date = 2022-02-10
-lastmod = 2022-03-23T12:01:32-07:00
+lastmod = 2022-03-23T13:27:14-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -1328,3 +1328,4 @@ Else
 
 -   <https://emre.me/categories/#coding-patterns>
 -   <https://github.com/seanprashad/leetcode-patterns>
+-   <https://seanprashad.com/leetcode-patterns/>
