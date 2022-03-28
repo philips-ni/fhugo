@@ -882,6 +882,19 @@ class Solution:
     
         return dp(0,k)
   #+end_src
+
+  #+begin_src python
+class Solution(object):
+    def wordBreak(self, s, words):
+        dp = [True] + [False] * len(s)
+        for i in range(1, len(s)+1):
+            for j in range(i):
+                if dp[j] and s[j:i] in words:
+                    dp[i] = True
+        return dp[-1]
+
+  #+end_src
+  - https://leetcode.com/problems/word-break/
   - https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/
   - https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/
 * Backtracking
@@ -912,7 +925,7 @@ class Solution(object):
   #+end_src
    - https://leetcode.com/problems/permutations/submissions/
    - https://leetcode.com/problems/word-search-ii/
-*  Standard parser implementation
+* Standard parser implementation
   #+begin_src python
 class Solution:
     # Standard parser implementation based on this BNF
@@ -954,6 +967,72 @@ class Solution:
             return Node(val=token)
   #+end_src
   - https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/
+* Prim algorithm (To find minimum spanning tree)
+  #+begin_src python
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        manhattan = lambda p1, p2: abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
+        n, c = len(points), collections.defaultdict(list)
+        # create the graph with cost in each edges
+        for i in range(n):
+            for j in range(i+1, n):
+                d = manhattan(points[i], points[j])
+                c[i].append((d, j))
+                c[j].append((d, i))
+        # start from point 0
+        cnt, ans, visited, heap = 1, 0, [0] * n, c[0]
+        visited[0] = 1
+        # the reason to use heap is to get the smaller cost another node
+        heapq.heapify(heap)
+        while heap:
+            d, j = heapq.heappop(heap)
+            if not visited[j]:
+                visited[j], cnt, ans = 1, cnt+1, ans+d
+                for record in c[j]: heapq.heappush(heap, record)
+            if cnt >= n: break
+        return ans
+  #+end_src
+  - https://leetcode.com/problems/min-cost-to-connect-all-points/
+* Kluskal algorithm (To find minimun spanning tree)
+  #+begin_src python
+class UnionFind:
+    def __init__(self, n):
+        self.parent = [i for i in range(n)]
+
+    def find(self, u):
+        if u != self.parent[u]:
+            self.parent[u] = self.find(self.parent[u])
+        return self.parent[u]
+
+    def union(self, u, v):
+        pu, pv = self.find(u), self.find(v)
+        if pu == pv: return False
+        self.parent[pu] = pv
+        return True
+
+
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+        def manhattanDist(p1, p2):
+            return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+
+        edges = []
+        n = len(points)
+        for i in range(n):
+            for j in range(i + 1, n):
+                edges.append([manhattanDist(points[i], points[j]), i, j])
+
+        edges.sort()  # Sort increasing order by dist
+        uf = UnionFind(n)
+        ans = 0
+        for d, u, v in edges:
+            if uf.union(u, v):
+                ans += d
+                n -= 1
+            if n == 1: break  # a bit optimize when we found enough n-1 edges!
+        return ans
+  #+end_src
+    - https://leetcode.com/problems/min-cost-to-connect-all-points/
 * multiple threading
   #+begin_src python
 from threading import Lock
@@ -1186,3 +1265,6 @@ Else
   - https://emre.me/categories/#coding-patterns
   - https://github.com/seanprashad/leetcode-patterns
   - https://seanprashad.com/leetcode-patterns/
+
+
+  
