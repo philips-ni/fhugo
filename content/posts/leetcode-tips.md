@@ -2,7 +2,7 @@
 title = "LeetCode tips"
 author = ["Fei Ni"]
 date = 2022-02-10
-lastmod = 2022-03-23T13:27:14-07:00
+lastmod = 2022-03-28T08:16:36-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -50,15 +50,17 @@ draft = false
 - <span class="section-num">23</span> [DP](#dp)
 - <span class="section-num">24</span> [Backtracking](#backtracking)
 - <span class="section-num">25</span> [Standard parser implementation](#standard-parser-implementation)
-- <span class="section-num">26</span> [multiple threading](#multiple-threading)
-    - <span class="section-num">26.1</span> [dead lock](#dead-lock)
-    - <span class="section-num">26.2</span> [live lock](#live-lock)
-    - <span class="section-num">26.3</span> [Starvation](#starvation)
-    - <span class="section-num">26.4</span> [Race condition](#race-condition)
-    - <span class="section-num">26.5</span> [Vmware questions](#vmware-questions)
-- <span class="section-num">27</span> [System design template](#system-design-template)
-- <span class="section-num">28</span> [Leetcode template](#leetcode-template)
-- <span class="section-num">29</span> [Links](#links)
+- <span class="section-num">26</span> [Prim algorithm (To find minimum spanning tree)](#prim-algorithm--to-find-minimum-spanning-tree)
+- <span class="section-num">27</span> [Kluskal algorithm (To find minimun spanning tree)](#kluskal-algorithm--to-find-minimun-spanning-tree)
+- <span class="section-num">28</span> [multiple threading](#multiple-threading)
+    - <span class="section-num">28.1</span> [dead lock](#dead-lock)
+    - <span class="section-num">28.2</span> [live lock](#live-lock)
+    - <span class="section-num">28.3</span> [Starvation](#starvation)
+    - <span class="section-num">28.4</span> [Race condition](#race-condition)
+    - <span class="section-num">28.5</span> [Vmware questions](#vmware-questions)
+- <span class="section-num">29</span> [System design template](#system-design-template)
+- <span class="section-num">30</span> [Leetcode template](#leetcode-template)
+- <span class="section-num">31</span> [Links](#links)
 
 </div>
 <!--endtoc-->
@@ -830,6 +832,20 @@ def validTree(self, n, edges):
 ## <span class="section-num">19</span> DFS {#dfs}
 
 ```python
+# 797. All Paths From Source to Target
+class Solution:
+    def allPathsSourceTarget(self, graph):
+	def dfs(cur, path):
+	    if cur == len(graph) - 1: res.append(path)
+	    else:
+		for i in graph[cur]:
+		    dfs(i, path + [i])
+	res = []
+	dfs(0, [0])
+	return res
+```
+
+```python
 class Solution:
     def numIslands(self, grid):
 	if not grid:
@@ -991,6 +1007,19 @@ class Solution:
 	return dp(0,k)
 ```
 
+```python
+class Solution(object):
+    def wordBreak(self, s, words):
+	dp = [True] + [False] * len(s)
+	for i in range(1, len(s)+1):
+	    for j in range(i):
+		if dp[j] and s[j:i] in words:
+		    dp[i] = True
+	return dp[-1]
+
+```
+
+-   <https://leetcode.com/problems/word-break/>
 -   <https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/>
 -   <https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/>
 
@@ -1023,8 +1052,23 @@ class Solution(object):
 		curr.pop()
 ```
 
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+	result=[]
+	def backtrack(nums, start, path):
+	    result.append(path[:])
+	    for i in range(start, len(nums)):
+		path.append(nums[i])
+		backtrack(nums,i+1,path)
+		path.pop()
+	backtrack(nums, 0, [])
+	return result
+```
+
 -   <https://leetcode.com/problems/permutations/submissions/>
 -   <https://leetcode.com/problems/word-search-ii/>
+-   <https://leetcode.com/problems/subsets/>
 
 
 ## <span class="section-num">25</span> Standard parser implementation {#standard-parser-implementation}
@@ -1073,7 +1117,81 @@ class Solution:
 -   <https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/>
 
 
-## <span class="section-num">26</span> multiple threading {#multiple-threading}
+## <span class="section-num">26</span> Prim algorithm (To find minimum spanning tree) {#prim-algorithm--to-find-minimum-spanning-tree}
+
+```python
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+	manhattan = lambda p1, p2: abs(p1[0]-p2[0]) + abs(p1[1]-p2[1])
+	n, c = len(points), collections.defaultdict(list)
+	# create the graph with cost in each edges
+	for i in range(n):
+	    for j in range(i+1, n):
+		d = manhattan(points[i], points[j])
+		c[i].append((d, j))
+		c[j].append((d, i))
+	# start from point 0
+	cnt, ans, visited, heap = 1, 0, [0] * n, c[0]
+	visited[0] = 1
+	# the reason to use heap is to get the smaller cost another node
+	heapq.heapify(heap)
+	while heap:
+	    d, j = heapq.heappop(heap)
+	    if not visited[j]:
+		visited[j], cnt, ans = 1, cnt+1, ans+d
+		for record in c[j]: heapq.heappush(heap, record)
+	    if cnt >= n: break
+	return ans
+```
+
+-   <https://leetcode.com/problems/min-cost-to-connect-all-points/>
+
+
+## <span class="section-num">27</span> Kluskal algorithm (To find minimun spanning tree) {#kluskal-algorithm--to-find-minimun-spanning-tree}
+
+```python
+class UnionFind:
+    def __init__(self, n):
+	self.parent = [i for i in range(n)]
+
+    def find(self, u):
+	if u != self.parent[u]:
+	    self.parent[u] = self.find(self.parent[u])
+	return self.parent[u]
+
+    def union(self, u, v):
+	pu, pv = self.find(u), self.find(v)
+	if pu == pv: return False
+	self.parent[pu] = pv
+	return True
+
+
+class Solution:
+    def minCostConnectPoints(self, points: List[List[int]]) -> int:
+	def manhattanDist(p1, p2):
+	    return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
+
+	edges = []
+	n = len(points)
+	for i in range(n):
+	    for j in range(i + 1, n):
+		edges.append([manhattanDist(points[i], points[j]), i, j])
+
+	edges.sort()  # Sort increasing order by dist
+	uf = UnionFind(n)
+	ans = 0
+	for d, u, v in edges:
+	    if uf.union(u, v):
+		ans += d
+		n -= 1
+	    if n == 1: break  # a bit optimize when we found enough n-1 edges!
+	return ans
+```
+
+-   <https://leetcode.com/problems/min-cost-to-connect-all-points/>
+
+
+## <span class="section-num">28</span> multiple threading {#multiple-threading}
 
 ```python
 from threading import Lock
@@ -1155,7 +1273,7 @@ class Solution:
 ```
 
 
-### <span class="section-num">26.1</span> dead lock {#dead-lock}
+### <span class="section-num">28.1</span> dead lock {#dead-lock}
 
 A deadlock is a situation in which processes block each other due to resource acquisition and none of the processes makes any progress as they wait for the resource held by the other process.
 To successfully characterize a scenario as deadlock, the following four conditions must hold simultaneously:
@@ -1166,12 +1284,12 @@ To successfully characterize a scenario as deadlock, the following four conditio
 -   Circular Wait: A set of a process {p0, p1, p2,.., pn} exists in a manner that p0 is waiting for a resource held by p1, pn-1 waiting for a resource held by p0.
 
 
-### <span class="section-num">26.2</span> live lock {#live-lock}
+### <span class="section-num">28.2</span> live lock {#live-lock}
 
 In the case of a livelock, the states of the processes involved in a live lock scenario constantly change. On the other hand, the processes still depend on each other and can never finish their tasks.
 
 
-### <span class="section-num">26.3</span> Starvation {#starvation}
+### <span class="section-num">28.3</span> Starvation {#starvation}
 
 Starvation is an outcome of a process that is unable to gain regular access to the shared resources it requires to complete a task and thus, unable to make any progress.
 
@@ -1180,12 +1298,12 @@ One of the possible solutions to prevent starvation is to use a resource schedul
 Another solution to prevent starvation is to follow the round-robin pattern while allocating the resources to a process. In this pattern, the resource is fairly allocated to each process providing a chance to use the resource before it is allocated to another process again.
 
 
-### <span class="section-num">26.4</span> Race condition {#race-condition}
+### <span class="section-num">28.4</span> Race condition {#race-condition}
 
 When two processes are competing with each other causing data corruption
 
 
-### <span class="section-num">26.5</span> Vmware questions {#vmware-questions}
+### <span class="section-num">28.5</span> Vmware questions {#vmware-questions}
 
 -   What's the diffrence between mutex and spinlock?
     -   mutex will sleep for waiting
@@ -1207,7 +1325,7 @@ When two processes are competing with each other causing data corruption
 -   <https://stackoverflow.com/questions/5869825/when-should-one-use-a-spinlock-instead-of-mutex>
 
 
-## <span class="section-num">27</span> System design template {#system-design-template}
+## <span class="section-num">29</span> System design template {#system-design-template}
 
 ```nil
 (1) FEATURE EXPECTATIONS [5 min]
@@ -1280,7 +1398,7 @@ When two processes are competing with each other causing data corruption
 ```
 
 
-## <span class="section-num">28</span> Leetcode template {#leetcode-template}
+## <span class="section-num">30</span> Leetcode template {#leetcode-template}
 
 ```bash
 If input array is sorted then
@@ -1324,7 +1442,7 @@ Else
 ```
 
 
-## <span class="section-num">29</span> Links {#links}
+## <span class="section-num">31</span> Links {#links}
 
 -   <https://emre.me/categories/#coding-patterns>
 -   <https://github.com/seanprashad/leetcode-patterns>
