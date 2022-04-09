@@ -152,6 +152,24 @@ int ret = num & (-num);
       // move the node of it to the begin of list
       usage.splice(usage.begin(), usage, it);
    #+end_src
+* GCD and LCM
+  #+begin_src python
+def gcd(x, y):
+    while y > 0:
+        x, y = y, x % y
+    return x
+
+def lcm(x, y):
+    return x*y // gcd(x,y)
+
+x = 10
+y = 15
+
+gcdRet = gcd(x,y)
+print(f"gcd({x},{y}) = {gcdRet}") # gcd(10,15) = 5
+lcmRet = lcm(x,y)
+print(f"lcm({x},{y}) = {lcmRet}") # lcm(10,15) = 30
+  #+end_src
 * tortoise & hare
   #+begin_src python
 class Solution:
@@ -248,6 +266,21 @@ def findKthLargest(self, nums, k):
   #+end_src
 
   #+begin_src python
+class Solution:
+    def minMeetingRooms(self, intervals):
+        intervals.sort(key=lambda x:x[0])
+        heap = []  # stores the end time of intervals
+        for i in intervals:
+            if heap and i[0] >= heap[0]: 
+                # means two intervals can use the same room
+                heapq.heapreplace(heap, i[1])
+            else:
+                # a new room is allocated
+                heapq.heappush(heap, i[1])
+        return len(heap)
+
+  #+end_src
+  #+begin_src python
 from heapq import *
 
 class MedianFinder:
@@ -278,6 +311,7 @@ class MedianFinder:
   #+end_src
   
   - https://leetcode.com/problems/find-median-from-data-stream/
+  - https://leetcode.com/problems/meeting-rooms-ii/
 * Binary Search
   #+begin_src c++
     vector<int> searchRange(vector<int>& nums, int target) {
@@ -369,22 +403,38 @@ print(a) # [1, 2, 3, 4, 4, 4, 7]
   #+end_src
   - https://leetcode.com/problems/longest-happy-prefix/
 * Stack
+  #+begin_src python
+class Solution:
+    # @return a boolean
+    def isValid(self, s):
+        stack = []
+        dict = {"]":"[", "}":"{", ")":"("}
+        for char in s:
+            if char in dict.values():
+                stack.append(char)
+            elif char in dict.keys():
+                if stack == [] or dict[char] != stack.pop():
+                    return False
+            else:
+                return False
+        return stack == []
+  #+end_src
   - https://leetcode.com/problems/valid-parentheses/
 
 * Monotonic stack
+  
   #+begin_src python
-    # trapping-rain-water
-    class Solution:
-	def trap(self, height: List[int]) -> int:
-	    res, stk = 0, []
-	    for i in range(len(height)):
-		while stk and height[i] > height[stk[-1]]:
-		    h = height[stk.pop()]
-		    if stk:
-			minH = min(height[stk[-1]], height[i])
-			res += (minH - h) * (i - stk[-1] - 1)
-		stk.append(i)
-	    returnb2 res
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        res, stk = 0, []
+        for i in range(len(height)):
+            while stk and height[i] > height[stk[-1]]:
+                h = height[stk.pop()]
+                if stk:
+                    minH = min(height[stk[-1]], height[i])
+                    res += (minH - h) * (i - stk[-1] - 1)
+            stk.append(i)
+        return res
   #+end_src
   - https://leetcode.com/problems/largest-rectangle-in-histogram/
   - https://leetcode.com/problems/trapping-rain-water/
@@ -1153,7 +1203,7 @@ class Solution:
       - spinlock doesn't do context switch
       - using spinlock , we should keep the protected area code very simple and running fast, otherwise ,it may occupy a lot of cpu
     - Can you talk about condition variable
-      - contdition variable always comes with a lock and a condtion checking monitor
+      - condition variable always comes with a lock and a condtion checking monitor
       - condition variable support notify, so once some state chane, we can we can notify condition vaiable, and it will recheck the condition 
    
    - https://leetcode.com/problems/design-bounded-blocking-queue/
@@ -1162,7 +1212,7 @@ class Solution:
    - https://www.baeldung.com/cs/deadlock-livelock-starvation
    - https://leetcode.com/problems/fizz-buzz-multithreaded/discuss/542960/python-greater99.28-a-standard-Lock()-based-solution-with-detailed-explanation
    - https://stackoverflow.com/questions/5869825/when-should-one-use-a-spinlock-instead-of-mutex
-
+   - https://hackernoon.com/synchronization-primitives-in-python-564f89fee732
 * System design template
   #+begin_src
 (1) FEATURE EXPECTATIONS [5 min]
@@ -1282,3 +1332,5 @@ Else
 
 
   
+
+
