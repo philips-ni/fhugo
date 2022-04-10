@@ -2,7 +2,7 @@
 title = "My toolchain for development"
 author = ["Fei Ni"]
 date = 2022-04-09
-lastmod = 2022-04-09T21:34:52-07:00
+lastmod = 2022-04-09T22:16:39-07:00
 tags = ["tools"]
 categories = ["tools"]
 draft = false
@@ -21,13 +21,7 @@ draft = false
 
 ### <span class="section-num">1.2</span> tools {#tools}
 
--   iterm2
--   tmux
--   homebrew
--   docker
--   emacs
--   slack
--   chrome
+{{< figure src="../../images/tools.png" >}}
 
 
 ## <span class="section-num">2</span> Iterm2 + Tmux + HomeBrew for terminal work {#iterm2-plus-tmux-plus-homebrew-for-terminal-work}

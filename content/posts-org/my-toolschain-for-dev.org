@@ -55,13 +55,8 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
   - Communication tool(Slack + Chrome/Gmail)
 
 ** tools
-   - iterm2
-   - tmux
-   - homebrew
-   - docker
-   - emacs
-   - slack
-   - chrome
+   [[../../images/tools.png]]
+   
 * Iterm2 + Tmux + HomeBrew for terminal work
 
 ** Iterm2
@@ -140,3 +135,4 @@ digraph D {
     #+end_src
 [[../../images/test1.png]]   
 *** export to markdown/html/pdf
+
