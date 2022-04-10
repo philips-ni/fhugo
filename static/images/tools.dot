@@ -6,10 +6,10 @@ digraph D {
 	build [label="Tools for build/test" shape="box"]
 	communication [label="Tools for communication" shape="box"]
 
-	Iterm2 [shape="box"]
-	Tmux [shape="box"]
-	Homebrew [shape="box"]
-	Emacs [shape="box"]
+	Iterm2 [shape="box" style=filled fillcolor="lightyellow"]
+	Tmux [shape="box" style=filled fillcolor="lightyellow"]
+	Homebrew [shape="box" style=filled fillcolor="lightyellow"]
+	Emacs [shape="box" style=filled fillcolor="lightyellow"]
 	Docker [shape="box"]
 	CircleCI [shape="box"]
 	Slack [shape="box"]
@@ -24,7 +24,6 @@ digraph D {
 
 	coding -> Emacs
 	coding -> Iterm2
-	coding -> Tmux
 	coding -> Homebrew
 
 	doc -> Emacs
@@ -32,6 +31,7 @@ digraph D {
 	build -> Docker
 	build -> CircleCI
 	build -> Iterm2
+	build -> Tmux
 
 	communication -> Slack
 	communication -> Chrome

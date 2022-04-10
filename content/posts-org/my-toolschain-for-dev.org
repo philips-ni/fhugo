@@ -59,6 +59,7 @@ As a software engineer, my daily work includes:
 ** tools
    [[../../images/tools.png]]
    
+   
 * Iterm2 + Tmux + HomeBrew for terminal work
 
 ** Iterm2
