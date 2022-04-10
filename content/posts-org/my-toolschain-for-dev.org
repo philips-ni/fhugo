@@ -5,12 +5,12 @@
 #+LATEX_HEADER: \usepackage{helvetica}
 #+LATEX_HEADER: \setlength{\textwidth}{5.1in} % set width of text portion
 #+LATEX_HEADER: \usepackage{geometry}
-#+TITLE:     My tools chain for development
+#+TITLE:     My toolchain for development
 #+AUTHOR:    Fei Ni
-#+EMAIL:     fei.ni@helix.com
+#+EMAIL:     philips.ni.fei@gmail.com
 #+DATE:      2022-04-09
-#+HUGO_CATEGORIES: helix
-#+HUGO_tags: helix
+#+HUGO_CATEGORIES: tools
+#+HUGO_tags: tools
 #+hugo_auto_set_lastmod: t
 #+DESCRIPTION:
 #+KEYWORDS:
@@ -46,34 +46,57 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 # Start from here
 
+* My toolchain for development
 
-* My daily work
+**  My daily work
   - Coding
   - Docs/Notes
-  - Build enviroment (Docker)
+  - Build (Build enviroment setup)
   - Communication tool(Slack + Chrome/Gmail)
 
-* Iterm2 + Tmux for terminal work
+** tools
+   - iterm2
+   - tmux
+   - homebrew
+   - docker
+   - emacs
+   - slack
+   - chrome
+* Iterm2 + Tmux + HomeBrew for terminal work
 
 ** Iterm2
-   
  - nice default profile with color/fonts
  - Iterm2 can split windows horizontally or vertically with shortcut keys
  - select as copy
- - [[https://gist.github.com/tanyuan/a1a3c00b9c231c32c3613d4bbefa6652][Iterm 2 tips and tricks]]
+ - [[https://gist.github.com/tanyuan/a1a3c00b9c231c32c3613d4bbefa6652][Iterm2 tips and tricks]]
  - [[https://betterprogramming.pub/5-useful-iterm2-features-for-developers-bc211d697817][5-useful-iterm2-features-for-developers]]
    
+** Homebrew
+
+   Homebrew is a package manager for the macOS to search, install and configure software packages and libraries through the command line.
+   It simplifies the package installation by automatically finding and installing the dependencies when you are installing a package.
+
+   #+begin_src bash
+
+     brew install tmux
+     brew install emacs
+   #+end_src
+   
+   - https://brew.sh/
+
 ** Tmux
  - Session handling: detaching from and attaching to sessions helps me with context switching and remote working
- 
+ - multiple windows support
+ - It's very useful while working with remote server
+
+     
 * Emacs for all kinds of development work  
 
-** Git plugin
-
-** As a notes tool
-   - C-c c, take notes at any time
-   - 
-
+** Git plugin (magit)
+ - Best Git client in my mind
+ - C-x g to pop it up
+ - [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][magit reference]]
+ 
 ** Coding
  - LSP (language server protocal)
    - auto completion
@@ -81,4 +104,39 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
    - flycheck
  - Search keyword and jump to there
  - bookmark for those hotspots
- -  
+
+** Document/Notes writing with org mode
+*** Notes manager   
+  - C-c c, take/capture notes at any time
+  - [[https://blog.jethro.dev/posts/how_to_take_smart_notes_org/][how to take smart notes]]
+*** outline view/switching
+*** Table
+    - Easy to create table
+    - Easy to swich columns and rows
+      - M-LEFT, M-RIGHT (for columns)
+      - M-UP, M-DOWN (for rows)
+    - Easy to insert new column or delete current column
+      - M-S-LEFT(delete current column)
+      - M-S-RIGHT(insert a new column)
+
+| Student  | Maths | Physics | Mean | Sum |
+|----------+-------+---------+------+-----|
+| Bertrand |    13 |      09 |      |     |
+| Henri    |    15 |      14 |      |     |
+| Arnold   |    17 |      13 |      |     |
+#+TBLFM: $4=vmean($2..$3)
+#+TBLFM: $5=vsum($2..$3)
+*** FlowChart
+    #+begin_src text
+digraph D {
+	{rank=same A, E}
+	A -> B [stylde=dashed, color=grey]
+	A -> C [color="black:invis:black"]
+	A -> D [penwidth=5, arrowhead=none]
+	D -> E
+	E -> F
+}
+
+    #+end_src
+[[../../images/test1.png]]   
+*** export to markdown/html/pdf

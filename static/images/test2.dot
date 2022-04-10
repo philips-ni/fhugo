@@ -1,0 +1,43 @@
+digraph D {
+	compound=true
+	bssh [label="BSSH instance" style="filled" fillcolor=grey]
+	bssh -> bw [label="restful call: Fastq data ready"]
+	subgraph cluster_bs {
+		bgcolor="yellow"
+		bw [label="ECS: BSSH webhook)"]
+		fdrs [label="SNS: Fastq data ready"]
+		{rank=same bw, fdrs}
+		label = "BSSH webhook & SNS(master account)";
+		bw -> fdrs
+	}
+	fdrs -> hfs
+	subgraph cluster_vw {
+		bgcolor="green"
+		hfs [label="SQS: Fastq events"]
+		lve [label="Lambda: VSEQ Event handler" fillcolor=yellow]
+		label = "VSEQ workflow (HIPAA account)";
+		{rank = same hfs, lve}
+		hfs -> lve
+		subgraph cluster_vsf {
+			label = "VSEQ Step Function";
+			lpj [label="Lambda: PrepareFastaGeneratorJsons"]
+			sfj [label="SubmitFastaBatchJob(sync)"]	
+			sgj [label="SubmitGlueJob(sync)"]
+			lqnr [label="Lambda: Query and Notify result"]			
+			lpj->sfj->sgj->lqnr
+		}
+		lve -> lpj
+		bfgj [label="Batch job: Fasta Generator"]
+		gj  [label="Glue job: Load result to Redshift"]
+		vrb [label="S3: VSEQ result bucket" shape="tripleoctagon"]
+		vrs [label="RedShift" shape="cylinder"]
+		vrb -> gj
+		sfj -> bfgj->vrb
+		sgj -> gj -> vrs
+
+		lqnr -> vrs [label="[read only]"]
+
+	}
+	rdrs  [label="SNS: result data ready" style="filled" fillcolor=yellow]
+	lqnr -> rdrs			
+} 
