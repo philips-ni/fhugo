@@ -1,0 +1,38 @@
+digraph D {
+	rankdir="LR"
+	toolChain[label="ToolChain" shape="box"]
+	coding [label="Tools for Coding" shape="box"]
+	doc [label="Tools for doc/notes" shape="box"]	
+	build [label="Tools for build/test" shape="box"]
+	communication [label="Tools for communication" shape="box"]
+
+	Iterm2 [shape="box"]
+	Tmux [shape="box"]
+	Homebrew [shape="box"]
+	Emacs [shape="box"]
+	Docker [shape="box"]
+	CircleCI [shape="box"]
+	Slack [shape="box"]
+	Chrome [shape="box"]
+
+
+	
+	toolChain -> coding
+	toolChain -> doc
+	toolChain -> build
+	toolChain -> communication
+
+	coding -> Emacs
+	coding -> Iterm2
+	coding -> Tmux
+	coding -> Homebrew
+
+	doc -> Emacs
+	
+	build -> Docker
+	build -> CircleCI
+	build -> Iterm2
+
+	communication -> Slack
+	communication -> Chrome
+}
