@@ -2,7 +2,7 @@
 title = "My toolchain for development"
 author = ["Fei Ni"]
 date = 2022-04-09
-lastmod = 2022-04-09T22:16:39-07:00
+lastmod = 2022-04-09T22:44:10-07:00
 tags = ["tools"]
 categories = ["tools"]
 draft = false
@@ -13,10 +13,12 @@ draft = false
 
 ### <span class="section-num">1.1</span> My daily work {#my-daily-work}
 
+As a software engineer, my daily work includes:
+
 -   Coding
 -   Docs/Notes
 -   Build (Build enviroment setup)
--   Communication tool(Slack + Chrome/Gmail)
+-   Communication (Slack/Teams/Zoom + Chrome/Gmail/Jira)
 
 
 ### <span class="section-num">1.2</span> tools {#tools}
@@ -29,16 +31,16 @@ draft = false
 
 ### <span class="section-num">2.1</span> Iterm2 {#iterm2}
 
--   nice default profile with color/fonts
--   Iterm2 can split windows horizontally or vertically with shortcut keys
+-   nice default profile with awesome color/fonts
 -   select as copy
+-   split windows horizontally or vertically with shortcut keys
 -   [Iterm2 tips and tricks](https://gist.github.com/tanyuan/a1a3c00b9c231c32c3613d4bbefa6652)
 -   [5-useful-iterm2-features-for-developers](https://betterprogramming.pub/5-useful-iterm2-features-for-developers-bc211d697817)
 
 
 ### <span class="section-num">2.2</span> Homebrew {#homebrew}
 
-Homebrew is a package manager for the macOS to search, install and configure software packages and libraries through the command line.
+Homebrew is a `package manager` for the macOS to search, install and configure software packages and libraries through the command line.
 It simplifies the package installation by automatically finding and installing the dependencies when you are installing a package.
 
 ```bash
@@ -54,7 +56,7 @@ brew install emacs
 
 -   Session handling: detaching from and attaching to sessions helps me with context switching and remote working
 -   multiple windows support
--   It's very useful while working with remote server
+-   It's very useful while working with remote server, so that you can keep you workspace all the time, and don't need worry about your ssh session diconnected
 
 
 ## <span class="section-num">3</span> Emacs for all kinds of development work {#emacs-for-all-kinds-of-development-work}
@@ -105,17 +107,19 @@ brew install emacs
 | Henri    | 15    | 14      |      |     |
 | Arnold   | 17    | 13      |      |     |
 
+-   move to TBLFM line, press C-c C-C, it will trigger the calculation
+
 
 #### <span class="section-num">3.3.4</span> FlowChart {#flowchart}
 
 ```text
 digraph D {
-	{rank=same A, E}
-	A -> B [stylde=dashed, color=grey]
-	A -> C [color="black:invis:black"]
-	A -> D [penwidth=5, arrowhead=none]
-	D -> E
-	E -> F
+{rank=same A, E}
+A -> B [stylde=dashed, color=grey]
+A -> C [color="black:invis:black"]
+A -> D [penwidth=5, arrowhead=none]
+D -> E
+E -> F
 }
 
 ```

@@ -49,10 +49,12 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 * My toolchain for development
 
 **  My daily work
+
+As a software engineer, my daily work includes:
   - Coding
   - Docs/Notes
   - Build (Build enviroment setup)
-  - Communication tool(Slack + Chrome/Gmail)
+  - Communication (Slack/Teams/Zoom + Chrome/Gmail/Jira)
 
 ** tools
    [[../../images/tools.png]]
@@ -60,15 +62,15 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 * Iterm2 + Tmux + HomeBrew for terminal work
 
 ** Iterm2
- - nice default profile with color/fonts
- - Iterm2 can split windows horizontally or vertically with shortcut keys
+ - nice default profile with awesome color/fonts
  - select as copy
+ - split windows horizontally or vertically with shortcut keys
  - [[https://gist.github.com/tanyuan/a1a3c00b9c231c32c3613d4bbefa6652][Iterm2 tips and tricks]]
  - [[https://betterprogramming.pub/5-useful-iterm2-features-for-developers-bc211d697817][5-useful-iterm2-features-for-developers]]
    
 ** Homebrew
 
-   Homebrew is a package manager for the macOS to search, install and configure software packages and libraries through the command line.
+   Homebrew is a =package manager= for the macOS to search, install and configure software packages and libraries through the command line.
    It simplifies the package installation by automatically finding and installing the dependencies when you are installing a package.
 
    #+begin_src bash
@@ -80,30 +82,30 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
    - https://brew.sh/
 
 ** Tmux
- - Session handling: detaching from and attaching to sessions helps me with context switching and remote working
- - multiple windows support
- - It's very useful while working with remote server
+   - Session handling: detaching from and attaching to sessions helps me with context switching and remote working
+   - multiple windows support
+   - It's very useful while working with remote server, so that you can keep you workspace all the time, and don't need worry about your ssh session diconnected
 
-     
+
 * Emacs for all kinds of development work  
 
 ** Git plugin (magit)
- - Best Git client in my mind
- - C-x g to pop it up
- - [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][magit reference]]
- 
+   - Best Git client in my mind
+   - C-x g to pop it up
+   - [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][magit reference]]
+
 ** Coding
- - LSP (language server protocal)
-   - auto completion
-   - jump to definition and jump back
-   - flycheck
- - Search keyword and jump to there
- - bookmark for those hotspots
+   - LSP (language server protocal)
+     - auto completion
+     - jump to definition and jump back
+     - flycheck
+   - Search keyword and jump to there
+   - bookmark for those hotspots
 
 ** Document/Notes writing with org mode
 *** Notes manager   
-  - C-c c, take/capture notes at any time
-  - [[https://blog.jethro.dev/posts/how_to_take_smart_notes_org/][how to take smart notes]]
+    - C-c c, take/capture notes at any time
+    - [[https://blog.jethro.dev/posts/how_to_take_smart_notes_org/][how to take smart notes]]
 *** outline view/switching
 *** Table
     - Easy to create table
@@ -114,25 +116,27 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
       - M-S-LEFT(delete current column)
       - M-S-RIGHT(insert a new column)
 
-| Student  | Maths | Physics | Mean | Sum |
-|----------+-------+---------+------+-----|
-| Bertrand |    13 |      09 |      |     |
-| Henri    |    15 |      14 |      |     |
-| Arnold   |    17 |      13 |      |     |
-#+TBLFM: $4=vmean($2..$3)
-#+TBLFM: $5=vsum($2..$3)
+    | Student  | Maths | Physics | Mean | Sum |
+    |----------+-------+---------+------+-----|
+    | Bertrand |    13 |      09 |      |     |
+    | Henri    |    15 |      14 |      |     |
+    | Arnold   |    17 |      13 |      |     |
+    #+TBLFM: $4=vmean($2..$3)
+    #+TBLFM: $5=vsum($2..$3)
+
+    - move to TBLFM line, press C-c C-C, it will trigger the calculation
 *** FlowChart
     #+begin_src text
-digraph D {
-	{rank=same A, E}
-	A -> B [stylde=dashed, color=grey]
-	A -> C [color="black:invis:black"]
-	A -> D [penwidth=5, arrowhead=none]
-	D -> E
-	E -> F
-}
+      digraph D {
+      {rank=same A, E}
+      A -> B [stylde=dashed, color=grey]
+      A -> C [color="black:invis:black"]
+      A -> D [penwidth=5, arrowhead=none]
+      D -> E
+      E -> F
+      }
 
     #+end_src
-[[../../images/test1.png]]   
+    [[../../images/test1.png]]   
 *** export to markdown/html/pdf
 
