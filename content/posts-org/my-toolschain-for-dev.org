@@ -63,15 +63,17 @@ As a software engineer, my daily work includes:
 
 ** Iterm2
  - nice default profile with awesome color/fonts
- - select as copy
+ - copy on select
  - split windows horizontally or vertically with shortcut keys
  - [[https://gist.github.com/tanyuan/a1a3c00b9c231c32c3613d4bbefa6652][Iterm2 tips and tricks]]
  - [[https://betterprogramming.pub/5-useful-iterm2-features-for-developers-bc211d697817][5-useful-iterm2-features-for-developers]]
    
 ** Homebrew
 
-   Homebrew is a =package manager= for the macOS to search, install and configure software packages and libraries through the command line.
-   It simplifies the package installation by automatically finding and installing the dependencies when you are installing a package.
+   Homebrew is a =package manager= for the mac OS to search,
+   install and configure software packages and libraries through the command line.
+   It simplifies the package installation by automatically finding and installing the
+   dependencies when you are installing a package.
 
    #+begin_src bash
 
@@ -82,15 +84,16 @@ As a software engineer, my daily work includes:
    - https://brew.sh/
 
 ** Tmux
-   - Session handling: detaching from and attaching to sessions helps me with context switching and remote working
+   - Session handling: detaching from and attaching to sessions helps me with
+     context switching and remote working
    - multiple windows support
-   - It's very useful while working with remote server, so that you can keep you workspace all the time, and don't need worry about your ssh session diconnected
-
+   - It's very useful while working with remote server, so that you can keep your
+     workspace all the time, and don't need worry about your ssh session diconnected
 
 * Emacs for all kinds of development work  
 
 ** Git plugin (magit)
-   - Best Git client in my mind
+   - Best Git client I have used
    - C-x g to pop it up
    - [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][magit reference]]
 
@@ -98,6 +101,7 @@ As a software engineer, my daily work includes:
    - LSP (language server protocal)
      - auto completion
      - jump to definition and jump back
+       - C-. and C-,
      - flycheck
    - Search keyword and jump to there
    - bookmark for those hotspots
@@ -109,7 +113,7 @@ As a software engineer, my daily work includes:
 *** outline view/switching
 *** Table
     - Easy to create table
-    - Easy to swich columns and rows
+    - Easy to swap columns and rows
       - M-LEFT, M-RIGHT (for columns)
       - M-UP, M-DOWN (for rows)
     - Easy to insert new column or delete current column
