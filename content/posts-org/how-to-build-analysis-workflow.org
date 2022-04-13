@@ -8,7 +8,7 @@
 #+TITLE:     How to build analysis workflow
 #+AUTHOR:    Fei Ni
 #+EMAIL:     fei.ni@helix.com
-#+DATE:      2021-01-01
+#+DATE:      2021-04-11
 #+HUGO_CATEGORIES: helix
 #+HUGO_tags: helix
 #+hugo_auto_set_lastmod: t
@@ -47,7 +47,93 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 # Start from here
 
 
-* How to build and deploy lambdas
+How to build and deploy lambdas
   - ../build_scripts/build.sh 
   - ../build_scripts/test.sh
   - ../build_scripts/deploy.sh
+ 
+* Old data path (R2V in BSSH)
+  #+begin_src json
+   "Bcf": {
+    "Path": "s3://helix-analysis-workflow-results-staging/bcf/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02_partner_6641635.409323945_helix.bcf",
+    "Version": "DMNLaA.1EWw3FTBAaqVI_bZV.6eMsFsj"
+   },
+   "BcfIndex": {
+    "Path": "s3://helix-analysis-workflow-results-staging/bcf/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02_partner_6641635.409323945_helix.bcf.csi",
+    "Version": "nud6ijZyc.SvASquoNxQt3vsp1Gj1ucs"
+   },
+   "Bam": {
+    "Path": "https://basespace-data-east.s3-external-1.amazonaws.com/b72b98baa2c841358cd7ad190039b032/BAM/CL-60-Plate_2-D02_6641635.409323945_helix.cram?AWSAccessKeyId=AKIARPYQJSWQZ43T2BOI\u0026Expires=1648159426\u0026response-content-disposition=filename%3DCL-60-Plate_2-D02_6641635.409323945_helix.cram\u0026response-content-type=application%2Foctet-stream\u0026Signature=o0PyG58Fudpp5xlFmv0TY8ogGDY%3D"
+   },
+   "SampleCnvCalls": {
+    "Path": "s3://helix-analysis-workflow-results-staging/cnv/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02.cnv.results.txt"
+   },
+   "SampleCnvMetrics": {
+    "Path": "s3://helix-analysis-workflow-results-staging/cnvMetrics/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02.cnv.qc.json"
+   },
+   "SampleQc": {
+    "Path": "s3://helix-analysis-workflow-results-staging/qc/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02_qctable_6641635.409323945_helix.txt",
+    "Version": "HR0xJy.6HhVBZ9XVX6o2zwstJb8OpGdo"
+   },
+   "ModificationTime": "2021-04-29T03:31:35.000Z",
+   "AssayVersion": "v2",
+   "Bai": {
+    "Path": "https://basespace-data-east.s3-external-1.amazonaws.com/b72b98baa2c841358cd7ad190039b032/BAM/CL-60-Plate_2-D02_6641635.409323945_helix.cram.crai?AWSAccessKeyId=AKIARPYQJSWQZ43T2BOI\u0026Expires=1648159427\u0026response-content-disposition=filename%3DCL-60-Plate_2-D02_6641635.409323945_helix.cram.crai\u0026response-content-type=application%2Foctet-stream\u0026Signature=3kZNBwEgiTLCkeJQyoSDmKSFjdo%3D"
+   },
+   "SampleQcTableByRegion": {
+    "Path": "https://basespace-data-east.s3-external-1.amazonaws.com/b72b98baa2c841358cd7ad190039b032/QC/CL-60-Plate_2-D02_qctable-by-region_6641635.409323945_helix.txt?AWSAccessKeyId=AKIARPYQJSWQZ43T2BOI\u0026Expires=1648159428\u0026response-content-disposition=filename%3DCL-60-Plate_2-D02_qctable-by-region_6641635.409323945_helix.txt\u0026response-content-type=text%2Fplain\u0026Signature=AOO9PsVivnpNcPACzeeDRx3x2X8%3D"
+   },
+   "R2VAutoQcValues": {
+    "Path": "s3://helix-analysis-workflow-results-staging/helix-py-app-compmetric/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/dataset.json",
+    "Version": "PjMQN0MgmGjabc.D4f0aG6vqWYAYG9bG"
+   },
+   "R2VAutoQcComparisonResults": {
+    "Path": "s3://helix-analysis-workflow-results-staging/helix-py-app-compmetric/BA-OSRWCRMJDIV3WCFSI6FYB4DUIEUMJUGE/AN-SQDDFJEH4K25EYU4PUF5IUAZ6ZIXTMHI/CL-60-Plate_2-D02.r2v.autoqc.comparison.pb"
+   }
+  #+end_src
+* New data path (R2V job)
+  #+begin_src json
+   "Bcf": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/VCF/19886686548188_partner_container_helix.bcf",
+    "Version": "VSGTn4ySeO0cIQdPRZXbgJ8fbQffcGBC"
+   },
+   "BcfIndex": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/VCF/19886686548188_partner_container_helix.bcf.csi",
+    "Version": "ikLEVQcvzWPXlZxg1VGXRr6yALetkVmT"
+   },
+   "Bam": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/BAM/19886686548188_main_container_helix.cram",
+    "Version": ".pZ1xdPZ.MjTeJE5q5LJeuvkpjDS3eee"
+   },
+   "SampleCnvCalls": {
+    "Path": "s3://helix-analysis-workflow-results-staging/cnv/BA-24VQK3S3REFFT2UTDDBVI5C3JLYQ6SHC/AN-EXTJ6MCGRFGKAVOSSUAW3J5UVWEHNKX7/19886686548188.cnv.results.txt"
+   },
+   "SampleCnvMetrics": {
+    "Path": "s3://helix-analysis-workflow-results-staging/cnvMetrics/BA-24VQK3S3REFFT2UTDDBVI5C3JLYQ6SHC/AN-EXTJ6MCGRFGKAVOSSUAW3J5UVWEHNKX7/19886686548188.cnv.qc.json"
+   },
+   "SampleQc": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/QC/19886686548188_qctable_container_helix.txt",
+    "Version": "NzhIyqL4MadWr4m7MrjeEpVSlvPbrQxo"
+   },
+   "AssayVersion": "v4",
+   "EnrichmentPoolId": "LP0001717-CUP2:8-0",
+   "LibraryPlateId": "LP2221998-CUP1",
+   "Bai": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/BAM/19886686548188_main_container_helix.cram.crai",
+    "Version": "zobIwvPMmraEzljW0x8_bjPXIrgAzw0I"
+   },
+   "SampleQcTableByRegion": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/QC/19886686548188_qctable-by-region_container_helix.txt",
+    "Version": "WCHmwniwKpC5za8vnEXiEpxprQz3wi9N"
+   },
+   "R2VAutoQcValues": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/QC/AutoQCReport/auto_qc_report.json",
+    "Version": "amxyeaa_OaJ1VsmV11h96wltkpRH5kXo"
+   },
+   "R2VAutoQcComparisonResults": {
+    "Path": "s3://helix-analysis-workflow-results-staging/r2v_job_output/BA-CQ4OALUWUD3XGZF7LDPQWEW2M2VO75KE/19886686548188/QC/19886686548188_autoqc-results_container_helix.json",
+    "Version": "pmcuV61ls3OAK.909l7N6rBa7d0JpKSX"
+   },
+  #+end_src
+
+  
