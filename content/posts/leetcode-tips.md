@@ -1,8 +1,8 @@
 +++
 title = "LeetCode tips"
 author = ["Fei Ni"]
-date = 2022-02-10
-lastmod = 2022-04-05T16:29:22-07:00
+date = 2022-04-25
+lastmod = 2022-04-25T23:06:26-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -31,37 +31,38 @@ draft = false
 - <span class="section-num">4</span> [GCD and LCM](#gcd-and-lcm)
 - <span class="section-num">5</span> [tortoise & hare](#tortoise-and-hare)
 - <span class="section-num">6</span> [Sliding window](#sliding-window)
-- <span class="section-num">7</span> [Heap](#heap)
-- <span class="section-num">8</span> [Binary Search](#binary-search)
-- <span class="section-num">9</span> [Rolling Hash](#rolling-hash)
-- <span class="section-num">10</span> [Stack](#stack)
-- <span class="section-num">11</span> [Monotonic stack](#monotonic-stack)
-- <span class="section-num">12</span> [Queue](#queue)
-- <span class="section-num">13</span> [Robot Bounded In Circle](#robot-bounded-in-circle)
-- <span class="section-num">14</span> [Monotonic queue](#monotonic-queue)
-- <span class="section-num">15</span> [Tree traverse](#tree-traverse)
-- <span class="section-num">16</span> [Trie Tree](#trie-tree)
-- <span class="section-num">17</span> [Segment Tree](#segment-tree)
-- <span class="section-num">18</span> [Binary index tree （树状数组)](#binary-index-tree-树状数组)
-- <span class="section-num">19</span> [Union Find](#union-find)
-- <span class="section-num">20</span> [DFS](#dfs)
-- <span class="section-num">21</span> [BFS](#bfs)
-- <span class="section-num">22</span> [Sort](#sort)
-- <span class="section-num">23</span> [Topology sort](#topology-sort)
-- <span class="section-num">24</span> [DP](#dp)
-- <span class="section-num">25</span> [Backtracking](#backtracking)
-- <span class="section-num">26</span> [Standard parser implementation](#standard-parser-implementation)
-- <span class="section-num">27</span> [Prim algorithm (To find minimum spanning tree)](#prim-algorithm--to-find-minimum-spanning-tree)
-- <span class="section-num">28</span> [Kluskal algorithm (To find minimun spanning tree)](#kluskal-algorithm--to-find-minimun-spanning-tree)
-- <span class="section-num">29</span> [multiple threading](#multiple-threading)
-    - <span class="section-num">29.1</span> [dead lock](#dead-lock)
-    - <span class="section-num">29.2</span> [live lock](#live-lock)
-    - <span class="section-num">29.3</span> [Starvation](#starvation)
-    - <span class="section-num">29.4</span> [Race condition](#race-condition)
-    - <span class="section-num">29.5</span> [Vmware questions](#vmware-questions)
-- <span class="section-num">30</span> [System design template](#system-design-template)
-- <span class="section-num">31</span> [Leetcode template](#leetcode-template)
-- <span class="section-num">32</span> [Links](#links)
+- <span class="section-num">7</span> [Line sweep](#line-sweep)
+- <span class="section-num">8</span> [Heap](#heap)
+- <span class="section-num">9</span> [Binary Search](#binary-search)
+- <span class="section-num">10</span> [Rolling Hash](#rolling-hash)
+- <span class="section-num">11</span> [Stack](#stack)
+- <span class="section-num">12</span> [Monotonic stack](#monotonic-stack)
+- <span class="section-num">13</span> [Queue](#queue)
+- <span class="section-num">14</span> [Robot Bounded In Circle](#robot-bounded-in-circle)
+- <span class="section-num">15</span> [Monotonic queue](#monotonic-queue)
+- <span class="section-num">16</span> [Tree traverse](#tree-traverse)
+- <span class="section-num">17</span> [Trie Tree](#trie-tree)
+- <span class="section-num">18</span> [Segment Tree](#segment-tree)
+- <span class="section-num">19</span> [Binary index tree （树状数组)](#binary-index-tree-树状数组)
+- <span class="section-num">20</span> [Union Find](#union-find)
+- <span class="section-num">21</span> [DFS](#dfs)
+- <span class="section-num">22</span> [BFS](#bfs)
+- <span class="section-num">23</span> [Sort](#sort)
+- <span class="section-num">24</span> [Topology sort](#topology-sort)
+- <span class="section-num">25</span> [DP](#dp)
+- <span class="section-num">26</span> [Backtracking](#backtracking)
+- <span class="section-num">27</span> [Standard parser implementation](#standard-parser-implementation)
+- <span class="section-num">28</span> [Prim algorithm (To find minimum spanning tree)](#prim-algorithm--to-find-minimum-spanning-tree)
+- <span class="section-num">29</span> [Kluskal algorithm (To find minimun spanning tree)](#kluskal-algorithm--to-find-minimun-spanning-tree)
+- <span class="section-num">30</span> [multiple threading](#multiple-threading)
+    - <span class="section-num">30.1</span> [dead lock](#dead-lock)
+    - <span class="section-num">30.2</span> [live lock](#live-lock)
+    - <span class="section-num">30.3</span> [Starvation](#starvation)
+    - <span class="section-num">30.4</span> [Race condition](#race-condition)
+    - <span class="section-num">30.5</span> [Vmware questions](#vmware-questions)
+- <span class="section-num">31</span> [System design template](#system-design-template)
+- <span class="section-num">32</span> [Leetcode template](#leetcode-template)
+- <span class="section-num">33</span> [Links](#links)
 
 </div>
 <!--endtoc-->
@@ -292,7 +293,35 @@ Links:
 -   <https://leetcode.com/problems/max-consecutive-ones-iii>
 
 
-## <span class="section-num">7</span> Heap {#heap}
+## <span class="section-num">7</span> Line sweep {#line-sweep}
+
+It's very useful to solve those {startTime, stopTime} pair problem.
+
+-   create a list l which is a range of from minStartTime to  maxStopTime
+-   scan each time point, found startTime, l[startTime] += 1, found stopTime, l[stopTime] -= 1, with that we know in each time point, what's the delta of events
+
+<!--listend-->
+
+```python
+#
+class Solution:
+    def maximumPopulation(self, logs: List[List[int]]) -> int:
+	pop = [0] * 2051
+	res = 0
+	for log in logs:
+	    pop[log[0]] += 1
+	    pop[log[1]] -= 1
+	for i in range(1950, 2051):
+	    pop[i] += pop[i-1]
+	    if pop[i] > pop[res]:
+		res = i
+	return res
+```
+
+-   <https://leetcode.com/problems/maximum-population-year/>
+
+
+## <span class="section-num">8</span> Heap {#heap}
 
 scenarios:
 
@@ -382,7 +411,7 @@ class MedianFinder:
 -   <https://leetcode.com/problems/meeting-rooms-ii/>
 
 
-## <span class="section-num">8</span> Binary Search {#binary-search}
+## <span class="section-num">9</span> Binary Search {#binary-search}
 
 ```c++
 vector<int> searchRange(vector<int>& nums, int target) {
@@ -439,7 +468,7 @@ print(a) # [1, 2, 3, 4, 4, 4, 7]
 -   <https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/>
 
 
-## <span class="section-num">9</span> Rolling Hash {#rolling-hash}
+## <span class="section-num">10</span> Rolling Hash {#rolling-hash}
 
 ```c++
 class Solution {
@@ -482,7 +511,7 @@ class Solution(object):
 -   <https://leetcode.com/problems/longest-happy-prefix/>
 
 
-## <span class="section-num">10</span> Stack {#stack}
+## <span class="section-num">11</span> Stack {#stack}
 
 ```python
 class Solution:
@@ -504,7 +533,7 @@ class Solution:
 -   <https://leetcode.com/problems/valid-parentheses/>
 
 
-## <span class="section-num">11</span> Monotonic stack {#monotonic-stack}
+## <span class="section-num">12</span> Monotonic stack {#monotonic-stack}
 
 ```python
 class Solution:
@@ -524,10 +553,10 @@ class Solution:
 -   <https://leetcode.com/problems/trapping-rain-water/>
 
 
-## <span class="section-num">12</span> Queue {#queue}
+## <span class="section-num">13</span> Queue {#queue}
 
 
-## <span class="section-num">13</span> Robot Bounded In Circle {#robot-bounded-in-circle}
+## <span class="section-num">14</span> Robot Bounded In Circle {#robot-bounded-in-circle}
 
 It's said to be used by Amazon very often
 
@@ -555,16 +584,16 @@ class Solution(object):
 -   <https://leetcode.com/problems/robot-bounded-in-circle/>
 
 
-## <span class="section-num">14</span> Monotonic queue {#monotonic-queue}
+## <span class="section-num">15</span> Monotonic queue {#monotonic-queue}
 
 
-## <span class="section-num">15</span> Tree traverse {#tree-traverse}
+## <span class="section-num">16</span> Tree traverse {#tree-traverse}
 
 -   <https://www.geeksforgeeks.org/construct-tree-from-given-inorder-and-preorder-traversal/?ref=lbp>
 -
 
 
-## <span class="section-num">16</span> Trie Tree {#trie-tree}
+## <span class="section-num">17</span> Trie Tree {#trie-tree}
 
 ```bash
 A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings.
@@ -653,7 +682,7 @@ private:
 -   <https://leetcode.com/problems/implement-trie-prefix-tree/submissions/>
 
 
-## <span class="section-num">17</span> Segment Tree {#segment-tree}
+## <span class="section-num">18</span> Segment Tree {#segment-tree}
 
 ```python
 #Segment tree node
@@ -757,7 +786,7 @@ class NumArray(object):
 -   <https://leetcode.com/problems/range-sum-query-mutable/>
 
 
-## <span class="section-num">18</span> Binary index tree （树状数组) {#binary-index-tree-树状数组}
+## <span class="section-num">19</span> Binary index tree （树状数组) {#binary-index-tree-树状数组}
 
 It's also named as Fenwick tree
 Doing similar work as segment tree, less code, both are good at rangeSum and rangeQuery
@@ -812,7 +841,7 @@ class NumArray:
 -   <https://zhuanlan.zhihu.com/p/92920381>
 
 
-## <span class="section-num">19</span> Union Find {#union-find}
+## <span class="section-num">20</span> Union Find {#union-find}
 
 ```python
 # Idea: find minimal edges to make graph fully traversable
@@ -884,7 +913,7 @@ def validTree(self, n, edges):
 -   <https://leetcode.com/problems/checking-existence-of-edge-length-limited-paths-ii/>
 
 
-## <span class="section-num">20</span> DFS {#dfs}
+## <span class="section-num">21</span> DFS {#dfs}
 
 ```python
 # 797. All Paths From Source to Target
@@ -927,7 +956,7 @@ class Solution:
 -   <https://leetcode.com/problems/number-of-islands/>
 
 
-## <span class="section-num">21</span> BFS {#bfs}
+## <span class="section-num">22</span> BFS {#bfs}
 
 ```python
 # Definition for a binary tree node.
@@ -962,7 +991,7 @@ class Solution:
 -   <https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/>
 
 
-## <span class="section-num">22</span> Sort {#sort}
+## <span class="section-num">23</span> Sort {#sort}
 
 Sort 2D array
 
@@ -1015,7 +1044,7 @@ class Solution:
 ```
 
 
-## <span class="section-num">23</span> Topology sort {#topology-sort}
+## <span class="section-num">24</span> Topology sort {#topology-sort}
 
 ```python
 class Solution:
@@ -1044,7 +1073,7 @@ class Solution:
 -   <https://leetcode.com/problems/course-schedule-ii/>
 
 
-## <span class="section-num">24</span> DP {#dp}
+## <span class="section-num">25</span> DP {#dp}
 
 ```python
 class Solution:
@@ -1079,7 +1108,7 @@ class Solution(object):
 -   <https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/>
 
 
-## <span class="section-num">25</span> Backtracking {#backtracking}
+## <span class="section-num">26</span> Backtracking {#backtracking}
 
 ```python
 #Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
@@ -1126,7 +1155,7 @@ class Solution:
 -   <https://leetcode.com/problems/subsets/>
 
 
-## <span class="section-num">26</span> Standard parser implementation {#standard-parser-implementation}
+## <span class="section-num">27</span> Standard parser implementation {#standard-parser-implementation}
 
 ```python
 class Solution:
@@ -1172,7 +1201,7 @@ class Solution:
 -   <https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/>
 
 
-## <span class="section-num">27</span> Prim algorithm (To find minimum spanning tree) {#prim-algorithm--to-find-minimum-spanning-tree}
+## <span class="section-num">28</span> Prim algorithm (To find minimum spanning tree) {#prim-algorithm--to-find-minimum-spanning-tree}
 
 ```python
 class Solution:
@@ -1202,7 +1231,7 @@ class Solution:
 -   <https://leetcode.com/problems/min-cost-to-connect-all-points/>
 
 
-## <span class="section-num">28</span> Kluskal algorithm (To find minimun spanning tree) {#kluskal-algorithm--to-find-minimun-spanning-tree}
+## <span class="section-num">29</span> Kluskal algorithm (To find minimun spanning tree) {#kluskal-algorithm--to-find-minimun-spanning-tree}
 
 ```python
 class UnionFind:
@@ -1246,7 +1275,7 @@ class Solution:
 -   <https://leetcode.com/problems/min-cost-to-connect-all-points/>
 
 
-## <span class="section-num">29</span> multiple threading {#multiple-threading}
+## <span class="section-num">30</span> multiple threading {#multiple-threading}
 
 ```python
 from threading import Lock
@@ -1328,7 +1357,7 @@ class Solution:
 ```
 
 
-### <span class="section-num">29.1</span> dead lock {#dead-lock}
+### <span class="section-num">30.1</span> dead lock {#dead-lock}
 
 A deadlock is a situation in which processes block each other due to resource acquisition and none of the processes makes any progress as they wait for the resource held by the other process.
 To successfully characterize a scenario as deadlock, the following four conditions must hold simultaneously:
@@ -1339,12 +1368,12 @@ To successfully characterize a scenario as deadlock, the following four conditio
 -   Circular Wait: A set of a process {p0, p1, p2,.., pn} exists in a manner that p0 is waiting for a resource held by p1, pn-1 waiting for a resource held by p0.
 
 
-### <span class="section-num">29.2</span> live lock {#live-lock}
+### <span class="section-num">30.2</span> live lock {#live-lock}
 
 In the case of a livelock, the states of the processes involved in a live lock scenario constantly change. On the other hand, the processes still depend on each other and can never finish their tasks.
 
 
-### <span class="section-num">29.3</span> Starvation {#starvation}
+### <span class="section-num">30.3</span> Starvation {#starvation}
 
 Starvation is an outcome of a process that is unable to gain regular access to the shared resources it requires to complete a task and thus, unable to make any progress.
 
@@ -1353,12 +1382,12 @@ One of the possible solutions to prevent starvation is to use a resource schedul
 Another solution to prevent starvation is to follow the round-robin pattern while allocating the resources to a process. In this pattern, the resource is fairly allocated to each process providing a chance to use the resource before it is allocated to another process again.
 
 
-### <span class="section-num">29.4</span> Race condition {#race-condition}
+### <span class="section-num">30.4</span> Race condition {#race-condition}
 
 When two processes are competing with each other causing data corruption
 
 
-### <span class="section-num">29.5</span> Vmware questions {#vmware-questions}
+### <span class="section-num">30.5</span> Vmware questions {#vmware-questions}
 
 -   What's the diffrence between mutex and spinlock?
     -   mutex will sleep for waiting
@@ -1381,7 +1410,7 @@ When two processes are competing with each other causing data corruption
 -   <https://hackernoon.com/synchronization-primitives-in-python-564f89fee732>
 
 
-## <span class="section-num">30</span> System design template {#system-design-template}
+## <span class="section-num">31</span> System design template {#system-design-template}
 
 ```nil
 (1) FEATURE EXPECTATIONS [5 min]
@@ -1454,7 +1483,7 @@ When two processes are competing with each other causing data corruption
 ```
 
 
-## <span class="section-num">31</span> Leetcode template {#leetcode-template}
+## <span class="section-num">32</span> Leetcode template {#leetcode-template}
 
 ```bash
 If input array is sorted then
@@ -1498,7 +1527,7 @@ Else
 ```
 
 
-## <span class="section-num">32</span> Links {#links}
+## <span class="section-num">33</span> Links {#links}
 
 -   <https://emre.me/categories/#coding-patterns>
 -   <https://github.com/seanprashad/leetcode-patterns>

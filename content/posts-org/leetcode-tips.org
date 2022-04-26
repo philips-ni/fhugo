@@ -8,7 +8,7 @@
 #+TITLE:     LeetCode tips
 #+AUTHOR:    Fei Ni
 #+EMAIL:     fei.ni@helix.com
-#+DATE:      2022-02-10
+#+DATE:      2022-04-25
 #+HUGO_CATEGORIES: helix
 #+HUGO_tags: helix
 #+hugo_auto_set_lastmod: t
@@ -229,6 +229,26 @@ class Solution:
 Links:
  - https://quanticdev.com/algorithms/dynamic-programming/sliding-window/
  - https://leetcode.com/problems/max-consecutive-ones-iii
+* Line sweep
+  It's very useful to solve those {startTime, stopTime} pair problem.
+   - create a list l which is a range of from minStartTime to  maxStopTime
+   - scan each time point, found startTime, l[startTime] += 1, found stopTime, l[stopTime] -= 1, with that we know in each time point, what's the delta of events
+  #+begin_src python
+    # 
+    class Solution:
+	def maximumPopulation(self, logs: List[List[int]]) -> int:
+	    pop = [0] * 2051
+	    res = 0
+	    for log in logs:
+		pop[log[0]] += 1
+		pop[log[1]] -= 1
+	    for i in range(1950, 2051):
+		pop[i] += pop[i-1]
+		if pop[i] > pop[res]:
+		    res = i
+	    return res
+  #+end_src
+  - https://leetcode.com/problems/maximum-population-year/
 * Heap
 
   scenarios:
