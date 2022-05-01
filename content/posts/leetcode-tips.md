@@ -2,7 +2,7 @@
 title = "LeetCode tips"
 author = ["Fei Ni"]
 date = 2022-04-25
-lastmod = 2022-04-25T23:06:26-07:00
+lastmod = 2022-04-26T08:28:20-07:00
 tags = ["helix"]
 categories = ["helix"]
 draft = false
@@ -1110,8 +1110,22 @@ class Solution(object):
 
 ## <span class="section-num">26</span> Backtracking {#backtracking}
 
+-   Idea: DFS + state back tracking
+-   Key: identify the state and how to back tracking, we can start to draw the recursion tree
+
+Template:
+
+-   base case: at which point, we are reach the leaf of the recusion tree, in this case, we should collect the answer
+-   for each possiblity :
+    -   memorize current state
+    -   backtrack/dfs
+    -   restore state
+
+<!--listend-->
+
 ```python
 #Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+# in this case, the state include curr, isVisited, and we should restore them at the end of for loop
 class Solution(object):
     def permute(self, l):
 	if len(l) == 0:
@@ -1137,6 +1151,7 @@ class Solution(object):
 ```
 
 ```python
+# in this case state is path
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
 	result=[]

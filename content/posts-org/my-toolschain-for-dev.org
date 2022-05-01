@@ -52,14 +52,15 @@ http://orgmode.org/org.html#Setting-tags  info:org#Setting tags
 
 As a software engineer, my daily work includes:
   - Coding
-  - Docs/Notes
-  - Build (Build enviroment setup)
+  - Writting Docs/Notes
+  - Build and test (Build enviroment setup)
   - Communication (Slack/Teams/Zoom + Chrome/Gmail/Jira)
 
 ** tools
    [[../../images/tools.png]]
    
    
+
 * Iterm2 + Tmux + HomeBrew for terminal work
 
 ** Iterm2
@@ -92,21 +93,21 @@ As a software engineer, my daily work includes:
      workspace all the time, and don't need worry about your ssh session diconnected
 
 * Emacs for all kinds of development work  
-
+  Emacs works great in both terminal
 ** Git plugin (magit)
    - Best Git client I have used
    - C-x g to pop it up
    - [[https://www.masteringemacs.org/article/introduction-magit-emacs-mode-git][magit reference]]
 
 ** Coding
-   - LSP (language server protocal)
+   - LSP (language server protocol)
      - auto completion
      - jump to definition and jump back
        - C-. and C-,
      - flycheck
    - Search keyword and jump to there
    - bookmark for those hotspots
-
+     
 ** Document/Notes writing with org mode
 *** Notes manager   
     - C-c c, take/capture notes at any time
@@ -128,6 +129,7 @@ As a software engineer, my daily work includes:
     | Arnold   |    17 |      13 |      |     |
     #+TBLFM: $4=vmean($2..$3)
     #+TBLFM: $5=vsum($2..$3)
+
 
     - move to TBLFM line, press C-c C-C, it will trigger the calculation
 *** FlowChart

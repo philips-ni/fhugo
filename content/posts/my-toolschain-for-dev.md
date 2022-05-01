@@ -2,7 +2,7 @@
 title = "My toolchain for development"
 author = ["Fei Ni"]
 date = 2022-04-09
-lastmod = 2022-04-10T09:36:55-07:00
+lastmod = 2022-04-13T12:58:45-07:00
 tags = ["tools"]
 categories = ["tools"]
 draft = false
@@ -16,8 +16,8 @@ draft = false
 As a software engineer, my daily work includes:
 
 -   Coding
--   Docs/Notes
--   Build (Build enviroment setup)
+-   Writting Docs/Notes
+-   Build and test (Build enviroment setup)
 -   Communication (Slack/Teams/Zoom + Chrome/Gmail/Jira)
 
 
@@ -65,6 +65,8 @@ brew install emacs
 
 ## <span class="section-num">3</span> Emacs for all kinds of development work {#emacs-for-all-kinds-of-development-work}
 
+Emacs works great in both terminal
+
 
 ### <span class="section-num">3.1</span> Git plugin (magit) {#git-plugin--magit}
 
@@ -75,7 +77,7 @@ brew install emacs
 
 ### <span class="section-num">3.2</span> Coding {#coding}
 
--   LSP (language server protocal)
+-   LSP (language server protocol)
     -   auto completion
     -   jump to definition and jump back
         -   C-. and C-,

@@ -968,43 +968,57 @@ class Solution(object):
   - https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended-ii/
   - https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/
 * Backtracking
+  
+ - Idea: DFS + state back tracking
+ - Key: identify the state and how to back tracking, we can start to draw the recursion tree
+
+Template:
+  - base case: at which point, we are reach the leaf of the recusion tree, in this case, we should collect the answer
+  - for each possiblity :
+    - memorize current state
+    - backtrack/dfs
+    - restore state
+    
   #+begin_src python
-#Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
-class Solution(object):
-    def permute(self, l):
-        if len(l) == 0:
-            return [[]]
-        permuations = []
-        curr = []
-        isVisited = [False] * len(l)
-        self.backTracking(permuations, curr, isVisited, l)
-        return permuations
+    #Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+    # in this case, the state include curr, isVisited, and we should restore them at the end of for loop
+    class Solution(object):
+	def permute(self, l):
+	    if len(l) == 0:
+		return [[]]
+	    permuations = []
+	    curr = []
+	    isVisited = [False] * len(l)
+	    self.backTracking(permuations, curr, isVisited, l)
+	    return permuations
 
-    def backTracking(self, permuations,  curr, isVisited, l):
-        if len(curr) == len(l):
-            permuations.append(curr[:])
-            return
+	def backTracking(self, permuations,  curr, isVisited, l):
+	    if len(curr) == len(l):
+		permuations.append(curr[:])
+		return
 
-        for i in range(len(l)):
-            if not isVisited[i]:
-                isVisited[i] = True
-                curr.append(l[i])
-                self.backTracking(permuations, curr, isVisited, l)
-                isVisited[i] = False
-                curr.pop()
+	    for i in range(len(l)):
+		if not isVisited[i]:
+		    isVisited[i] = True
+		    curr.append(l[i])
+		    self.backTracking(permuations, curr, isVisited, l)
+		    isVisited[i] = False
+		    curr.pop()
   #+end_src
+  
   #+begin_src python
-class Solution:
-    def subsets(self, nums: List[int]) -> List[List[int]]:
-        result=[]
-        def backtrack(nums, start, path):
-            result.append(path[:])
-            for i in range(start, len(nums)):
-                path.append(nums[i])
-                backtrack(nums,i+1,path)
-                path.pop()
-        backtrack(nums, 0, [])
-        return result
+    # in this case state is path 
+    class Solution:
+	def subsets(self, nums: List[int]) -> List[List[int]]:
+	    result=[]
+	    def backtrack(nums, start, path):
+		result.append(path[:])
+		for i in range(start, len(nums)):
+		    path.append(nums[i])
+		    backtrack(nums,i+1,path)
+		    path.pop()
+	    backtrack(nums, 0, [])
+	    return result
   #+end_src
    - https://leetcode.com/problems/permutations/submissions/
    - https://leetcode.com/problems/word-search-ii/

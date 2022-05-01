@@ -24,14 +24,17 @@ digraph D {
 
 	coding -> Emacs
 	coding -> Iterm2
+	coding -> Tmux
 	coding -> Homebrew
-
+	
 	doc -> Emacs
 	
 	build -> Docker
-	build -> CircleCI
+
 	build -> Iterm2
 	build -> Tmux
+
+	build -> CircleCI	
 
 	communication -> Slack
 	communication -> Chrome
